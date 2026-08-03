@@ -1,0 +1,32 @@
+---
+/**
+ * StatBand — franja horizontal de cifras clave (número ligero + etiqueta).
+ * Usada al inicio de las páginas de servicio.
+ */
+interface Props {
+  stats: { n: string; l: string }[];
+  bg?: string;
+}
+const { stats, bg = 'var(--kimsa-forest)' } = Astro.props;
+---
+<section class="statband" style={`background:${bg}`}>
+  <div class="statband__grid container">
+    {stats.map((s) => (
+      <div class="statband__item reveal">
+        <div class="statband__n">{s.n}</div>
+        <div class="statband__l">{s.l}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .statband { padding: 56px var(--kimsa-section-x); color: var(--kimsa-bone); }
+  .statband__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .statband__n { font-weight: 300; font-size: 56px; line-height: 1; color: var(--kimsa-peach); letter-spacing: -0.02em; }
+  .statband__l { margin-top: 12px; font-size: 14px; line-height: 1.45; color: rgba(251,248,241,0.82); }
+  @media (max-width: 900px) {
+    .statband__grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .statband__n { font-size: 44px; }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+/**
+ * Card — superficie bone/blanca con radio grande y sombra sobria.
+ * `hover` activa la elevación sutil (translateY -4px).
+ */
+interface Props {
+  hover?: boolean;
+  padded?: boolean;
+  radius?: string;
+  class?: string;
+  [key: string]: any;
+}
+const {
+  hover = false,
+  padded = true,
+  radius = 'var(--kimsa-radius-2xl)',
+  class: className,
+  ...rest
+} = Astro.props;
+---
+<div
+  class:list={['card', { 'card--hover': hover, 'card--padded': padded }, className]}
+  style={`border-radius:${radius};`}
+  {...rest}
+>
+  <slot />
+</div>
+
+<style>
+  .card {
+    background: var(--kimsa-surface-card);
+    box-shadow: var(--kimsa-shadow-card);
+    overflow: hidden;
+    transition: transform var(--kimsa-dur) var(--kimsa-ease),
+                box-shadow var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .card--padded { padding: 28px; }
+  .card--hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--kimsa-shadow-lift);
+  }
+</style>

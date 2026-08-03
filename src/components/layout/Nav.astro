@@ -1,0 +1,229 @@
+---
+/**
+ * Nav superior. Dos modos: `overlay` (sobre la foto del hero, texto crema) y
+ * sólido (páginas interiores, texto tinta). Gana fondo translúcido con blur
+ * al hacer scroll. Incluye dropdown de Servicios, selector ES·EN, CTA y menú
+ * móvil (hamburguesa).
+ */
+import KimsaLogo from '../brand/KimsaLogo.astro';
+import Button from '../core/Button.astro';
+
+interface Props {
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+
+const servicios = [
+  { label: 'Gestión Climática', href: '/servicios/gestion-climatica' },
+  { label: 'Psicología Ambiental', href: '/servicios/psicologia-ambiental' },
+  { label: 'CarbonBox', href: '/servicios/carbonbox' },
+  { label: 'Curso de Psicología Ambiental', href: '/curso-psicologia-ambiental' },
+];
+const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
+---
+<nav class:list={['nav', { 'nav--overlay': overlay }]} data-overlay={overlay ? 'true' : 'false'}>
+  <a href="/" class="nav__brand" aria-label="Inicio KIMSA">
+    <KimsaLogo variant={overlay ? 'blanco' : 'oscuro'} height={30} />
+  </a>
+
+  <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav__menu">
+    <div class="nav__item nav__item--drop">
+      <button class="nav__link nav__droptoggle" aria-expanded="false">Servicios <span class="caret">▾</span></button>
+      <div class="nav__drop">
+        {servicios.map((s) => <a href={s.href}>{s.label}</a>)}
+      </div>
+    </div>
+    <a class="nav__link" href="/proyectos">Proyectos</a>
+    <a class="nav__link" href="/nosotros">Nosotros</a>
+
+    <div class="nav__right">
+      <div class="nav__lang" role="group" aria-label="Idioma">
+        <button class="nav__lang-opt is-active" aria-current="true">ES</button>
+        <span class="nav__lang-sep">·</span>
+        <button class="nav__lang-opt" title="English coming soon" disabled>EN</button>
+      </div>
+      <Button variant={overlay ? 'ghost' : 'primary'} size="sm" onDark={overlay} href={mailto}>Conversemos →</Button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px var(--kimsa-section-x);
+    color: var(--kimsa-ink);
+    transition: background var(--kimsa-dur) var(--kimsa-ease),
+                box-shadow var(--kimsa-dur) var(--kimsa-ease),
+                padding var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .nav--overlay { color: var(--kimsa-bone); }
+
+  /* Fondo al hacer scroll */
+  .nav.is-scrolled {
+    position: fixed;
+    background: rgba(251, 248, 241, 0.85);
+    backdrop-filter: var(--kimsa-blur);
+    box-shadow: 0 4px 24px rgba(43, 42, 38, 0.06);
+    color: var(--kimsa-ink);
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .nav--overlay.is-scrolled {
+    background: rgba(20, 40, 30, 0.82);
+    color: var(--kimsa-bone);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .nav__brand { display: inline-flex; color: inherit; }
+
+  .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .nav__item { position: relative; }
+  .nav__link {
+    font-family: var(--kimsa-font-sans);
+    font-weight: 500;
+    font-size: 14px;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav__link:hover { color: var(--kimsa-terracotta); }
+  .caret { font-size: 10px; }
+
+  /* Dropdown Servicios */
+  .nav__drop {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: -16px;
+    min-width: 260px;
+    background: var(--kimsa-surface-card);
+    border-radius: var(--kimsa-radius-lg);
+    box-shadow: var(--kimsa-shadow-card);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity var(--kimsa-dur) var(--kimsa-ease),
+                transform var(--kimsa-dur) var(--kimsa-ease),
+                visibility var(--kimsa-dur);
+  }
+  .nav__item--drop:hover .nav__drop,
+  .nav__item--drop:focus-within .nav__drop {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav__drop a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimsa-ink);
+    padding: 11px 14px;
+    border-radius: var(--kimsa-radius-sm);
+  }
+  .nav__drop a:hover { background: var(--kimsa-cream); color: var(--kimsa-terracotta); }
+
+  .nav__right { display: flex; align-items: center; gap: 16px; }
+  .nav__lang { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; opacity: 0.85; }
+  .nav__lang-opt {
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: var(--kimsa-font-sans);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+  }
+  .nav__lang-opt.is-active { opacity: 1; font-weight: 600; }
+  .nav__lang-opt:disabled { cursor: not-allowed; }
+
+  /* Hamburguesa */
+  .nav__burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .nav__burger span {
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform var(--kimsa-dur) var(--kimsa-ease), opacity var(--kimsa-dur);
+  }
+
+  @media (max-width: 900px) {
+    .nav__burger { display: flex; }
+    .nav__menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      background: var(--kimsa-surface-card);
+      color: var(--kimsa-ink);
+      padding: 16px 24px 28px;
+      box-shadow: var(--kimsa-shadow-card);
+      display: none;
+    }
+    .nav.is-open .nav__menu { display: flex; }
+    .nav__link { color: var(--kimsa-ink); padding: 10px 0; font-size: 16px; }
+    .nav__drop {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      padding: 0 0 8px 12px;
+      min-width: 0;
+    }
+    .nav__right { flex-direction: row; flex-wrap: wrap; margin-top: 12px; gap: 14px; }
+    .nav.is-open .nav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav.is-open .nav__burger span:nth-child(2) { opacity: 0; }
+    .nav.is-open .nav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+</style>
+
+<script>
+  // Blur/fondo al hacer scroll + toggle del menú móvil.
+  document.querySelectorAll('.nav').forEach((el) => {
+    const onScroll = () => {
+      if (window.scrollY > 20) el.classList.add('is-scrolled');
+      else el.classList.remove('is-scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const burger = el.querySelector('.nav__burger');
+    burger?.addEventListener('click', () => {
+      const open = el.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+  });
+</script>

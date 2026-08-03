@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Eyebrow from '../components/core/Eyebrow.astro';
+import Pill from '../components/core/Pill.astro';
+import Button from '../components/core/Button.astro';
+import MountainMark from '../components/brand/MountainMark.astro';
+
+// URL del curso (video en YouTube). Reemplazar por el enlace real del video.
+const COURSE_URL = 'https://www.youtube.com/@kimsa';
+
+const modulos = [
+  { n: '01', t: 'Introducción a la psicología ambiental', d: 'Qué es y cuáles son sus aplicaciones reales.' },
+  { n: '02', t: 'Salud mental, emociones y crisis planetaria', d: 'Cómo la crisis climática nos atraviesa emocionalmente.' },
+  { n: '03', t: 'Comportamiento humano, identidad y cambio', d: 'Qué mueve nuestras decisiones y cómo transformarlas.' },
+  { n: '04', t: 'Estrategias para influir positivamente en tu entorno', d: 'Herramientas para movilizar el cambio a tu alrededor.' },
+];
+
+const aprenderas = [
+  'Herramientas para actuar desde lo emocional y lo social',
+  'Conexión con otras personas con intenciones transformadoras',
+  'Reducción de la ecoansiedad y la parálisis',
+  'Casos reales y metodologías prácticas',
+];
+---
+<Base title="Curso de Psicología Ambiental · KIMSA" description="Revive el curso gratuito de psicología ambiental de KIMSA y descubre cómo actuar frente a la crisis climática desde lo emocional y lo colectivo.">
+  <div class="curso-top">
+    <Nav />
+  </div>
+
+  <!-- Hero del curso -->
+  <section class="section curso-hero">
+    <div class="curso-hero__mark"><MountainMark size={460} mono="rgba(255,255,255,0.9)" /></div>
+    <div class="curso-hero__blob"></div>
+    <div class="container curso-hero__inner reveal">
+      <Pill variant="solid" onDark>▲ Curso gratuito · en línea</Pill>
+      <h1 class="curso-hero__title">
+        Curso de <em class="em-peach" style="color:#ffe0c4">Psicología Ambiental</em>
+      </h1>
+      <p class="curso-hero__lead">
+        Revive el curso y descubre cómo la psicología ambiental puede ayudarte a actuar
+        frente a la crisis climática.
+      </p>
+      <div class="curso-hero__actions">
+        <Button variant="cream" size="lg" href={COURSE_URL} target="_blank" rel="noopener">Quiero ver el curso →</Button>
+        <span class="curso-hero__note">2 sesiones · en línea · sin costo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estructura del curso -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <Eyebrow class="reveal">Estructura del curso</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 56px">Cuatro pasos, un mismo <em class="em-forest">viaje.</em></h2>
+      <div class="modulos reveal">
+        {modulos.map((m) => (
+          <div class="modulo">
+            <div class="modulo__n">{m.n}</div>
+            <div>
+              <h3 class="modulo__t">{m.t}</h3>
+              <p class="modulo__d">{m.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lo que aprenderás -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="curso-learn container">
+      <div class="reveal">
+        <Eyebrow>Lo que aprenderás</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 24px">Del sentir <em class="em-terracotta">al actuar.</em></h2>
+        <p class="lead">
+          Un curso práctico para transformar la ecoansiedad en acción, desde lo emocional
+          y lo colectivo.
+        </p>
+      </div>
+      <ul class="learn-list reveal">
+        {aprenderas.map((a) => (
+          <li class="learn-item"><span class="learn-mark">▲</span>{a}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container curso-final reveal">
+      <h2 class="h2" style="margin-bottom:24px">¿List@ para <em class="em-forest">empezar?</em></h2>
+      <p class="lead" style="margin-bottom:32px; max-width:560px">
+        El curso está disponible para verlo cuando quieras. Sin costo, en línea y a tu ritmo.
+      </p>
+      <Button variant="primary" size="lg" href={COURSE_URL} target="_blank" rel="noopener">Quiero ver el curso →</Button>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .curso-top { position: relative; height: 88px; background: var(--kimsa-forest-deep); }
+  .curso-hero {
+    background: linear-gradient(135deg, var(--kimsa-terracotta) 0%, var(--kimsa-coral) 50%, var(--kimsa-plum) 100%);
+    color: var(--kimsa-bone);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+  .curso-hero__mark { position: absolute; right: -100px; bottom: -120px; opacity: 0.16; pointer-events: none; }
+  .curso-hero__blob { position: absolute; top: -80px; left: 30%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(245,176,131,0.6) 0%, transparent 70%); filter: blur(50px); }
+  .curso-hero__inner { position: relative; max-width: 820px; }
+  .curso-hero__title { font-weight: 300; font-size: 72px; line-height: 1.05; letter-spacing: -0.025em; margin: 28px 0 24px; }
+  .curso-hero__lead { font-size: 20px; line-height: 1.55; color: rgba(251,248,241,0.92); max-width: 620px; margin: 0 auto; }
+  .curso-hero__actions { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .curso-hero__note { font-size: 13px; color: rgba(251,248,241,0.85); }
+
+  .modulos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .modulo { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 28px; background: var(--kimsa-cream); border-radius: var(--kimsa-radius-xl); align-items: start; }
+  .modulo__n { font-weight: 300; font-size: 44px; color: var(--kimsa-terracotta); line-height: 1; }
+  .modulo__t { font-weight: 600; font-size: 20px; margin: 0 0 8px; line-height: 1.25; }
+  .modulo__d { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+
+  .curso-learn { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .learn-list { list-style: none; }
+  .learn-item { display: flex; gap: 14px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--kimsa-rule); font-size: 18px; line-height: 1.5; }
+  .learn-mark { color: var(--kimsa-terracotta); font-size: 14px; margin-top: 5px; }
+
+  .curso-final { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+  @media (max-width: 900px) {
+    .curso-hero__title { font-size: 44px; }
+    .modulos { grid-template-columns: 1fr; }
+    .curso-learn { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

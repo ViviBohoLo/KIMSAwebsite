@@ -1,0 +1,68 @@
+---
+/**
+ * ClientsMarquee — carrusel automático e infinito con los logos reales de
+ * clientes/aliados. Se desliza solo, en bucle continuo; se pausa al pasar el
+ * cursor. Respeta prefers-reduced-motion (queda estático y desplazable).
+ */
+import { CLIENT_LOGOS } from '../../data/site';
+// Duplicamos la lista para un bucle sin cortes.
+const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
+---
+<div class="marquee" role="region" aria-label="Organizaciones que confían en KIMSA">
+  <div class="marquee__track">
+    {loop.map((c, i) => (
+      <div class="marquee__item" aria-hidden={i >= CLIENT_LOGOS.length ? 'true' : 'false'}>
+        <img src={c.src} alt={c.alt} loading="lazy" />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    animation: marquee-scroll 48s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+
+  .marquee__item {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 96px;
+    background: #fff;
+    border-radius: var(--kimsa-radius-md);
+    box-shadow: var(--kimsa-shadow-chip);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 24px;
+  }
+  .marquee__item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - 10px)); } /* mitad + medio gap */
+  }
+
+  @media (max-width: 900px) {
+    .marquee__item { width: 150px; height: 84px; padding: 14px 18px; }
+    .marquee__track { animation-duration: 36s; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { overflow-x: auto; }
+    .marquee__track { animation: none; }
+  }
+</style>

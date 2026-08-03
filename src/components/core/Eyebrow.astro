@@ -1,0 +1,36 @@
+---
+/**
+ * Eyebrow / etiqueta de sección — mayúsculas, tracking amplio, terracota por
+ * defecto. El pequeño ▲ es firma de KIMSA; activar con `mark`.
+ */
+import MountainMark from '../brand/MountainMark.astro';
+
+interface Props {
+  color?: string;
+  mark?: boolean;
+  center?: boolean;
+  class?: string;
+}
+const { color = 'var(--kimsa-terracotta)', mark = false, center = false, class: className } = Astro.props;
+---
+<div
+  class:list={['eyebrow', { 'eyebrow--center': center }, className]}
+  style={`color:${color};`}
+>
+  {mark && <MountainMark size={14} />}
+  <slot />
+</div>
+
+<style>
+  .eyebrow {
+    font-family: var(--kimsa-font-sans);
+    font-size: var(--kimsa-eyebrow);
+    font-weight: var(--kimsa-eyebrow-w);
+    letter-spacing: var(--kimsa-eyebrow-ls);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow--center { justify-content: center; }
+</style>

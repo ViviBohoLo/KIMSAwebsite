@@ -1,0 +1,460 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Eyebrow from '../components/core/Eyebrow.astro';
+import Pill from '../components/core/Pill.astro';
+import Button from '../components/core/Button.astro';
+import MountainMark from '../components/brand/MountainMark.astro';
+import PhotoPlaceholder from '../components/surfaces/PhotoPlaceholder.astro';
+import ClientsMarquee from '../components/sections/ClientsMarquee.astro';
+import ValueCard from '../components/surfaces/ValueCard.astro';
+import ServiceCard from '../components/surfaces/ServiceCard.astro';
+import StatCard from '../components/surfaces/StatCard.astro';
+import Card from '../components/surfaces/Card.astro';
+import CourseCTA from '../components/sections/CourseCTA.astro';
+import ProjectModal from '../components/sections/ProjectModal.astro';
+import { COUNTRIES, PROJECTS, TEAM, CONTACT } from '../data/site';
+
+const values = [
+  { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Gente creativa', d: 'Un enfoque fresco, neutral e innovador para encontrar soluciones de desarrollo consciente.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Sus procesos, nuestro objetivo', d: 'Trabajamos de la mano con los clientes para asegurar aplicabilidad y continuidad.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+];
+
+const services = [
+  { index: 'Servicio 01', name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { tint: 'forest', label: 'trabajo de campo · medición de carbono' }, href: '/servicios/gestion-climatica' },
+  { index: 'Servicio 02', name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { tint: 'sunset', label: 'círculo de diálogo · taller participativo' }, href: '/servicios/psicologia-ambiental' },
+  { index: 'Servicio 03', name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'GHG Protocol'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { tint: 'dusk', label: 'plataforma CarbonBox · panel de medición' }, href: '/servicios/carbonbox' },
+];
+
+const stats = [
+  { n: '+150', l: 'clientes en América Latina', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-blush)' },
+  { n: '+12', l: 'gobiernos en el Acuerdo de París', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { n: '+8,000', l: 'actores consultados', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { n: '+1,200', l: 'colaboradores capacitados', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const ceiba = [
+  { n: '$16.5M', l: 'COP donados en 2024', c: 'var(--kimsa-peach)' },
+  { n: '1%', l: 'de nuestras utilidades', c: 'var(--kimsa-coral)' },
+  { n: '4', l: 'años de alianza', c: 'var(--kimsa-gold)' },
+];
+
+const story = [
+  { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
+  { y: '2020', t: 'Alianza Ceiba Bruja', d: 'El 1% de las utilidades a la conservación del bosque seco tropical.' },
+  { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
+  { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
+];
+
+const bySlug = (s: string) => PROJECTS.find((p) => p.slug === s)!;
+const featured = bySlug('ndc-3-el-salvador');
+// Una muestra por área para la Home (el listado completo está en /proyectos)
+const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnatura'].map(bySlug);
+---
+<Base>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <Nav overlay />
+    <div class="hero__bg">
+      <PhotoPlaceholder fill tint="dusk" rounded={0} label="bosque andino · niebla en la montaña · gran angular" />
+      <div class="hero__overlay hero__overlay--warm"></div>
+      <div class="hero__overlay hero__overlay--dark"></div>
+    </div>
+    <div class="hero__content">
+      <div class="hero__left">
+        <Pill variant="solid" onDark class="hero__pill">
+          <span style="color:var(--kimsa-peach)">▲</span>&nbsp;Clima&nbsp;·&nbsp;Conservación&nbsp;·&nbsp;<span style="color:var(--kimsa-peach)">▲</span>&nbsp;Desarrollo
+        </Pill>
+        <h1 class="hero__title">
+          Diseñamos soluciones para que la naturaleza y las personas <em class="em-peach">vuelvan a hablarse.</em>
+        </h1>
+      </div>
+      <div class="hero__right">
+        <p>
+          Somos KIMSA. Una consultora climática joven, nacida en Bogotá en 2017, que
+          trabaja desde 9 países de América Latina para enfrentar la crisis climática
+          con rigor, frescura y humanidad.
+        </p>
+        <Button variant="primary" href="#servicios" class="hero__cta">Conozca nuestro trabajo →</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLIENTES ============ -->
+  <section class="section clients">
+    <div class="clients__head reveal">
+      <MountainMark size={44} class="clients__mark" />
+      <Eyebrow center>Confían en KIMSA · 29 organizaciones en 9 países</Eyebrow>
+    </div>
+    <div class="clients__marquee reveal">
+      <ClientsMarquee />
+    </div>
+  </section>
+
+  <!-- ============ MANIFIESTO / PROPÓSITO ============ -->
+  <section class="section manifesto">
+    <div class="blob blob--peach" style="top:-100px; right:-100px;"></div>
+    <div class="blob blob--sage" style="bottom:-50px; left:-150px;"></div>
+    <div class="manifesto__mark"><MountainMark size={320} /></div>
+    <div class="manifesto__grid container">
+      <div class="reveal">
+        <Eyebrow>Nuestro propósito</Eyebrow>
+        <div style="margin-top:24px"><MountainMark size={72} /></div>
+      </div>
+      <div>
+        <h2 class="h2-lg reveal">
+          Generamos <em class="em-forest">productos y soluciones</em> útiles, replicables e
+          innovadoras que <em class="em-terracotta">transforman la sociedad</em> — sin hacer enciclopedias.
+        </h2>
+        <div class="manifesto__values reveal">
+          {values.map((v) => <ValueCard title={v.t} accent={v.fg} tint={v.bg}>{v.d}</ValueCard>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICIOS ============ -->
+  <section class="section services" id="servicios">
+    <div class="services__head container">
+      <div class="reveal">
+        <Eyebrow>Qué hacemos</Eyebrow>
+        <h2 class="h2" style="margin-top:20px">Tres caminos, una misma <em class="em-forest">brújula.</em></h2>
+      </div>
+      <p class="lead reveal">
+        Acompañamos a empresas, gobiernos y comunidades con humanidad, creatividad e
+        innovación. Cada proyecto se adapta a su contexto y ritmo.
+      </p>
+    </div>
+    <div class="services__grid container reveal">
+      {services.map((s) => <ServiceCard {...s} />)}
+    </div>
+  </section>
+
+  <!-- ============ IMPACTO ============ -->
+  <section class="section impact">
+    <div class="blob blob--peach" style="top:-80px; left:-80px;"></div>
+    <div class="impact__grid container">
+      <div class="reveal">
+        <Eyebrow>Lo que sembramos</Eyebrow>
+        <h2 class="h2-lg" style="margin:20px 0 32px">Cifras que importan, contadas <em class="em-forest">despacio.</em></h2>
+        <p class="impact__text">
+          Desde 2017 acompañamos a empresas, gobiernos y comunidades. Estos números
+          resumen años de trabajo paciente.
+        </p>
+        <div class="impact__badge">
+          <img src="/assets/kimsa-camara.png" alt="Cámara de Comercio de Bogotá" />
+          <div>
+            <div class="impact__badge-title">Empresa del Año 2024</div>
+            <div class="impact__badge-sub">Reconocidas por la Cámara de Comercio de Bogotá</div>
+          </div>
+        </div>
+      </div>
+      <div class="impact__stats reveal">
+        {stats.map((s) => <StatCard value={s.n} label={s.l} accent={s.fg} tint={s.bg} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CEIBA BRUJA / CONSERVACIÓN ============ -->
+  <section class="section ceiba" id="ceiba">
+    <div class="blob blob--terracotta" style="top:-100px; right:-100px; width:500px; height:500px;"></div>
+    <div class="ceiba__grid container">
+      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Reserva Ceiba Bruja" ratio="4/3" tint="earth" rounded={32} label="reserva ceiba bruja · bosque seco tropical · sierra nevada" />
+      <div class="reveal">
+        <Eyebrow color="var(--kimsa-peach)">Nuestro aporte a la naturaleza</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 32px; color:var(--kimsa-bone)">
+          El <em class="em-peach">1%</em> de nuestras utilidades va a la <em class="em-peach">Reserva Ceiba Bruja</em>, en la Sierra Nevada de Santa Marta.
+        </h2>
+        <p class="ceiba__text">
+          Llevamos cuatro años junto a la Fundación InnNature trabajando en la
+          conservación del bosque seco tropical y apoyando proyectos productivos
+          sostenibles para las comunidades locales.
+        </p>
+        <div class="ceiba__cells">
+          {ceiba.map((c) => (
+            <div class="ceiba__cell">
+              <div class="ceiba__cell-n" style={`color:${c.c}`}>{c.n}</div>
+              <div class="ceiba__cell-l">{c.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROYECTOS ============ -->
+  <section class="section projects">
+    <div class="projects__head container">
+      <div class="reveal">
+        <Eyebrow>Nuestro trabajo</Eyebrow>
+        <h2 class="h2" style="margin-top:20px">Proyectos que dejan <em class="em-forest">huella.</em></h2>
+      </div>
+      <Button variant="ghost" href="/proyectos" class="reveal">Ver todos los proyectos →</Button>
+    </div>
+    <div class="projects__grid container">
+      <Card padded={false} class="reveal projects__featured" data-project={featured.slug} role="button" tabindex="0" aria-label={`Ver ${featured.title}`}>
+        <PhotoPlaceholder ratio="16/10" tint={featured.tint} rounded={0} label={`proyecto destacado · ${featured.country}`} />
+        <div class="projects__featured-body">
+          <span class="projects__badge">Proyecto destacado · {featured.country}</span>
+          <h3 class="projects__featured-title">{featured.title}</h3>
+          <p class="projects__featured-desc">{featured.summary}</p>
+          <div class="projects__tags">
+            {featured.tags.map((t) => <span class="projects__tag">{t}</span>)}
+          </div>
+        </div>
+      </Card>
+      <div class="projects__col">
+        {secondary.map((p) => (
+          <div class="reveal projects__small" data-project={p.slug} role="button" tabindex="0" aria-label={`Ver ${p.title}`}>
+            <PhotoPlaceholder fill tint={p.tint} rounded={0} label={p.country} />
+            <div class="projects__small-body">
+              <div class="projects__small-tag">{p.country}{p.year ? ` · ${p.year}` : ''}</div>
+              <h3 class="projects__small-title">{p.title}</h3>
+              <p class="projects__small-desc">{p.client}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NUESTRA HISTORIA ============ -->
+  <section class="section story">
+    <div class="story__mark"><MountainMark size={360} mono="rgba(255,255,255,0.9)" /></div>
+    <div class="story__grid container">
+      <div class="reveal">
+        <Eyebrow color="var(--kimsa-peach)">Nuestra historia</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 24px; color:var(--kimsa-bone)">
+          Desde 2017, uniendo <em class="em-peach">naturaleza, personas y sistemas.</em>
+        </h2>
+        <p class="story__text">
+          Creemos en el desarrollo consciente. Diseñamos soluciones útiles, replicables
+          y alineadas con los Objetivos de Desarrollo Sostenible — sin hacer enciclopedias.
+        </p>
+      </div>
+      <div class="reveal">
+        {story.map((s) => (
+          <div class="story__item">
+            <div class="story__year">{s.y}</div>
+            <div>
+              <div class="story__item-title">{s.t}</div>
+              <div class="story__item-desc">{s.d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EQUIPO ============ -->
+  <section class="section team">
+    <div class="team__grid container">
+      <div class="reveal">
+        <Eyebrow>Las personas</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 24px">Un equipo joven, mayormente <em class="em-forest">de mujeres.</em></h2>
+        <p class="team__text">
+          Trabajamos desde casa, desde el campo, desde donde la vida nos encuentre.
+          Confiamos en la autonomía y celebramos las distintas formas de trabajar.
+        </p>
+        <div class="team__band">
+          <div class="team__band-n">80%</div>
+          <div class="team__band-l">de nuestro equipo está conformado por mujeres</div>
+        </div>
+      </div>
+      <div class="team__people reveal">
+        {TEAM.map((m) => (
+          <div class="team__person">
+            <div class="team__photo" style={`background:linear-gradient(165deg, ${m.color} 0%, color-mix(in srgb, ${m.color} 70%, transparent) 60%, var(--kimsa-peach) 130%)`}>
+              <img src={m.img} alt={m.name} />
+            </div>
+            <div class="team__name">{m.name}</div>
+            <div class="team__role">{m.role}</div>
+          </div>
+        ))}
+        <div class="team__person">
+          <div class="team__photo team__photo--more">
+            <span class="team__more-n">+30</span>
+            <MountainMark size={40} mono="rgba(255,255,255,0.9)" />
+          </div>
+          <div class="team__name">+30 profesionales</div>
+          <div class="team__role">HUB latinoamericano</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAPA / PRESENCIA ============ -->
+  <section class="section map">
+    <div class="map__grid container">
+      <div class="reveal">
+        <Eyebrow>Dónde estamos</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 32px"><em class="em-forest">Nueve países</em> que llamamos casa.</h2>
+        <p class="map__text">
+          Sede principal en Bogotá D.C., sucursal en San José de Costa Rica, y un HUB de
+          profesionales distribuidos por la región.
+        </p>
+        <div class="map__countries">
+          {COUNTRIES.map((p, i) => (
+            <div class="map__country" style={`background:${i % 2 ? 'var(--kimsa-blush)' : 'var(--kimsa-bone)'}`}>
+              <span>{p}</span><span style="color:var(--kimsa-terracotta)">▲</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="map__img reveal">
+        <img src="/assets/kimsa-map.png" alt="Presencia de KIMSA en América Latina" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CURSO (CTA) ============ -->
+  <CourseCTA />
+
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  /* ---------- HERO ---------- */
+  .hero { position: relative; height: 900px; max-height: 100vh; min-height: 640px; overflow: hidden; background: var(--kimsa-forest-deep); }
+  .hero__bg { position: absolute; inset: 0; }
+  .hero__bg :global(.photo-ph) { border-radius: 0; }
+  .hero__overlay { position: absolute; inset: 0; }
+  .hero__overlay--warm { background: linear-gradient(135deg, rgba(31,77,58,0.55) 0%, rgba(217,108,60,0.25) 45%, rgba(232,93,74,0.35) 100%); }
+  .hero__overlay--dark { background: linear-gradient(180deg, rgba(20,40,30,0.25) 0%, rgba(20,40,30,0.05) 35%, rgba(20,40,30,0.8) 100%); }
+  .hero__content {
+    position: absolute;
+    left: var(--kimsa-section-x);
+    right: var(--kimsa-section-x);
+    bottom: 80px;
+    color: var(--kimsa-bone);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .hero__pill { margin-bottom: 32px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .hero__title { font-weight: 300; font-size: 92px; line-height: 1.02; letter-spacing: -0.025em; margin: 0; }
+  .hero__right p { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.92); }
+  .hero__cta { margin-top: 32px; }
+
+  /* ---------- CLIENTES ---------- */
+  .clients { background: var(--kimsa-cream); padding-top: 88px; padding-bottom: 88px; }
+  .clients__head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 44px; }
+  .clients__marquee { margin: 0 calc(-1 * var(--kimsa-section-x)); } /* a sangre para el bucle */
+
+  /* ---------- Blobs (decoración) ---------- */
+  .blob { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(40px); pointer-events: none; }
+  .blob--peach { background: radial-gradient(circle, rgba(245,176,131,0.53) 0%, transparent 70%); }
+  .blob--sage { background: radial-gradient(circle, rgba(111,141,107,0.53) 0%, transparent 70%); }
+  .blob--terracotta { background: radial-gradient(circle, rgba(217,108,60,0.4) 0%, transparent 70%); filter: blur(60px); }
+
+  /* ---------- MANIFIESTO ---------- */
+  .manifesto { background: linear-gradient(180deg, var(--kimsa-bone) 0%, var(--kimsa-blush) 100%); }
+  .manifesto__mark { position: absolute; top: 40px; right: 80px; opacity: 0.15; pointer-events: none; }
+  .manifesto__grid { display: grid; grid-template-columns: 0.8fr 1.6fr; gap: 80px; position: relative; }
+  .manifesto__values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
+
+  /* ---------- SERVICIOS ---------- */
+  .services { background: var(--kimsa-bone); }
+  .services__head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; margin-bottom: 64px; align-items: end; }
+  .services__head .lead { max-width: 580px; }
+  .services__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+
+  /* ---------- IMPACTO ---------- */
+  .impact { background: var(--kimsa-cream); }
+  .impact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; }
+  .impact__text { font-size: 17px; line-height: 1.6; color: var(--kimsa-ink-soft); max-width: 480px; }
+  .impact__badge { margin-top: 32px; padding: 20px 24px; background: var(--kimsa-bone); border-radius: 16px; border: 2px solid var(--kimsa-peach); display: flex; align-items: center; gap: 20px; }
+  .impact__badge img { height: 56px; object-fit: contain; flex-shrink: 0; }
+  .impact__badge-title { font-weight: 600; font-size: 16px; }
+  .impact__badge-sub { font-size: 13px; color: var(--kimsa-ink-soft); }
+  .impact__stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* ---------- CEIBA ---------- */
+  .ceiba { background: linear-gradient(135deg, var(--kimsa-forest) 0%, var(--kimsa-forest-deep) 60%, #2d1e3d 100%); color: var(--kimsa-bone); }
+  .ceiba__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; position: relative; }
+  .ceiba__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 520px; }
+  .ceiba__cells { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ceiba__cell { padding: 20px; background: rgba(255,255,255,0.06); border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); }
+  .ceiba__cell-n { font-weight: 300; font-size: 36px; line-height: 1; }
+  .ceiba__cell-l { font-size: 12px; color: rgba(251,248,241,0.72); margin-top: 8px; }
+
+  /* ---------- PROYECTOS ---------- */
+  .projects { background: var(--kimsa-cream-deep); }
+  .projects__head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; }
+  .projects__grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: stretch; }
+  .projects__featured-body { padding: 36px; }
+  .projects__badge { display: inline-block; padding: 5px 12px; background: rgba(31,77,58,0.1); color: var(--kimsa-forest); font-size: 12px; font-weight: 600; border-radius: 999px; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .projects__featured-title { font-weight: 500; font-size: 30px; margin: 0 0 12px; line-height: 1.2; }
+  .projects__featured-desc { font-size: 16px; color: var(--kimsa-ink-soft); line-height: 1.6; margin: 0 0 20px; }
+  .projects__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .projects__tag { font-size: 12px; font-weight: 500; color: var(--kimsa-forest); background: rgba(31,77,58,0.08); border-radius: 999px; padding: 6px 12px; }
+  .projects__col { display: grid; grid-template-rows: repeat(3, 1fr); gap: 20px; }
+  .projects__featured { cursor: pointer; }
+  .projects__featured:focus-visible, .projects__small:focus-visible { outline: 3px solid var(--kimsa-terracotta); outline-offset: 2px; }
+  .projects__small { display: grid; grid-template-columns: 130px 1fr; background: var(--kimsa-surface-card); border-radius: var(--kimsa-radius-xl); box-shadow: var(--kimsa-shadow-card); overflow: hidden; cursor: pointer; transition: transform var(--kimsa-dur) var(--kimsa-ease), box-shadow var(--kimsa-dur) var(--kimsa-ease); }
+  .projects__small:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
+  .projects__small-body { padding: 22px 24px; display: flex; flex-direction: column; justify-content: center; }
+  .projects__small-tag { font-size: 11px; font-weight: 600; color: var(--kimsa-terracotta); letter-spacing: 0.06em; margin-bottom: 8px; text-transform: uppercase; }
+  .projects__small-title { font-weight: 500; font-size: 17px; margin: 0 0 6px; line-height: 1.25; }
+  .projects__small-desc { font-size: 13px; color: var(--kimsa-ink-soft); margin: 0; }
+
+  /* ---------- HISTORIA ---------- */
+  .story { background: var(--kimsa-forest); color: var(--kimsa-bone); }
+  .story__mark { position: absolute; top: -60px; left: -60px; opacity: 0.12; pointer-events: none; }
+  .story__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; position: relative; }
+  .story__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 460px; }
+  .story__item { display: grid; grid-template-columns: 90px 1fr; gap: 28px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .story__year { font-weight: 300; font-size: 32px; color: var(--kimsa-peach); line-height: 1; }
+  .story__item-title { font-weight: 600; font-size: 18px; margin-bottom: 4px; }
+  .story__item-desc { font-size: 14px; color: rgba(251,248,241,0.72); line-height: 1.5; }
+
+  /* ---------- EQUIPO ---------- */
+  .team { background: var(--kimsa-bone); }
+  .team__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+  .team__text { font-size: 17px; line-height: 1.6; color: var(--kimsa-ink-soft); }
+  .team__band { margin-top: 48px; padding: 32px; background: linear-gradient(135deg, var(--kimsa-terracotta) 0%, var(--kimsa-coral) 100%); color: var(--kimsa-bone); border-radius: 24px; display: flex; align-items: center; gap: 20px; }
+  .team__band-n { font-weight: 300; font-size: 88px; line-height: 1; }
+  .team__band-l { font-size: 15px; max-width: 200px; line-height: 1.4; }
+  .team__people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .team__photo { aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; position: relative; display: flex; align-items: flex-end; justify-content: center; }
+  .team__photo img { width: 96%; height: 98%; object-fit: contain; object-position: bottom; }
+  .team__photo--more { background: linear-gradient(165deg, var(--kimsa-plum) 0%, color-mix(in srgb, var(--kimsa-plum) 70%, transparent) 60%, var(--kimsa-peach) 130%); flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--kimsa-bone); }
+  .team__more-n { font-weight: 300; font-size: 56px; line-height: 1; }
+  .team__name { margin-top: 16px; font-weight: 500; font-size: 16px; }
+  .team__role { margin-top: 2px; font-size: 13px; color: var(--kimsa-ink-soft); }
+
+  /* ---------- MAPA ---------- */
+  .map { background: linear-gradient(180deg, var(--kimsa-cream-deep) 0%, rgba(245,176,131,0.33) 100%); }
+  .map__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .map__text { font-size: 17px; line-height: 1.6; color: var(--kimsa-ink-soft); max-width: 480px; }
+  .map__countries { margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 520px; }
+  .map__country { font-size: 14px; font-weight: 500; padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .map__img { display: flex; justify-content: center; }
+  .map__img img { width: 420px; max-width: 100%; object-fit: contain; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .hero { height: auto; min-height: 620px; }
+    .hero__content { grid-template-columns: 1fr; gap: 28px; bottom: 40px; }
+    .hero__title { font-size: 40px; }
+    .manifesto__grid, .services__head, .impact__grid, .ceiba__grid, .projects__grid,
+    .story__grid, .team__grid, .map__grid { grid-template-columns: 1fr; gap: 40px; }
+    .manifesto__values { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
+    .services__grid { grid-template-columns: 1fr; }
+    .impact__stats { grid-template-columns: 1fr 1fr; }
+    .projects__head { flex-direction: column; align-items: flex-start; }
+    .projects__col { grid-template-rows: none; }
+    .team__people { grid-template-columns: repeat(2, 1fr); }
+    .team__band-n { font-size: 64px; }
+    .story__mark, .manifesto__mark { display: none; }
+  }
+  @media (max-width: 520px) {
+    .ceiba__cells { grid-template-columns: 1fr; }
+    .map__countries { grid-template-columns: repeat(2, 1fr); }
+    .projects__small { grid-template-columns: 100px 1fr; }
+  }
+</style>

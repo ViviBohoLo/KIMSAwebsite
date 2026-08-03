@@ -1,0 +1,80 @@
+---
+/**
+ * PhotoPlaceholder — muestra una foto real (`src`) o, si no hay, un bloque
+ * de gradiente cálido etiquetado (nunca un recuadro gris). Sustituir por
+ * fotografía propia de KIMSA cuando esté disponible.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  ratio?: string;
+  tint?: string;
+  rounded?: number;
+  label?: string;
+  class?: string;
+  fill?: boolean; // ocupa todo el alto del contenedor
+}
+const {
+  src,
+  alt = '',
+  ratio = '16/9',
+  tint = 'warm',
+  rounded = 16,
+  label = 'foto',
+  class: className,
+  fill = false,
+} = Astro.props;
+
+const tints: Record<string, [string, string]> = {
+  warm:   ['#efe4d2', '#d8c8a8'],
+  cool:   ['#dde3e0', '#b9c5be'],
+  cream:  ['#f6f0e2', '#e8dfca'],
+  blush:  ['#f3d8d8', '#e3b7b7'],
+  forest: ['#9bbfa3', '#5e8869'],
+  sunset: ['#f0b98a', '#d97b4e'],
+  dusk:   ['#8a7f92', '#3d3450'],
+  earth:  ['#c9a87c', '#8a6d47'],
+  river:  ['#9cc0bf', '#5f8e8c'],
+};
+const [a, b] = tints[tint] ?? tints.warm;
+const style = [
+  fill ? 'height:100%' : `aspect-ratio:${ratio}`,
+  `border-radius:${rounded}px`,
+].join(';');
+---
+{src ? (
+  <img
+    src={src}
+    alt={alt}
+    class={className}
+    style={`${style}; width:100%; object-fit:cover;`}
+  />
+) : (
+  <div
+    class:list={['photo-ph', className]}
+    style={`${style}; --ph-a:${a}; --ph-b:${b};`}
+    role="img"
+    aria-label={label}
+  >
+    <span class="photo-ph__cap">↳ {label}</span>
+  </div>
+)}
+
+<style>
+  .photo-ph {
+    background:
+      repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 14px),
+      linear-gradient(160deg, var(--ph-a), var(--ph-b));
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    overflow: hidden;
+    position: relative;
+  }
+  .photo-ph__cap {
+    font-family: var(--kimsa-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: rgba(0, 0, 0, 0.55);
+  }
+</style>

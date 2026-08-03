@@ -1,0 +1,103 @@
+/* KIMSA · Design tokens — dirección "Cordillera"
+   Tierra cálida + verde bosque + crema. El gradiente del logo se reserva
+   solo para momentos de marca (nunca como fondo de sección).
+   Fuente única: Quicksand. JetBrains Mono solo para micro-etiquetas/datos. */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---- Neutros / base ---- */
+  --kimsa-bone:        #fbf8f1;  /* fondo principal claro */
+  --kimsa-cream:       #f4ede0;  /* fondo alterno cálido */
+  --kimsa-cream-deep:  #ebe1cc;  /* fondo alterno más saturado */
+  --kimsa-ink:         #2b2a26;  /* texto principal */
+  --kimsa-ink-soft:    #6a685f;  /* texto secundario */
+  --kimsa-rule:        rgba(43, 42, 38, 0.12); /* líneas / bordes sutiles */
+
+  /* ---- Marca · verdes ---- */
+  --kimsa-forest:      #1f4d3a;
+  --kimsa-forest-deep: #143524;
+  --kimsa-sage:        #6f8d6b;
+
+  /* ---- Marca · cálidos ---- */
+  --kimsa-terracotta:  #d96c3c;  /* color de acción primario */
+  --kimsa-coral:       #e85d4a;
+  --kimsa-peach:       #f5b083;
+  --kimsa-blush:       #f6d0c2;
+  --kimsa-gold:        #e8a23a;
+  --kimsa-plum:        #a44d6e;  /* CarbonBox / bloque terciario */
+
+  /* ---- Primarios del logo (solo dentro de la marca / gradiente) ---- */
+  --kimsa-logo-orange: #f26a2e;
+  --kimsa-logo-pink:   #e63b7a;
+  --kimsa-logo-green:  #1fb85c;
+  --kimsa-logo-green-dark: #0e8a45;
+
+  /* ---- Tintes suaves (rellenos pastel de tarjetas) ---- */
+  --kimsa-tint-forest: #dde9d8;
+  --kimsa-tint-terracotta: #f7d9c5;
+  --kimsa-tint-coral:  #f9d5cf;
+  --kimsa-tint-gold:   #fae6c4;
+  --kimsa-tint-plum:   #f0c9d6;
+  --kimsa-tint-teal:   #c8dcdd;
+
+  /* ---- Gradientes ---- */
+  --kimsa-gradient:      linear-gradient(135deg, #f26a2e 0%, #e63b7a 50%, #1fb85c 100%);
+  --kimsa-gradient-line: linear-gradient(90deg, #f26a2e 0%, #e63b7a 50%, #1fb85c 100%);
+  --kimsa-gradient-warm: linear-gradient(135deg, #d96c3c 0%, #e85d4a 50%, #a44d6e 100%);
+  --kimsa-gradient-deep: linear-gradient(135deg, #1f4d3a 0%, #143524 60%, #2d1e3d 100%);
+
+  /* ---- Alias semánticos ---- */
+  --kimsa-surface:        var(--kimsa-bone);
+  --kimsa-surface-warm:   var(--kimsa-cream);
+  --kimsa-surface-card:   #ffffff;
+  --kimsa-surface-dark:   var(--kimsa-forest);
+  --kimsa-text:           var(--kimsa-ink);
+  --kimsa-text-muted:     var(--kimsa-ink-soft);
+  --kimsa-text-invert:    var(--kimsa-bone);
+  --kimsa-action:         var(--kimsa-terracotta);
+  --kimsa-action-hover:   #c65f31;
+  --kimsa-accent:         var(--kimsa-coral);
+  --kimsa-border:         var(--kimsa-rule);
+
+  /* ---- Tipografía ---- */
+  --kimsa-font-sans: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --kimsa-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --kimsa-w-light: 300;
+  --kimsa-w-regular: 400;
+  --kimsa-w-medium: 500;
+  --kimsa-w-semibold: 600;
+  --kimsa-w-bold: 700;
+
+  --kimsa-eyebrow: 12px;
+  --kimsa-eyebrow-ls: 0.22em;
+  --kimsa-eyebrow-w: 600;
+
+  /* ---- Espaciado / layout ---- */
+  --kimsa-section-x: 64px;
+  --kimsa-section-y: 130px;
+  --kimsa-grid-gap: 20px;
+  --kimsa-content-max: 1180px;
+
+  /* ---- Radios ---- */
+  --kimsa-radius-pill: 999px;
+  --kimsa-radius-sm: 10px;
+  --kimsa-radius-md: 16px;
+  --kimsa-radius-lg: 20px;
+  --kimsa-radius-xl: 24px;
+  --kimsa-radius-2xl: 28px;
+  --kimsa-radius-3xl: 36px;
+
+  /* ---- Sombras (sobrias) ---- */
+  --kimsa-shadow-chip: 0 2px 10px rgba(43, 42, 38, 0.05);
+  --kimsa-shadow-card: 0 8px 30px rgba(43, 42, 38, 0.08);
+  --kimsa-shadow-lift: 0 14px 40px rgba(43, 42, 38, 0.12);
+
+  /* ---- Motion ---- */
+  --kimsa-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --kimsa-dur-fast: 200ms;
+  --kimsa-dur: 250ms;
+  --kimsa-dur-slow: 350ms;
+  --kimsa-blur: blur(10px);
+}

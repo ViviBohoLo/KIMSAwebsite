@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Eyebrow from '../../components/core/Eyebrow.astro';
+import ServiceHero from '../../components/sections/ServiceHero.astro';
+import StatBand from '../../components/sections/StatBand.astro';
+import NumberedCard from '../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../components/sections/ProjectModal.astro';
+import CourseCTA from '../../components/sections/CourseCTA.astro';
+import { projectsByArea } from '../../data/site';
+
+const stats = [
+  { n: '50+', l: 'clientes satisfechos' },
+  { n: '13.000+', l: 'toneladas de gases de efecto invernadero gestionadas' },
+  { n: '6', l: 'sectores de la economía abordados' },
+  { n: '500+', l: 'colaboradores capacitados en descarbonización' },
+];
+
+const areas = [
+  { t: 'Estimación de huella de carbono', d: 'Calcula las emisiones de tu empresa o evento siguiendo los estándares internacionales reconocidos.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Reducción y descarbonización', d: 'Automatiza tu plan de reducción de emisiones y haz seguimiento a tus metas.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Huella de carbono de producto', d: 'Mide el impacto en carbono de toda tu cadena de valor.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Capacitación y autogestión', d: 'A través de CarbonBox Academy ofrecemos formación para gestionar tu huella de forma autónoma.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const pasos = [
+  { n: '01', t: 'Suscripción anual', d: 'Accede a la plataforma para gestionar la huella de carbono durante todo el año.', c: 'var(--kimsa-plum)' },
+  { n: '02', t: 'Capacitación y acompañamiento', d: 'Formación y soporte de expertos durante todo el proceso.', c: 'var(--kimsa-terracotta)' },
+  { n: '03', t: 'Estándares internacionales', d: 'Alineados con ISO 14064-1 y el GHG Protocol.', c: 'var(--kimsa-forest)' },
+];
+
+const refs = projectsByArea('carbonbox');
+---
+<Base title="CarbonBox · Tecnología para la naturaleza · KIMSA" description="CarbonBox digitaliza la gestión ambiental para empresas y organizaciones: mide, reduce y gestiona tu huella de carbono.">
+  <ServiceHero
+    crumb="CarbonBox"
+    pill="▲ Servicio 03"
+    titleMain="Carbon"
+    titleEm="Box"
+    emColor="var(--kimsa-plum)"
+    lead="Digitalizamos la gestión ambiental para empresas y organizaciones. Tecnología para la naturaleza que mide, reduce y gestiona tu huella de carbono."
+    photo="/assets/projects/carbonbox-platform.jpg"
+    photoTint="dusk"
+    photoLabel="plataforma CarbonBox · panel de medición de huella"
+  />
+
+  <StatBand stats={stats} bg="var(--kimsa-plum)" />
+
+  <!-- Áreas de servicio -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="svc-head container">
+      <div class="reveal">
+        <Eyebrow>Qué hacemos</Eyebrow>
+        <h2 class="h2" style="margin-top:20px">Gestión ambiental, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitalizada.</em></h2>
+      </div>
+      <p class="lead reveal">
+        CarbonBox reúne en un solo lugar la medición, la reducción y el reporte de tu
+        impacto ambiental — con acompañamiento experto.
+      </p>
+    </div>
+    <div class="svc-cards container reveal">
+      {areas.map((a, i) => (
+        <NumberedCard number={`0${i + 1}`} title={a.t} accent={a.fg} tint={a.bg}>{a.d}</NumberedCard>
+      ))}
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <Eyebrow class="reveal">Cómo funciona</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 64px">Tres pasos, cero enredos.</h2>
+      <div class="steps reveal">
+        {pasos.map((s) => (
+          <div class="step" style={`border-color:color-mix(in srgb, ${s.c} 33%, transparent)`}>
+            <div class="step__disc" style={`background:${s.c}`}>{s.n}</div>
+            <h3 class="step__title" style={`color:${s.c}`}>{s.t}</h3>
+            <p class="step__desc">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Referencias -->
+  <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
+    <div class="container">
+      <Eyebrow class="reveal">Referencias</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 20px">CarbonBox en <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">acción.</em></h2>
+      <p class="lead reveal" style="margin-bottom:40px">Haga clic en el proyecto para ver el detalle completo.</p>
+      <ProjectsCarousel projects={refs} id="pc-carbon" />
+    </div>
+  </section>
+
+  <CourseCTA />
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
+  .svc-head .lead { max-width: 540px; }
+  .svc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); position: relative; margin-top: 20px; background: var(--kimsa-bone); }
+  .step__disc { position: absolute; top: -20px; left: 28px; width: 56px; height: 56px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--kimsa-bone); }
+  .step__title { font-weight: 600; font-size: 22px; margin: 28px 0 12px; }
+  .step__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 820px; }
+  @media (max-width: 900px) {
+    .svc-head { grid-template-columns: 1fr; gap: 24px; }
+    .svc-cards, .steps, .svc-refs { grid-template-columns: 1fr; }
+  }
+</style>

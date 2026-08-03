@@ -1,0 +1,42 @@
+---
+/**
+ * LogoChip — chip blanco que contiene un logo de cliente/aliado. Alto fijo,
+ * imagen contenida y sombra suave. Si no hay imagen, muestra el nombre en
+ * monoespaciada (placeholder brand-safe hasta tener el logo real).
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  height?: number;
+  class?: string;
+}
+const { src, alt, height = 92, class: className } = Astro.props;
+---
+<div class:list={['logo-chip', className]} style={`height:${height}px;`}>
+  {src ? (
+    <img src={src} alt={alt} />
+  ) : (
+    <span class="logo-chip__text">{alt}</span>
+  )}
+</div>
+
+<style>
+  .logo-chip {
+    background: #fff;
+    border-radius: var(--kimsa-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    box-shadow: var(--kimsa-shadow-chip);
+  }
+  .logo-chip img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .logo-chip__text {
+    font-family: var(--kimsa-font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimsa-ink-soft);
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+</style>

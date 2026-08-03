@@ -1,0 +1,186 @@
+---
+/**
+ * ProjectModal — ventana emergente compartida con el detalle completo de un
+ * proyecto. Se abre al hacer clic en cualquier elemento con [data-project="slug"].
+ * Los datos de todos los proyectos se incrustan como JSON y el script los lee
+ * por slug. Cierra con la X, clic en el fondo o Esc.
+ */
+import { PROJECTS, AREA_LABEL, AREA_COLOR } from '../../data/site';
+
+// Datos mínimos que necesita el modal (con color/label de área ya resueltos).
+const data = PROJECTS.map((p) => ({
+  slug: p.slug,
+  title: p.title,
+  client: p.client,
+  country: p.country,
+  year: p.year ?? '',
+  description: p.description,
+  tags: p.tags,
+  tint: p.tint,
+  image: p.image ?? '',
+  areaLabel: AREA_LABEL[p.area],
+  areaColor: AREA_COLOR[p.area],
+}));
+---
+<div class="pm" id="project-modal" hidden>
+  <div class="pm__backdrop" data-close></div>
+  <div class="pm__dialog" role="dialog" aria-modal="true" aria-labelledby="pm-title">
+    <button class="pm__close" aria-label="Cerrar" data-close>×</button>
+    <div class="pm__media" id="pm-media"></div>
+    <div class="pm__body">
+      <div class="pm__badges">
+        <span class="pm__area" id="pm-area"></span>
+        <span class="pm__loc" id="pm-loc"></span>
+      </div>
+      <h2 class="pm__title" id="pm-title"></h2>
+      <p class="pm__client" id="pm-client"></p>
+      <p class="pm__desc" id="pm-desc"></p>
+      <div class="pm__tags" id="pm-tags"></div>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="pm-data" set:html={JSON.stringify(data)}></script>
+
+<script>
+  const modal = document.getElementById('project-modal');
+  if (modal) {
+    const raw = document.getElementById('pm-data')?.textContent || '[]';
+    const projects = JSON.parse(raw);
+    const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]));
+
+    const tints = {
+      warm: ['#efe4d2', '#d8c8a8'], cool: ['#dde3e0', '#b9c5be'], cream: ['#f6f0e2', '#e8dfca'],
+      blush: ['#f3d8d8', '#e3b7b7'], forest: ['#9bbfa3', '#5e8869'], sunset: ['#f0b98a', '#d97b4e'],
+      dusk: ['#8a7f92', '#3d3450'], earth: ['#c9a87c', '#8a6d47'], river: ['#9cc0bf', '#5f8e8c'],
+    };
+
+    const media = document.getElementById('pm-media');
+    const areaEl = document.getElementById('pm-area');
+    const locEl = document.getElementById('pm-loc');
+    const titleEl = document.getElementById('pm-title');
+    const clientEl = document.getElementById('pm-client');
+    const descEl = document.getElementById('pm-desc');
+    const tagsEl = document.getElementById('pm-tags');
+
+    let lastFocus = null;
+
+    function open(slug) {
+      const p = bySlug[slug];
+      if (!p) return;
+      areaEl.textContent = p.areaLabel;
+      areaEl.style.background = p.areaColor;
+      locEl.textContent = p.country + (p.year ? ' · ' + p.year : '');
+      titleEl.textContent = p.title;
+      clientEl.textContent = p.client;
+      clientEl.style.display = p.client ? '' : 'none';
+      descEl.textContent = p.description;
+      tagsEl.innerHTML = p.tags.map((t) => '<span class="pm__tag">' + t + '</span>').join('');
+      if (p.image) {
+        media.style.background = '';
+        media.innerHTML = '<img src="' + p.image + '" alt="' + p.title + '">';
+      } else {
+        const [a, b] = tints[p.tint] || tints.warm;
+        media.innerHTML = '<span class="pm__ph">↳ ' + p.country + ' · foto de proyecto</span>';
+        media.style.background =
+          'repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 14px), linear-gradient(160deg, ' + a + ', ' + b + ')';
+      }
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modal.querySelector('.pm__close').focus();
+    }
+
+    function close() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-project]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        open(el.getAttribute('data-project'));
+      });
+    });
+    modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+  }
+</script>
+
+<style>
+  .pm {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .pm[hidden] { display: none; }
+  .pm__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 30, 24, 0.55);
+    backdrop-filter: blur(4px);
+    animation: pm-fade 200ms var(--kimsa-ease);
+  }
+  .pm__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(720px, 100%);
+    max-height: 88vh;
+    overflow: auto;
+    background: var(--kimsa-bone);
+    border-radius: var(--kimsa-radius-2xl);
+    box-shadow: var(--kimsa-shadow-lift);
+    animation: pm-rise 250ms var(--kimsa-ease);
+  }
+  .pm__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(251, 248, 241, 0.9);
+    color: var(--kimsa-ink);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--kimsa-shadow-chip);
+  }
+  .pm__close:hover { background: #fff; }
+  .pm__media {
+    height: 260px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    overflow: hidden;
+  }
+  .pm__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  :global(.pm__ph) { font-family: var(--kimsa-font-mono); font-size: 11px; color: rgba(0, 0, 0, 0.55); }
+  .pm__body { padding: 32px 36px 36px; }
+  .pm__badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .pm__area { color: var(--kimsa-bone); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; letter-spacing: 0.04em; }
+  .pm__loc { font-size: 12px; font-weight: 600; color: var(--kimsa-ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+  .pm__title { font-weight: 500; font-size: 28px; line-height: 1.2; margin: 0 0 10px; }
+  .pm__client { font-size: 14px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0 0 20px; }
+  .pm__desc { font-size: 16px; line-height: 1.65; color: var(--kimsa-ink-soft); margin: 0 0 24px; }
+  .pm__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  :global(.pm__tag) { font-size: 12px; font-weight: 500; color: var(--kimsa-ink); background: var(--kimsa-cream); border: 1px solid var(--kimsa-rule); border-radius: 999px; padding: 6px 12px; }
+
+  @keyframes pm-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pm-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pm__backdrop, .pm__dialog { animation: none; }
+  }
+  @media (max-width: 600px) {
+    .pm__body { padding: 24px; }
+    .pm__title { font-size: 22px; }
+    .pm__media { height: 200px; }
+  }
+</style>

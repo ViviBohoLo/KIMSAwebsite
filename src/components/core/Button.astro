@@ -1,0 +1,67 @@
+---
+/**
+ * Botón KIMSA. primary = terracota (color de acción). secondary = bone con
+ * borde fino. ghost = contorno sobre foto/oscuro. cream = crema con texto
+ * terracota. En fondos oscuros/foto pasar `onDark`.
+ */
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'cream';
+  size?: 'sm' | 'md' | 'lg';
+  onDark?: boolean;
+  href?: string;
+  class?: string;
+  [key: string]: any;
+}
+const {
+  variant = 'primary',
+  size = 'md',
+  onDark = false,
+  href,
+  class: className,
+  ...rest
+} = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+<Tag
+  href={href}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, { 'btn--on-dark': onDark }, className]}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    font-family: var(--kimsa-font-sans);
+    font-weight: 600;
+    border-radius: var(--kimsa-radius-pill);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid transparent;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1;
+    transition: background var(--kimsa-dur) var(--kimsa-ease),
+                color var(--kimsa-dur) var(--kimsa-ease),
+                filter var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .btn:hover { filter: brightness(0.94); }
+
+  .btn--sm { padding: 10px 18px; font-size: 13px; }
+  .btn--md { padding: 14px 24px; font-size: 14px; }
+  .btn--lg { padding: 18px 30px; font-size: 16px; }
+
+  .btn--primary { background: var(--kimsa-action); color: var(--kimsa-bone); }
+  .btn--secondary { background: var(--kimsa-bone); color: var(--kimsa-ink); border-color: var(--kimsa-rule); }
+  .btn--ghost { background: transparent; color: var(--kimsa-ink); border-color: var(--kimsa-rule); }
+  .btn--ghost.btn--on-dark {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--kimsa-bone);
+    border-color: var(--kimsa-bone);
+    backdrop-filter: var(--kimsa-blur);
+  }
+  .btn--cream { background: var(--kimsa-bone); color: var(--kimsa-action); font-weight: 700; }
+</style>

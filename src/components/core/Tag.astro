@@ -1,0 +1,35 @@
+---
+/**
+ * Tag — chip de sub-tema más pequeño (varios en fila dentro de una tarjeta).
+ * En tarjeta de color pasar `onColor` para el look translúcido.
+ */
+interface Props {
+  onColor?: boolean;
+  class?: string;
+}
+const { onColor = false, class: className } = Astro.props;
+---
+<span class:list={['tag', { 'tag--on-color': onColor }, className]}>
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: var(--kimsa-radius-pill);
+    font-family: var(--kimsa-font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    background: var(--kimsa-cream);
+    color: var(--kimsa-ink);
+    border: 1px solid var(--kimsa-rule);
+  }
+  .tag--on-color {
+    background: rgba(251, 248, 241, 0.18);
+    color: var(--kimsa-bone);
+    border: 1px solid rgba(251, 248, 241, 0.2);
+  }
+</style>

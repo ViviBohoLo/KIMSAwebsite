@@ -1,0 +1,45 @@
+---
+/**
+ * Pill — chip redondeado. `solid` translúcido (sobre oscuro/foto) y
+ * `outline` (sobre claro). Para categorías y etiquetas sueltas.
+ */
+interface Props {
+  variant?: 'solid' | 'outline';
+  onDark?: boolean;
+  class?: string;
+}
+const { variant = 'outline', onDark = false, class: className } = Astro.props;
+---
+<span class:list={['pill', `pill--${variant}`, { 'pill--on-dark': onDark }, className]}>
+  <slot />
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--kimsa-radius-pill);
+    font-family: var(--kimsa-font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .pill--outline {
+    background: var(--kimsa-bone);
+    color: var(--kimsa-terracotta);
+    border: 1.5px solid var(--kimsa-terracotta);
+  }
+  .pill--solid {
+    background: var(--kimsa-blush);
+    color: var(--kimsa-ink);
+    border: 1px solid transparent;
+  }
+  .pill--solid.pill--on-dark {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--kimsa-bone);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: var(--kimsa-blur);
+  }
+</style>

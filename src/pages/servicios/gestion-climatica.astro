@@ -1,0 +1,119 @@
+---
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Eyebrow from '../../components/core/Eyebrow.astro';
+import ServiceHero from '../../components/sections/ServiceHero.astro';
+import StatBand from '../../components/sections/StatBand.astro';
+import NumberedCard from '../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../components/sections/ProjectModal.astro';
+import CourseCTA from '../../components/sections/CourseCTA.astro';
+import { projectsByArea } from '../../data/site';
+
+const stats = [
+  { n: '3', l: 'reportes para la Convención Marco de Naciones Unidas para el Cambio Climático' },
+  { n: '250+', l: 'actores fortalecidos en adaptación y mitigación' },
+  { n: '6', l: 'planes regionales de gestión climática' },
+  { n: '1', l: 'mecanismo de financiamiento climático' },
+];
+
+const oferta = [
+  { t: 'Sistemas de seguimiento climático', d: 'Diseño y fortalecimiento de sistemas de Monitoreo, Reporte y Verificación (MRV) para mitigación.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Inventarios GEI', d: 'Elaboración de inventarios de emisiones y rutas de descarbonización sectorial y territorial.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Análisis de riesgos', d: 'Evaluaciones de vulnerabilidad climática para decisiones informadas frente a eventos extremos.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Proyectos y reportes climáticos', d: 'Formulación de proyectos para fondos climáticos nacionales e internacionales.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Políticas y estrategias', d: 'Planes sectoriales, territoriales e institucionales para la acción climática.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const capacidades = [
+  'Asistencia técnica para el Marco de Transparencia Reforzado del Acuerdo de París',
+  'Evaluaciones de riesgo climático y medidas de adaptación',
+  'Fortalecimiento de capacidades institucionales',
+  'Sistemas MRV y contabilidad de emisiones GEI',
+  'Diseño de instrumentos financieros climáticos',
+];
+
+// Referencias: todos los proyectos de gestión climática
+const refs = projectsByArea('gestion');
+---
+<Base title="Gestión Climática · KIMSA" description="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática.">
+  <ServiceHero
+    crumb="Gestión Climática"
+    pill="▲ Servicio 01"
+    titleMain="Gestión"
+    titleEm="Climática"
+    emColor="var(--kimsa-forest)"
+    lead="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática — con humanidad y rigor."
+    photo="/assets/projects/estrategias-meta.jpg"
+    photoTint="forest"
+    photoLabel="trabajo de campo · medición de carbono en cultivo"
+  />
+
+  <StatBand stats={stats} bg="var(--kimsa-forest)" />
+
+  <!-- Nuestra oferta -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="svc-head container">
+      <div class="reveal">
+        <Eyebrow>Qué hacemos</Eyebrow>
+        <h2 class="h2" style="margin-top:20px">Nuestra <em class="em-forest">oferta.</em></h2>
+      </div>
+      <p class="lead reveal">
+        Cada servicio se adapta al sector, tamaño y madurez climática de su organización.
+        No hacemos enciclopedias.
+      </p>
+    </div>
+    <div class="svc-cards container reveal">
+      {oferta.map((o, i) => (
+        <NumberedCard number={`0${i + 1}`} title={o.t} accent={o.fg} tint={o.bg}>{o.d}</NumberedCard>
+      ))}
+    </div>
+  </section>
+
+  <!-- Capacidades -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <Eyebrow class="reveal">Capacidades principales</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 48px">Cinco frentes, un mismo cuidado.</h2>
+      <ul class="caps reveal">
+        {capacidades.map((c) => (
+          <li class="caps__item"><span class="caps__mark">▲</span>{c}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Referencias / casos -->
+  <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
+    <div class="svc-head container">
+      <div class="reveal">
+        <Eyebrow>Referencias</Eyebrow>
+        <h2 class="h2" style="margin-top:20px">Algunos <em class="em-forest">proyectos.</em></h2>
+      </div>
+      <p class="lead reveal">Deslice o use las flechas para ver todos los proyectos. Haga clic en uno para ver el detalle.</p>
+    </div>
+    <div class="container reveal">
+      <ProjectsCarousel projects={refs} id="pc-gestion" />
+    </div>
+  </section>
+
+  <CourseCTA />
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
+  .svc-head .lead { max-width: 540px; }
+  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; }
+  .caps__item { display: flex; gap: 14px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--kimsa-rule); font-size: 17px; line-height: 1.5; }
+  .caps__mark { color: var(--kimsa-terracotta); font-size: 13px; margin-top: 5px; }
+  @media (max-width: 900px) {
+    .svc-head { grid-template-columns: 1fr; gap: 24px; }
+    .svc-cards { grid-template-columns: 1fr; }
+    .svc-refs { grid-template-columns: 1fr; }
+    .caps { grid-template-columns: 1fr; }
+  }
+</style>

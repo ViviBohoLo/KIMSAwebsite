@@ -1,0 +1,56 @@
+---
+/**
+ * NumberedCard — tarjeta de capacidad pastel con disco numerado (01, 02…).
+ * Para grillas de capacidades de servicio.
+ */
+interface Props {
+  number: string;
+  title: string;
+  accent?: string;
+  tint?: string;
+  class?: string;
+}
+const {
+  number,
+  title,
+  accent = 'var(--kimsa-forest)',
+  tint = 'var(--kimsa-tint-forest)',
+  class: className,
+} = Astro.props;
+---
+<div class:list={['numbered-card', className]} style={`background:${tint};`}>
+  <div class="numbered-card__num" style={`background:${accent};`}>{number}</div>
+  <h3 class="numbered-card__title" style={`color:${accent};`}>{title}</h3>
+  <p class="numbered-card__body"><slot /></p>
+</div>
+
+<style>
+  .numbered-card {
+    border-radius: var(--kimsa-radius-xl);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 200px;
+  }
+  .numbered-card__num {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--kimsa-radius-pill);
+    color: var(--kimsa-bone);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .numbered-card__title { font-weight: 600; font-size: 22px; margin: 0; line-height: 1.25; }
+  .numbered-card__body {
+    font-size: 14px;
+    color: var(--kimsa-ink);
+    line-height: 1.55;
+    margin: 0;
+    opacity: 0.78;
+  }
+  @media (max-width: 900px) { .numbered-card { min-height: 0; } }
+</style>

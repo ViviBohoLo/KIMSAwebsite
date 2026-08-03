@@ -1,0 +1,60 @@
+---
+/**
+ * CourseCTA — bloque destacado (radio 36) con gradiente vivo terracota→coral→
+ * ciruela, texto crema. Invita al curso de Psicología Ambiental (grabado,
+ * gratuito). Reutilizado en la Home y en las páginas de servicio.
+ */
+import Eyebrow from '../core/Eyebrow.astro';
+import Button from '../core/Button.astro';
+import MountainMark from '../brand/MountainMark.astro';
+---
+<section class="section course-cta">
+  <div class="course-cta__box reveal">
+    <div class="course-cta__mark"><MountainMark size={420} mono="rgba(255,255,255,0.9)" /></div>
+    <div class="course-cta__blob"></div>
+    <div class="course-cta__left">
+      <Eyebrow color="#ffe0c4">Curso · Psicología Ambiental</Eyebrow>
+      <h2 class="h2" style="margin:20px 0 24px; color:var(--kimsa-bone)">
+        ¿Cambio climático sin <em class="em-peach" style="color:#ffe0c4">cambio humano?</em>
+      </h2>
+      <p class="course-cta__text">
+        Descubre cómo la psicología ambiental puede ayudarte a actuar frente a la crisis
+        climática. Revive nuestro curso gratuito y aprende a movilizar el cambio desde lo
+        emocional y lo colectivo.
+      </p>
+    </div>
+    <div class="course-cta__right">
+      <Button variant="cream" size="lg" href="/curso-psicologia-ambiental">Ver el curso →</Button>
+      <span class="course-cta__note">2 sesiones · en línea · sin costo</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .course-cta { background: var(--kimsa-bone); }
+  .course-cta__box {
+    background: linear-gradient(135deg, var(--kimsa-terracotta) 0%, var(--kimsa-coral) 50%, var(--kimsa-plum) 100%);
+    color: var(--kimsa-bone);
+    border-radius: var(--kimsa-radius-3xl);
+    padding: 64px 56px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    max-width: var(--kimsa-content-max);
+    margin: 0 auto;
+  }
+  .course-cta__mark { position: absolute; right: -80px; bottom: -80px; opacity: 0.18; pointer-events: none; }
+  .course-cta__blob { position: absolute; top: -60px; left: 40%; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(245,176,131,0.67) 0%, transparent 70%); filter: blur(40px); pointer-events: none; }
+  .course-cta__left { position: relative; }
+  .course-cta__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.92); max-width: 460px; }
+  .course-cta__right { position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+  .course-cta__note { font-size: 13px; color: rgba(251,248,241,0.85); }
+
+  @media (max-width: 900px) {
+    .course-cta__box { grid-template-columns: 1fr; padding: 40px 28px; gap: 28px; }
+    .course-cta__right { align-items: flex-start; }
+  }
+</style>

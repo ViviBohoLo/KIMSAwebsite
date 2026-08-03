@@ -1,0 +1,26 @@
+---
+/**
+ * KimsaLogo — logo oficial completo (KIMSA + isotipo a color, sin tagline).
+ * Dos versiones: `blanco` (texto blanco, para fondos oscuros / hero) y
+ * `oscuro` (texto gris, para fondos claros / páginas interiores).
+ */
+interface Props {
+  variant?: 'blanco' | 'oscuro';
+  height?: number;
+  class?: string;
+}
+const { variant = 'oscuro', height = 30, class: className } = Astro.props;
+const src = variant === 'blanco'
+  ? '/assets/kimsa-lockup-blanco.png'
+  : '/assets/kimsa-lockup-oscuro.png';
+---
+<img
+  src={src}
+  alt="KIMSA"
+  class:list={['kimsa-logo', className]}
+  style={`height:${height}px; width:auto;`}
+/>
+
+<style>
+  .kimsa-logo { display: block; object-fit: contain; }
+</style>

@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Eyebrow from '../../components/core/Eyebrow.astro';
+import ServiceHero from '../../components/sections/ServiceHero.astro';
+import StatBand from '../../components/sections/StatBand.astro';
+import NumberedCard from '../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../components/sections/ProjectModal.astro';
+import CourseCTA from '../../components/sections/CourseCTA.astro';
+import { projectsByArea } from '../../data/site';
+const refs = projectsByArea('psicologia');
+
+const stats = [
+  { n: '+70', l: 'actores consultados en la creación del clúster intersectorial' },
+  { n: '5', l: 'procesos comunitarios y étnicos (Pacífico y Andes)' },
+  { n: '4', l: 'temáticas especializadas' },
+  { n: '3', l: 'aliados organizacionales' },
+];
+
+const areas = [
+  { t: 'Plataformas participativas', d: 'Diseñamos procesos colaborativos con actores diversos.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Género e inclusión social', d: 'Incorporamos enfoques diferenciales para la equidad.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Monitoreo y evaluación', d: 'Medición cualitativa y cuantitativa del cambio.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Conversaciones estructuradas', d: 'Facilitamos el diálogo entre generaciones y sectores.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Salud mental y naturaleza', d: 'Promovemos el bienestar emocional como base del cuidado ambiental.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const razones = [
+  'Las transformaciones ambientales requieren cambios culturales y emocionales.',
+  'Conectar con lo que sentimos moviliza decisiones sostenibles.',
+  'Ningún cambio técnico se sostiene sin la apropiación social.',
+];
+
+const herramientas = [
+  'Facilitación y metodologías participativas (mapeo colectivo, World Café, design thinking)',
+  'Análisis de redes y narrativa colectiva',
+  'Indicadores de bienestar y cambio cultural',
+  'Evaluaciones sensibles al género y al territorio',
+];
+
+---
+<Base title="Psicología Ambiental · KIMSA" description="Integramos herramientas de la psicología ambiental para facilitar procesos colectivos de cambio y conectar a las personas con la naturaleza.">
+  <ServiceHero
+    crumb="Psicología Ambiental"
+    pill="▲ Servicio 02"
+    titleMain="Psicología"
+    titleEm="Ambiental"
+    emColor="var(--kimsa-terracotta)"
+    lead="Despertamos y conectamos con nuestra humanidad para el equilibrio del planeta y las sociedades."
+    photo="/assets/projects/psicologia-hero.jpg"
+    photoTint="sunset"
+    photoLabel="círculo de diálogo · taller participativo con comunidad"
+  />
+
+  <StatBand stats={stats} bg="var(--kimsa-terracotta)" />
+
+  <!-- Intro / misión -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container narrow reveal">
+      <Eyebrow>Nuestro enfoque</Eyebrow>
+      <h2 class="h2" style="margin:20px 0 24px">
+        Facilitamos procesos colectivos de cambio con <em class="em-terracotta">sentido profundo.</em>
+      </h2>
+      <p class="lead">
+        Desde KIMSA integramos herramientas de la psicología ambiental para facilitar
+        procesos colectivos de cambio, conectar a las personas con la naturaleza y generar
+        acciones sostenibles con sentido profundo.
+      </p>
+    </div>
+  </section>
+
+  <!-- Áreas de trabajo -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="container">
+      <Eyebrow class="reveal">Qué hacemos</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 48px">Áreas de trabajo.</h2>
+      <div class="svc-cards reveal">
+        {areas.map((a, i) => (
+          <NumberedCard number={`0${i + 1}`} title={a.t} accent={a.fg} tint={a.bg}>{a.d}</NumberedCard>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué la dimensión psicosocial -->
+  <section class="section" style="background:var(--kimsa-forest); color:var(--kimsa-bone)">
+    <div class="container">
+      <Eyebrow color="var(--kimsa-peach)" class="reveal">¿Por qué trabajar en la dimensión psicosocial?</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 48px; color:var(--kimsa-bone)">Tres razones clave.</h2>
+      <div class="reasons reveal">
+        {razones.map((r, i) => (
+          <div class="reason">
+            <div class="reason__n">0{i + 1}</div>
+            <p>{r}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Herramientas -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <Eyebrow class="reveal">Herramientas que usamos</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 48px">Métodos para <em class="em-terracotta">movilizar.</em></h2>
+      <ul class="caps reveal">
+        {herramientas.map((h) => (
+          <li class="caps__item"><span class="caps__mark">▲</span>{h}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Proyectos destacados -->
+  <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
+    <div class="container">
+      <Eyebrow class="reveal">Proyectos destacados</Eyebrow>
+      <h2 class="h2 reveal" style="margin:20px 0 20px">Donde lo psicosocial <em class="em-terracotta">deja huella.</em></h2>
+      <p class="lead reveal" style="margin-bottom:40px">Deslice o use las flechas para verlos todos. Haga clic en un proyecto para ver el detalle.</p>
+      <ProjectsCarousel projects={refs} id="pc-psico" />
+    </div>
+  </section>
+
+  <CourseCTA />
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .narrow { max-width: 820px; }
+  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; }
+  .caps__item { display: flex; gap: 14px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--kimsa-rule); font-size: 17px; line-height: 1.5; }
+  .caps__mark { color: var(--kimsa-terracotta); font-size: 13px; margin-top: 5px; }
+  .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .reason { padding: 32px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--kimsa-radius-xl); }
+  .reason__n { font-weight: 300; font-size: 40px; color: var(--kimsa-peach); line-height: 1; margin-bottom: 16px; }
+  .reason p { font-size: 16px; line-height: 1.55; color: rgba(251,248,241,0.9); margin: 0; }
+  .hl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hl { background: var(--kimsa-surface-card); border-radius: var(--kimsa-radius-lg); padding: 28px; box-shadow: var(--kimsa-shadow-card); }
+  .hl__tag { font-size: 12px; font-weight: 600; color: var(--kimsa-terracotta); margin-bottom: 12px; }
+  .hl__title { font-weight: 500; font-size: 19px; margin: 0; line-height: 1.3; }
+  @media (max-width: 900px) {
+    .svc-cards, .reasons, .hl-grid { grid-template-columns: 1fr; }
+    .caps { grid-template-columns: 1fr; }
+  }
+</style>

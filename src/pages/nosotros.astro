@@ -1,0 +1,276 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Eyebrow from '../components/core/Eyebrow.astro';
+import Button from '../components/core/Button.astro';
+import MountainMark from '../components/brand/MountainMark.astro';
+import PhotoPlaceholder from '../components/surfaces/PhotoPlaceholder.astro';
+import ValueCard from '../components/surfaces/ValueCard.astro';
+import { TEAM, COUNTRIES, CONTACT } from '../data/site';
+
+const values = [
+  { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Gente creativa', d: 'Un enfoque fresco, neutral e innovador para encontrar soluciones de desarrollo consciente.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Sus procesos, nuestro objetivo', d: 'Trabajamos de la mano con los clientes para asegurar la aplicabilidad y la continuidad.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+];
+
+const story = [
+  { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
+  { y: '2020', t: 'Alianza Ceiba Bruja', d: 'El 1% de las utilidades a la conservación del bosque seco tropical.' },
+  { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
+  { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
+];
+
+const ceiba = [
+  { n: '$16.5M', l: 'COP donados en 2024', c: 'var(--kimsa-peach)' },
+  { n: '1%', l: 'de nuestras utilidades', c: 'var(--kimsa-coral)' },
+  { n: '4', l: 'años de alianza', c: 'var(--kimsa-gold)' },
+];
+---
+<Base title="Nosotros · KIMSA" description="KIMSA es una consultora climática latinoamericana con una estructura horizontal y colaborativa. Conozca nuestro propósito, equipo e historia.">
+  <section class="nos-hero">
+    <Nav />
+    <div class="container nos-hero__inner reveal">
+      <nav class="nos-hero__crumb" aria-label="Ruta"><a href="/">Inicio</a> / <span class="current">Nosotros</span></nav>
+      <Eyebrow>Nosotros</Eyebrow>
+      <h1 class="nos-hero__title">Transformamos el compromiso ambiental en <em class="em-forest">acción climática.</em></h1>
+      <p class="nos-hero__lead">
+        Somos una consultora climática latinoamericana. Trabajamos con gobiernos, empresas
+        y organizaciones para desarrollar estrategias sostenibles con impacto real, uniendo
+        las dimensiones técnica, social y territorial.
+      </p>
+    </div>
+  </section>
+
+  <!-- Propósito + valores -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="nos-purpose reveal">
+        <div>
+          <Eyebrow>Nuestro propósito</Eyebrow>
+          <div style="margin-top:20px"><MountainMark size={64} /></div>
+        </div>
+        <h2 class="h2-lg">
+          Buscamos que <em class="em-forest">la naturaleza y las personas</em> vuelvan a hablarse — y
+          aspiramos a liderar en América Latina las soluciones climáticas con impacto
+          <em class="em-terracotta">ecológico, tecnológico y social.</em>
+        </h2>
+      </div>
+      <div class="nos-values reveal">
+        {values.map((v) => <ValueCard title={v.t} accent={v.fg} tint={v.bg}>{v.d}</ValueCard>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo trabajamos -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="container nos-how reveal">
+      <div>
+        <Eyebrow>Cómo trabajamos</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 24px">Horizontales por <em class="em-forest">convicción.</em></h2>
+      </div>
+      <p class="lead">
+        Nos diferencia una estructura horizontal y colaborativa que fomenta la creatividad,
+        la autonomía y la mejora continua. Trabajamos con equipos interdisciplinarios y
+        metodologías participativas, con la justicia ambiental como base.
+      </p>
+    </div>
+  </section>
+
+  <!-- Historia -->
+  <section class="section nos-story">
+    <div class="nos-story__mark"><MountainMark size={360} mono="rgba(255,255,255,0.9)" /></div>
+    <div class="container nos-story__grid">
+      <div class="reveal">
+        <Eyebrow color="var(--kimsa-peach)">Nuestra historia</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 24px; color:var(--kimsa-bone)">
+          Desde 2017, uniendo <em class="em-peach">naturaleza, personas y sistemas.</em>
+        </h2>
+        <p class="nos-story__text">
+          Creemos en el desarrollo consciente. Diseñamos soluciones útiles, replicables y
+          alineadas con los Objetivos de Desarrollo Sostenible — sin hacer enciclopedias.
+        </p>
+      </div>
+      <div class="reveal">
+        {story.map((s) => (
+          <div class="nos-story__item">
+            <div class="nos-story__year">{s.y}</div>
+            <div>
+              <div class="nos-story__item-title">{s.t}</div>
+              <div class="nos-story__item-desc">{s.d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipo -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="nos-team-head reveal">
+        <div>
+          <Eyebrow>Las personas</Eyebrow>
+          <h2 class="h2" style="margin:20px 0 24px">Un equipo joven, mayormente <em class="em-forest">de mujeres.</em></h2>
+        </div>
+        <div class="nos-band">
+          <div class="nos-band__n">80%</div>
+          <div class="nos-band__l">de nuestro equipo está conformado por mujeres</div>
+        </div>
+      </div>
+      <div class="nos-team reveal">
+        {TEAM.map((m) => (
+          <article class="nos-person">
+            <div class="nos-person__photo" style={`background:linear-gradient(165deg, ${m.color} 0%, color-mix(in srgb, ${m.color} 70%, transparent) 60%, var(--kimsa-peach) 130%)`}>
+              <img src={m.img} alt={m.name} />
+            </div>
+            <div class="nos-person__body">
+              <div class="nos-person__name">{m.name}</div>
+              <div class="nos-person__role">{m.role}</div>
+              <p class="nos-person__bio">{m.bio}</p>
+            </div>
+          </article>
+        ))}
+        <article class="nos-person nos-person--more">
+          <div class="nos-person__photo nos-person__photo--more">
+            <span class="nos-more-n">+30</span>
+            <MountainMark size={40} mono="rgba(255,255,255,0.9)" />
+          </div>
+          <div class="nos-person__body">
+            <div class="nos-person__name">+30 profesionales</div>
+            <div class="nos-person__role">HUB latinoamericano</div>
+            <p class="nos-person__bio">Un equipo interdisciplinario distribuido por la región, que trabaja desde casa, desde el campo, desde donde la vida los encuentre.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ceiba Bruja -->
+  <section class="section nos-ceiba" id="ceiba">
+    <div class="blob-terracotta"></div>
+    <div class="container nos-ceiba__grid">
+      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Reserva Ceiba Bruja" ratio="4/3" tint="earth" rounded={32} label="reserva ceiba bruja · bosque seco tropical · sierra nevada" />
+      <div class="reveal">
+        <Eyebrow color="var(--kimsa-peach)">Nuestro aporte a la naturaleza</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 32px; color:var(--kimsa-bone)">
+          El <em class="em-peach">1%</em> de nuestras utilidades va a la <em class="em-peach">Reserva Ceiba Bruja.</em>
+        </h2>
+        <p class="nos-ceiba__text">
+          Llevamos cuatro años junto a la Fundación InnNature trabajando en la conservación
+          del bosque seco tropical en la Sierra Nevada de Santa Marta y apoyando proyectos
+          productivos sostenibles para las comunidades locales.
+        </p>
+        <div class="nos-ceiba__cells">
+          {ceiba.map((c) => (
+            <div class="nos-ceiba__cell">
+              <div class="nos-ceiba__cell-n" style={`color:${c.c}`}>{c.n}</div>
+              <div class="nos-ceiba__cell-l">{c.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Presencia -->
+  <section class="section" style="background:linear-gradient(180deg, var(--kimsa-cream-deep) 0%, rgba(245,176,131,0.33) 100%)">
+    <div class="container nos-map">
+      <div class="reveal">
+        <Eyebrow>Dónde estamos</Eyebrow>
+        <h2 class="h2" style="margin:20px 0 32px"><em class="em-forest">Nueve países</em> que llamamos casa.</h2>
+        <p class="lead" style="margin-bottom:24px">
+          Sede principal en Bogotá D.C. y sucursal en San José de Costa Rica.
+        </p>
+        <div class="nos-countries">
+          {COUNTRIES.map((p, i) => (
+            <div class="nos-country" style={`background:${i % 2 ? 'var(--kimsa-blush)' : 'var(--kimsa-bone)'}`}>
+              <span>{p}</span><span style="color:var(--kimsa-terracotta)">▲</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="nos-map__img reveal">
+        <img src="/assets/kimsa-map.png" alt="Presencia de KIMSA en América Latina" />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container nos-cta reveal">
+      <h2 class="h2" style="margin-bottom:20px">Conversemos sobre su <em class="em-terracotta">próximo paso.</em></h2>
+      <p class="lead" style="margin-bottom:32px">{CONTACT.email} · {CONTACT.phone}</p>
+      <Button variant="primary" size="lg" href={CONTACT.mailto}>Conversemos →</Button>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .nos-hero { position: relative; background: linear-gradient(180deg, var(--kimsa-bone) 0%, rgba(246,208,194,0.5) 100%); padding-bottom: 96px; }
+  .nos-hero__inner { padding-top: 8px; }
+  .nos-hero__crumb { font-size: 13px; color: var(--kimsa-ink-soft); margin: 108px 0 48px; }
+  .nos-hero__crumb a:hover { color: var(--kimsa-terracotta); }
+  .nos-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
+  .nos-hero__title { font-weight: 300; font-size: 72px; line-height: 1.05; letter-spacing: -0.025em; margin: 20px 0 28px; max-width: 980px; }
+  .nos-hero__lead { font-size: 20px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 680px; }
+
+  .nos-purpose { display: grid; grid-template-columns: 0.8fr 1.6fr; gap: 80px; margin-bottom: 64px; }
+  .nos-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .nos-how { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; }
+  .nos-how .lead { max-width: 560px; }
+
+  .nos-story { background: var(--kimsa-forest); color: var(--kimsa-bone); }
+  .nos-story__mark { position: absolute; top: -60px; left: -60px; opacity: 0.12; pointer-events: none; }
+  .nos-story__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; position: relative; }
+  .nos-story__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 460px; }
+  .nos-story__item { display: grid; grid-template-columns: 90px 1fr; gap: 28px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .nos-story__year { font-weight: 300; font-size: 32px; color: var(--kimsa-peach); line-height: 1; }
+  .nos-story__item-title { font-weight: 600; font-size: 18px; margin-bottom: 4px; }
+  .nos-story__item-desc { font-size: 14px; color: rgba(251,248,241,0.72); line-height: 1.5; }
+
+  .nos-team-head { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; margin-bottom: 56px; }
+  .nos-band { padding: 28px 32px; background: linear-gradient(135deg, var(--kimsa-terracotta) 0%, var(--kimsa-coral) 100%); color: var(--kimsa-bone); border-radius: 24px; display: flex; align-items: center; gap: 20px; }
+  .nos-band__n { font-weight: 300; font-size: 72px; line-height: 1; }
+  .nos-band__l { font-size: 14px; max-width: 190px; line-height: 1.4; }
+  .nos-team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .nos-person { background: var(--kimsa-surface-card); border-radius: var(--kimsa-radius-xl); box-shadow: var(--kimsa-shadow-card); overflow: hidden; }
+  .nos-person__photo { aspect-ratio: 4/3; overflow: hidden; position: relative; display: flex; align-items: flex-end; justify-content: center; }
+  .nos-person__photo img { width: 88%; height: 100%; object-fit: contain; object-position: bottom; }
+  .nos-person__photo--more { flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--kimsa-bone); background: linear-gradient(165deg, var(--kimsa-plum) 0%, color-mix(in srgb, var(--kimsa-plum) 70%, transparent) 60%, var(--kimsa-peach) 130%); }
+  .nos-more-n { font-weight: 300; font-size: 52px; line-height: 1; }
+  .nos-person__body { padding: 24px; }
+  .nos-person__name { font-weight: 500; font-size: 18px; }
+  .nos-person__role { font-size: 13px; color: var(--kimsa-terracotta); font-weight: 600; margin-top: 2px; }
+  .nos-person__bio { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.6; margin-top: 14px; }
+
+  .nos-ceiba { background: linear-gradient(135deg, var(--kimsa-forest) 0%, var(--kimsa-forest-deep) 60%, #2d1e3d 100%); color: var(--kimsa-bone); }
+  .blob-terracotta { position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(217,108,60,0.4) 0%, transparent 70%); filter: blur(60px); pointer-events: none; }
+  .nos-ceiba__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; position: relative; }
+  .nos-ceiba__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 520px; }
+  .nos-ceiba__cells { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .nos-ceiba__cell { padding: 20px; background: rgba(255,255,255,0.06); border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); }
+  .nos-ceiba__cell-n { font-weight: 300; font-size: 32px; line-height: 1; }
+  .nos-ceiba__cell-l { font-size: 12px; color: rgba(251,248,241,0.72); margin-top: 8px; }
+
+  .nos-map { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .nos-countries { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 520px; }
+  .nos-country { font-size: 14px; font-weight: 500; padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .nos-map__img { display: flex; justify-content: center; }
+  .nos-map__img img { width: 420px; max-width: 100%; object-fit: contain; }
+
+  .nos-cta { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+  @media (max-width: 900px) {
+    .nos-hero__title { font-size: 44px; }
+    .nos-purpose, .nos-how, .nos-story__grid, .nos-team-head, .nos-ceiba__grid, .nos-map { grid-template-columns: 1fr; gap: 36px; }
+    .nos-values, .nos-team { grid-template-columns: 1fr; }
+    .nos-countries { grid-template-columns: repeat(2, 1fr); }
+    .nos-ceiba__cells { grid-template-columns: 1fr; }
+    .nos-story__mark { display: none; }
+  }
+</style>

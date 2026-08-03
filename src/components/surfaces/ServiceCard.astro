@@ -1,0 +1,95 @@
+---
+/**
+ * ServiceCard — tarjeta totalmente coloreada: foto, eyebrow, título,
+ * descripción, chips de sub-temas y link "Conocer más", en crema sobre un
+ * color de marca. La grilla de servicios usa forest / terracota / ciruela.
+ */
+import PhotoPlaceholder from './PhotoPlaceholder.astro';
+import Tag from '../core/Tag.astro';
+
+interface Props {
+  index: string;
+  name: string;
+  description: string;
+  bullets?: string[];
+  bg?: string;
+  accent?: string;
+  photo?: { src?: string; tint?: string; label?: string };
+  linkLabel?: string;
+  href?: string;
+}
+const {
+  index,
+  name,
+  description,
+  bullets = [],
+  bg = 'var(--kimsa-forest)',
+  accent = 'var(--kimsa-peach)',
+  photo,
+  linkLabel = 'Conocer más →',
+  href = '#',
+} = Astro.props;
+---
+<div class="service-card" style={`background:${bg};`}>
+  {photo && (
+    <PhotoPlaceholder ratio="4/3" rounded={20} src={photo.src} tint={photo.tint} label={photo.label} />
+  )}
+  <div class="service-card__index" style={`color:${accent};`}>
+    <span class="dot" style={`background:${accent};`}></span>
+    {index}
+  </div>
+  <h3 class="service-card__title">{name}</h3>
+  <p class="service-card__desc">{description}</p>
+  {bullets.length > 0 && (
+    <div class="service-card__tags">
+      {bullets.map((b) => <Tag onColor>{b}</Tag>)}
+    </div>
+  )}
+  <a class="service-card__link" href={href} style={`color:${accent};`}>{linkLabel}</a>
+</div>
+
+<style>
+  .service-card {
+    color: var(--kimsa-bone);
+    border-radius: var(--kimsa-radius-2xl);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card__index {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--kimsa-font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .service-card__index .dot { width: 6px; height: 6px; border-radius: 999px; }
+  .service-card__title {
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--kimsa-bone);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .service-card__desc {
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(251, 248, 241, 0.85);
+    margin: 0;
+  }
+  .service-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .service-card__link {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+</style>

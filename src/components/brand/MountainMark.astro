@@ -1,0 +1,26 @@
+---
+/**
+ * MountainMark — el isotipo ORIGINAL de KIMSA (montaña a color), como imagen
+ * transparente. Se usa como marca inline, marca de agua y acento de marca en
+ * todo el sitio. `size` fija el alto en px. La prop `mono` se mantiene por
+ * compatibilidad pero se ignora (el isotipo siempre va a color, como pidió la marca).
+ */
+interface Props {
+  size?: number;
+  mono?: string; // ignorado — el isotipo original va a color
+  class?: string;
+}
+const { size = 32, class: className } = Astro.props;
+---
+<img
+  src="/assets/kimsa-isotipo-t.png"
+  alt=""
+  aria-hidden="true"
+  class:list={['mountain-mark', className]}
+  style={`height:${size}px; width:auto;`}
+  loading="lazy"
+/>
+
+<style>
+  .mountain-mark { display: inline-block; object-fit: contain; }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * StatCard — número grande y ligero sobre un tinte pastel. `accent` colorea
+ * el número, `tint` el fondo. Para grillas de impacto/cifras.
+ */
+interface Props {
+  value: string;
+  label: string;
+  accent?: string;
+  tint?: string;
+  class?: string;
+}
+const {
+  value,
+  label,
+  accent = 'var(--kimsa-terracotta)',
+  tint = 'var(--kimsa-blush)',
+  class: className,
+} = Astro.props;
+---
+<div class:list={['stat-card', className]} style={`background:${tint};`}>
+  <div class="stat-card__value" style={`color:${accent};`}>{value}</div>
+  <div class="stat-card__label">{label}</div>
+</div>
+
+<style>
+  .stat-card {
+    border-radius: var(--kimsa-radius-xl);
+    padding: 32px;
+    min-height: 180px;
+  }
+  .stat-card__value {
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-card__label {
+    font-size: 14px;
+    color: var(--kimsa-ink);
+    line-height: 1.45;
+    margin-top: 16px;
+    font-weight: 500;
+  }
+  @media (max-width: 900px) {
+    .stat-card { min-height: 0; padding: 24px; }
+    .stat-card__value { font-size: 48px; }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * ValueCard — tarjeta pastel con disco ▲ coloreado, título coloreado y un
+ * párrafo corto. Para valores / principios (Menos es más, etc).
+ */
+interface Props {
+  title: string;
+  accent?: string;
+  tint?: string;
+  icon?: string;
+  class?: string;
+}
+const {
+  title,
+  accent = 'var(--kimsa-forest)',
+  tint = 'var(--kimsa-tint-forest)',
+  icon = '▲',
+  class: className,
+} = Astro.props;
+---
+<div class:list={['value-card', className]} style={`background:${tint};`}>
+  <div class="value-card__icon" style={`background:${accent};`}>{icon}</div>
+  <div class="value-card__title" style={`color:${accent};`}>{title}</div>
+  <p class="value-card__body"><slot /></p>
+</div>
+
+<style>
+  .value-card { border-radius: var(--kimsa-radius-xl); padding: 28px; }
+  .value-card__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--kimsa-radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--kimsa-bone);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .value-card__title { font-weight: 600; font-size: 18px; margin-bottom: 10px; }
+  .value-card__body {
+    font-size: 14px;
+    color: var(--kimsa-ink);
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.78;
+  }
+</style>

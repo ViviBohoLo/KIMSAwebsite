@@ -1,0 +1,135 @@
+---
+/**
+ * ProjectsExplorer — cuadrícula de proyectos con filtros por área y país.
+ * Cada tarjeta abre el ProjectModal (incluir <ProjectModal/> en la página).
+ */
+import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
+import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../../data/site';
+---
+<div class="px">
+  <div class="px__filters reveal">
+    <div class="px__group" role="group" aria-label="Filtrar por área">
+      <span class="px__glabel">Área</span>
+      <button class="px__chip is-active" data-filter="area" data-value="all">Todos</button>
+      {AREAS.map((a) => (
+        <button class="px__chip" data-filter="area" data-value={a.key}>{a.label}</button>
+      ))}
+    </div>
+    <div class="px__group" role="group" aria-label="Filtrar por país">
+      <span class="px__glabel">País</span>
+      <button class="px__chip is-active" data-filter="country" data-value="all">Todos</button>
+      {PROJECT_COUNTRIES.map((c) => (
+        <button class="px__chip" data-filter="country" data-value={c}>{c}</button>
+      ))}
+    </div>
+  </div>
+
+  <div class="px__grid reveal" id="px-grid">
+    {PROJECTS.map((p) => (
+      <article class="px__card" data-project={p.slug} data-area={p.area} data-country={p.country} tabindex="0" role="button" aria-label={`Ver ${p.title}`}>
+        <div class="px__media">
+          {p.image
+            ? <img src={p.image} alt={p.title} />
+            : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${p.country} · foto de proyecto`} />}
+        </div>
+        <div class="px__body">
+          <span class="px__area" style={`color:${AREA_COLOR[p.area]}; background:color-mix(in srgb, ${AREA_COLOR[p.area]} 12%, transparent)`}>
+            {AREA_LABEL[p.area]}
+          </span>
+          <h3 class="px__title">{p.title}</h3>
+          {p.client && <p class="px__client">{p.client}</p>}
+          <p class="px__summary">{p.summary}</p>
+          <span class="px__more">Ver proyecto →</span>
+        </div>
+      </article>
+    ))}
+  </div>
+  <p class="px__empty" id="px-empty" hidden>No hay proyectos con estos filtros.</p>
+</div>
+
+<script>
+  const grid = document.getElementById('px-grid');
+  if (grid) {
+    const state = { area: 'all', country: 'all' };
+    const cards = Array.from(grid.querySelectorAll('.px__card'));
+    const empty = document.getElementById('px-empty');
+
+    function apply() {
+      let visible = 0;
+      cards.forEach((c) => {
+        const okA = state.area === 'all' || c.getAttribute('data-area') === state.area;
+        const okC = state.country === 'all' || c.getAttribute('data-country') === state.country;
+        const show = okA && okC;
+        c.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    document.querySelectorAll('.px__chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const type = chip.getAttribute('data-filter');
+        state[type] = chip.getAttribute('data-value');
+        document
+          .querySelectorAll('.px__chip[data-filter="' + type + '"]')
+          .forEach((c) => c.classList.toggle('is-active', c === chip));
+        apply();
+      });
+    });
+
+    // Accesibilidad: abrir con Enter/Espacio (el clic lo maneja ProjectModal)
+    cards.forEach((c) => {
+      c.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); }
+      });
+    });
+  }
+</script>
+
+<style>
+  .px__filters { display: flex; flex-wrap: wrap; gap: 28px; margin-bottom: 40px; }
+  .px__group { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .px__glabel { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--kimsa-ink-soft); margin-right: 4px; }
+  .px__chip {
+    font-family: var(--kimsa-font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--kimsa-ink);
+    background: var(--kimsa-bone);
+    border: 1.5px solid var(--kimsa-rule);
+    border-radius: 999px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .px__chip:hover { border-color: var(--kimsa-terracotta); color: var(--kimsa-terracotta); }
+  .px__chip.is-active { background: var(--kimsa-terracotta); border-color: var(--kimsa-terracotta); color: var(--kimsa-bone); }
+
+  .px__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .px__card {
+    background: var(--kimsa-surface-card);
+    border-radius: var(--kimsa-radius-xl);
+    box-shadow: var(--kimsa-shadow-card);
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--kimsa-dur) var(--kimsa-ease), box-shadow var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .px__card:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
+  .px__card:focus-visible { outline: 3px solid var(--kimsa-terracotta); outline-offset: 2px; }
+  .px__media :global(img) { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; }
+  .px__body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .px__area { align-self: flex-start; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 5px 12px; letter-spacing: 0.04em; }
+  .px__title { font-weight: 500; font-size: 19px; line-height: 1.3; margin: 0; }
+  .px__client { font-size: 13px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0; }
+  .px__summary { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .px__more { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--kimsa-forest); }
+  .px__empty { text-align: center; color: var(--kimsa-ink-soft); padding: 40px 0; }
+
+  @media (max-width: 1100px) { .px__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) {
+    .px__filters { flex-direction: column; gap: 16px; }
+  }
+  @media (max-width: 640px) { .px__grid { grid-template-columns: 1fr; } }
+</style>

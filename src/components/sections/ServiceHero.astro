@@ -1,36 +1,45 @@
 ---
 /**
- * Hero de página de servicio interna: nav sólido, breadcrumb, pill, título
- * grande con énfasis, lead, botones y foto a la derecha.
+ * Hero de página de servicio interna: nav sólido, breadcrumb, título grande
+ * con énfasis, lead, botones y foto a la derecha. Sin pill/kicker sobre el
+ * título — el breadcrumb ya ubica la página, el título habla solo.
  */
 import Nav from '../layout/Nav.astro';
-import Pill from '../core/Pill.astro';
 import Button from '../core/Button.astro';
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
-import { CONTACT } from '../../data/site';
 
 interface Props {
   crumb: string;
-  pill: string;
   titleMain: string;
   titleEm: string;
   emColor?: string;
+  /** Pega titleMain y titleEm en una sola palabra (sin salto de línea ni
+   * cursiva) — para nombres de marca compuestos como "CarbonBox", en vez de
+   * títulos de dos palabras como "Gestión Climática". */
+  joined?: boolean;
   lead: string;
   photoTint?: string;
   photoLabel?: string;
   photo?: string; // ruta de foto real (opcional)
+  ctaHref?: string; // destino de "Solicitar propuesta" — /contacto salvo excepciones (p.ej. CarbonBox)
+  ctaLabel?: string;
 }
 const {
   crumb,
-  pill,
   titleMain,
   titleEm,
   emColor = 'var(--kimsa-forest)',
+  joined = false,
   lead,
   photoTint = 'forest',
   photoLabel = 'trabajo de campo',
   photo,
+  ctaHref = '/contacto',
+  ctaLabel = 'Solicitar propuesta →',
 } = Astro.props;
+// Si el CTA apunta fuera del sitio (p.ej. carbonbox.app), abre en pestaña
+// nueva para no perder al visitante de la web de KIMSA.
+const ctaExternal = /^https?:\/\//.test(ctaHref);
 ---
 <section class="svc-hero">
   <Nav />
@@ -40,13 +49,22 @@ const {
     </nav>
     <div class="svc-hero__grid">
       <div>
-        <Pill variant="outline">{pill}</Pill>
         <h1 class="svc-hero__title">
-          {titleMain}<br /><em style={`font-style:italic; font-weight:400; color:${emColor}`}>{titleEm}</em>
+          {joined ? (
+            <Fragment><em style="font-style:italic; font-weight:400;">{titleMain}</em><span style={`font-style:italic; font-weight:400; font-family:var(--kimsa-font-sans); color:${emColor}`}>{titleEm}</span></Fragment>
+          ) : (
+            <Fragment>{titleMain}<br /><em style={`font-style:italic; font-weight:400; color:${emColor}`}>{titleEm}</em></Fragment>
+          )}
         </h1>
         <p class="svc-hero__lead">{lead}</p>
         <div class="svc-hero__actions">
-          <Button variant="primary" size="lg" href={CONTACT.mailto}>Solicitar propuesta →</Button>
+          <Button
+            variant="primary"
+            size="lg"
+            href={ctaHref}
+            target={ctaExternal ? '_blank' : undefined}
+            rel={ctaExternal ? 'noopener noreferrer' : undefined}
+          >{ctaLabel}</Button>
           <Button variant="secondary" size="lg" href="#casos">Ver casos ↓</Button>
         </div>
       </div>
@@ -62,7 +80,7 @@ const {
   .svc-hero__crumb a:hover { color: var(--kimsa-terracotta); }
   .svc-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
   .svc-hero__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: center; }
-  .svc-hero__title { font-weight: 300; font-size: 96px; line-height: 1; letter-spacing: -0.03em; margin: 24px 0 0; }
+  .svc-hero__title { font-weight: 300; font-size: 96px; line-height: 1; letter-spacing: -0.03em; margin: 0; }
   .svc-hero__lead { margin-top: 36px; font-size: 20px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 560px; }
   .svc-hero__actions { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
   @media (max-width: 900px) {

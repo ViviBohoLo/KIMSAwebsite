@@ -1,32 +1,41 @@
 ---
 /**
- * StatBand — franja horizontal de cifras clave (número ligero + etiqueta).
- * Usada al inicio de las páginas de servicio.
+ * StatBand — franja horizontal de cifras clave, con el mismo contador tipo
+ * odómetro del hero de la Home (consistencia entre superficies). Fondo en
+ * degradado difuminado a partir del color de marca recibido (nunca plano),
+ * siguiendo el mismo criterio que el hero. Usada al inicio de las páginas
+ * de servicio.
  */
+import OdometerStat from '../core/OdometerStat.astro';
+
 interface Props {
   stats: { n: string; l: string }[];
   bg?: string;
 }
 const { stats, bg = 'var(--kimsa-forest)' } = Astro.props;
+
+// Separa prefijo/valor/sufijo sin asumir formato: sirve tanto para "+150"
+// (prefijo) como "50+" o "13.000+" (sufijo, con punto como separador).
+const parsed = stats.map((s) => {
+  const m = s.n.match(/^(\D*)(\d[\d.,]*\d|\d)(\D*)$/);
+  return { prefix: m?.[1] ?? '', value: m?.[2] ?? s.n, suffix: m?.[3] ?? '', l: s.l };
+});
 ---
-<section class="statband" style={`background:${bg}`}>
+<section class="statband" style={`background:linear-gradient(135deg, ${bg} 0%, color-mix(in srgb, ${bg} 65%, black) 100%)`}>
+  <div class="glow" style={`--glow-color: color-mix(in srgb, ${bg} 50%, white); --glow-size: 420px; --glow-top: -140px; --glow-right: -60px;`}></div>
   <div class="statband__grid container">
-    {stats.map((s) => (
-      <div class="statband__item reveal">
-        <div class="statband__n">{s.n}</div>
-        <div class="statband__l">{s.l}</div>
+    {parsed.map((s) => (
+      <div class="reveal">
+        <OdometerStat value={s.value} prefix={s.prefix} suffix={s.suffix} label={s.l} accent="var(--kimsa-bone)" size="md" labelChip />
       </div>
     ))}
   </div>
 </section>
 
 <style>
-  .statband { padding: 56px var(--kimsa-section-x); color: var(--kimsa-bone); }
-  .statband__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-  .statband__n { font-weight: 300; font-size: 56px; line-height: 1; color: var(--kimsa-peach); letter-spacing: -0.02em; }
-  .statband__l { margin-top: 12px; font-size: 14px; line-height: 1.45; color: rgba(251,248,241,0.82); }
+  .statband { position: relative; padding: 56px var(--kimsa-section-x); color: var(--kimsa-bone); overflow: hidden; }
+  .statband__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
   @media (max-width: 900px) {
     .statband__grid { grid-template-columns: 1fr 1fr; gap: 28px; }
-    .statband__n { font-size: 44px; }
   }
 </style>

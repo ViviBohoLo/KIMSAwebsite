@@ -6,7 +6,15 @@ export const CONTACT = {
   phone: '+57 320 867 5567',
   phoneHref: 'tel:+573208675567',
   mailto: 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA',
-  hqs: ['Bogotá D.C., Colombia', 'San José, Costa Rica'],
+  // Webhook del flujo n8n "Formulario Astro a Correo" — recibe el POST del
+  // formulario de contacto y lo reenvía por correo (hoy a una dirección de
+  // prueba; cambiar en n8n cuando se confirme el correo corporativo).
+  formWebhook: 'https://kim-carbonbox.app.n8n.cloud/webhook/astro-formulario',
+  // Sede principal primero, luego la sucursal.
+  hqs: [
+    { city: 'Bogotá D.C.', country: 'Colombia', color: 'var(--kimsa-forest)' },
+    { city: 'San José', country: 'Costa Rica', color: 'var(--kimsa-terracotta)' },
+  ],
 };
 
 // Logos reales de clientes/aliados (carpeta public/assets/clients).
@@ -34,9 +42,67 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/camara-verde.png', alt: 'Cámara Verde' },
 ];
 
-export const COUNTRIES: string[] = [
-  'Colombia', 'Costa Rica', 'Ecuador', 'Honduras', 'El Salvador',
-  'México', 'Perú', 'Guatemala', 'Panamá',
+// Estadísticas de presencia por país para el mapa interactivo (id
+// map__grid). `count` sale de la matriz de experiencia KIMSA 2026
+// (hoja de cálculo aportada por el equipo, ago-2026): se contaron los
+// proyectos por país de implementación, incluyendo proyectos regionales
+// que listan varios países (se suman a cada uno). `code` es el ISO
+// 3166-1 alfa-2 usado por jsvectormap para pintar la región en el mapa.
+// Guatemala y Panamá no tienen proyectos registrados aún en la matriz;
+// se muestran como presencia de HUB en vez de un conteo.
+export interface CountryStat {
+  name: string;
+  code: string;
+  count: number;
+  highlights: string[];
+}
+export const COUNTRY_STATS: CountryStat[] = [
+  {
+    name: 'Colombia', code: 'CO', count: 44,
+    highlights: [
+      'Huella de carbono corporativa con CarbonBox (Biomax, Agrosavia, Ecopetrol y más)',
+      'Plan Integral de Cambio Climático Territorial de Nariño',
+      'Evaluación ambiental de sistemas de información del Gobierno (DNP)',
+    ],
+  },
+  {
+    name: 'Costa Rica', code: 'CR', count: 1,
+    highlights: ['Hoja de ruta para la NDC Mejorada 2025-2030 de Costa Rica'],
+  },
+  {
+    name: 'Ecuador', code: 'EC', count: 4,
+    highlights: [
+      'Revisión del sistema MRV agrícola (Ecuador / EUROCLIMA)',
+      'Huella de carbono e hídrica organizacional con CarbonBox',
+    ],
+  },
+  {
+    name: 'Honduras', code: 'HN', count: 2,
+    highlights: [
+      'Segundo Informe Bienal de Actualización (BUR) e inventario GEI',
+      'Consulta y Análisis Internacional (ICA) del 2BUR',
+    ],
+  },
+  {
+    name: 'El Salvador', code: 'SV', count: 2,
+    highlights: [
+      'Actualización de la NDC 3.0 de El Salvador',
+      'Cuantificación de la contribución de El Salvador al cambio climático',
+    ],
+  },
+  {
+    name: 'México', code: 'MX', count: 1,
+    highlights: ['Estimación de impacto en carbono de 22 emprendimientos (CarbonBox)'],
+  },
+  {
+    name: 'Perú', code: 'PE', count: 3,
+    highlights: [
+      'Huella de carbono organizacional con CarbonBox',
+      'Estimación de impacto en carbono de 22 emprendimientos',
+    ],
+  },
+  { name: 'Guatemala', code: 'GT', count: 0, highlights: [] },
+  { name: 'Panamá', code: 'PA', count: 0, highlights: [] },
 ];
 
 export type AreaKey = 'gestion' | 'psicologia' | 'carbonbox';
@@ -316,6 +382,123 @@ export const PROJECTS: Project[] = [
 export const PROJECT_COUNTRIES: string[] = ['Colombia', 'Ecuador', 'El Salvador', 'Honduras', 'Costa Rica'];
 
 export const projectsByArea = (area: AreaKey) => PROJECTS.filter((p) => p.area === area);
+
+export interface KimsaDocument {
+  slug: string;
+  title: string;
+  area: AreaKey;
+  client: string;
+  year?: string;
+  contribution: string; // cómo aportó KIMSA en la elaboración del documento
+  tags: string[];
+  url: string; // enlace directo al documento (PDF u otro)
+  tint: string;
+}
+
+// Listado real de documentos/publicaciones de KIMSA, en orden alfabético por
+// título. Añadir aquí a medida que el equipo comparta más documentos con su
+// enlace público (mantener el orden alfabético al insertar nuevos).
+export const DOCUMENTS: KimsaDocument[] = [
+  {
+    slug: 'ndc-costa-rica-2025-2035',
+    title: 'Contribución Nacionalmente Determinada de Costa Rica 2025-2035',
+    area: 'gestion',
+    client: 'Gobierno de Costa Rica',
+    year: '2025',
+    contribution:
+      'KIMSA acompañó el diseño de la hoja de ruta y la formulación de la propuesta de esta NDC 2025-2035 de Costa Rica, articulando metas de mitigación y adaptación con las prioridades de desarrollo del país.',
+    tags: ['NDC', 'Hoja de ruta', 'Mitigación', 'Adaptación'],
+    url: 'https://cambioclimatico.minae.go.cr/wp-content/uploads/2026/01/CND-2025-2035-ULT-VERs.pdf',
+    tint: 'forest',
+  },
+  {
+    slug: 'sostenibilidad-dnp-colombia-documento',
+    title:
+      'Evaluación de operaciones de los sistemas de información administrados por las entidades del Gobierno Nacional, con enfoque en los del Departamento Nacional de Planeación',
+    area: 'carbonbox',
+    client: 'Departamento Nacional de Planeación (DNP) · IPSOS',
+    year: '2025',
+    contribution:
+      'Con CarbonBox, KIMSA calculó la huella de carbono, la huella hídrica y las métricas de circularidad de los sistemas de información priorizados que evaluó este informe del DNP.',
+    tags: ['Huella de carbono', 'Circularidad', 'CarbonBox', 'Sector público'],
+    url: 'https://colaboracion.dnp.gov.co/sites/CDDNP/Sinergia/2025/DSEPP_1564_Evaluacion_Sistemas_de_Informacion_Informe_Resultados.pdf',
+    tint: 'river',
+  },
+  {
+    slug: 'honduras-ingei-2016-2020',
+    title: 'Inventario Nacional de Gases de Efecto Invernadero (INGEI) de Honduras 2016-2020',
+    area: 'gestion',
+    client: 'Gobierno de Honduras',
+    year: '2024',
+    contribution:
+      'KIMSA apoyó la estimación de emisiones de gases de efecto invernadero y la elaboración de este Inventario Nacional de GEI (2016-2020), como parte del Segundo Informe Bienal de Actualización (BUR) del país.',
+    tags: ['Inventario GEI', 'BUR', 'CMNUCC'],
+    url: 'https://unfccc.int/sites/default/files/resource/Document%20NIR%20Hn%202024.pdf',
+    tint: 'river',
+  },
+  {
+    slug: 'arboles-fuera-del-bosque-nama-forestal-colombia',
+    title: 'Los árboles fuera del bosque en la NAMA forestal de Colombia',
+    area: 'gestion',
+    client: 'World Agroforestry (ICRAF)',
+    year: '2019',
+    contribution:
+      'Viviana Bohórquez, líder de Tecnología para la Naturaleza en KIMSA, coautoró este artículo sobre los elementos conceptuales para contabilizar los árboles fuera del bosque en la NAMA forestal de Colombia.',
+    tags: ['NAMA forestal', 'Investigación', 'ICRAF'],
+    url: 'https://www.researchgate.net/publication/331683384_Los_arboles_fuera_del_bosque_en_la_NAMA_forestal_de_Colombia_Elementos_conceptuales_para_su_contabilizacion',
+    tint: 'earth',
+  },
+  {
+    slug: 'ndc-3-el-salvador-documento',
+    title: 'NDC 3.0 de El Salvador — documento oficial',
+    area: 'gestion',
+    client: 'Ministerio de Medio Ambiente y Recursos Naturales de El Salvador · PNUD',
+    year: '2025',
+    contribution:
+      'KIMSA redactó el capítulo de implementación y el documento final presentado ante la CMNUCC, integrando la estrategia metodológica y la estructura de financiamiento climático.',
+    tags: ['NDC 3.0', 'CMNUCC', 'Financiamiento climático'],
+    url: 'https://unfccc.int/sites/default/files/2025-12/NDC%20EL%20SALVADOR%202025-%20VF.pdf',
+    tint: 'forest',
+  },
+  {
+    slug: 'ndc-el-salvador-2021',
+    title: 'NDC de El Salvador — versión actualizada 2021',
+    area: 'gestion',
+    client: 'Ministerio de Medio Ambiente y Recursos Naturales de El Salvador',
+    year: '2021',
+    contribution:
+      'Como base del proceso de actualización a la NDC 3.0, KIMSA evaluó el cumplimiento de esta NDC actualizada (NDC 2.0) de El Salvador.',
+    tags: ['NDC', 'CMNUCC'],
+    url: 'https://unfccc.int/sites/default/files/NDC/2022-06/El%20Salvador%20NDC-%20Updated%20Dic.2021.pdf',
+    tint: 'sunset',
+  },
+  {
+    slug: 'picct-narino-documento',
+    title: 'Plan Integral de Gestión de Cambio Climático Territorial de Nariño',
+    area: 'gestion',
+    client: 'Gobernación de Nariño',
+    contribution:
+      'KIMSA formuló el diagnóstico climático y articuló las medidas de mitigación y adaptación con los actores del territorio para la versión final del plan.',
+    tags: ['PIGCCT', 'Territorio', 'Adaptación'],
+    url: 'https://2020-2023.narino.gov.co/wp-content/uploads/Diagramacion_pigcct-Fondo-Accion-y-Gobernacion.pdf',
+    tint: 'sunset',
+  },
+  {
+    slug: 'scaling-up-led-research-colombia',
+    title:
+      "Scaling up the use of low-emissions development (LED) research outputs in Colombia",
+    area: 'gestion',
+    client: 'CGIAR · CCAFS',
+    year: '2020',
+    contribution:
+      'KIMSA contribuyó a este estudio sobre cómo escalar el uso de resultados de investigación en desarrollo bajo en emisiones (LED) para conectar ciencia y política agrícola en Colombia.',
+    tags: ['LED', 'Agricultura', 'CCAFS'],
+    url: "https://www.researchgate.net/publication/348211821_Scaling_up_the_use_of_low-emissions_development_LED_research_outputs_in_Colombia_Linking_science_to_policy_for_supporting_country's_LED_agriculture",
+    tint: 'river',
+  },
+];
+
+export const documentsByArea = (area: AreaKey) => DOCUMENTS.filter((d) => d.area === area);
 
 export interface Member {
   name: string;

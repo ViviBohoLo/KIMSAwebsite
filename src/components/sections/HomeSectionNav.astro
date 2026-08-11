@@ -1,0 +1,174 @@
+---
+/**
+ * HomeSectionNav — índice de navegación flotante para la Home: una columna
+ * de puntos fija al borde derecho, uno por sección. El punto activo se
+ * resalta con IntersectionObserver a medida que se hace scroll; clic salta
+ * a la sección (scroll suave ya está activo globalmente). Solo desktop
+ * ancho — en pantallas angostas no hay margen limpio donde ponerlo y el
+ * menú de arriba ya cubre la navegación.
+ *
+ * Como la guía queda fija sobre el contenido, algunas secciones del home
+ * tienen fondo oscuro (hero, historia, Ceiba Bruja — marcadas con
+ * `data-nav-theme="dark"`). Un segundo IntersectionObserver detecta, en
+ * tiempo real, si la sección que cruza el centro vertical del viewport es
+ * oscura y le agrega `.home-nav--on-dark` a la guía para que el texto y el
+ * punto pasen a blanco (tanto en reposo como al pasar el puntero) y sigan
+ * siendo legibles.
+ */
+interface Item {
+  id: string;
+  label: string;
+}
+const items: Item[] = [
+  { id: 'inicio', label: 'Inicio' },
+  { id: 'servicios', label: 'Servicios' },
+  { id: 'proyectos-home', label: 'Proyectos' },
+  { id: 'equipo', label: 'Equipo' },
+  { id: 'contacto', label: 'Contacto' },
+];
+---
+<nav class="home-nav" aria-label="Navegación de la página">
+  <div class="home-nav__track" aria-hidden="true"></div>
+  <ul class="home-nav__list">
+    {items.map((item) => (
+      <li>
+        <a class="home-nav__dot" href={`#${item.id}`} data-target={item.id} aria-label={item.label}>
+          <span class="home-nav__point"></span>
+          <span class="home-nav__label">{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .home-nav {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+    display: none;
+  }
+  @media (min-width: 1240px) {
+    .home-nav { display: block; }
+  }
+  .home-nav__track {
+    position: absolute;
+    left: 3px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--kimsa-rule);
+  }
+  .home-nav__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: relative;
+  }
+  .home-nav__dot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--kimsa-ink);
+    transition: color var(--kimsa-dur) var(--kimsa-ease);
+  }
+  /* Sobre secciones de fondo oscuro (ver script): texto y punto en blanco,
+     también en reposo y al pasar el puntero, para que sigan siendo legibles. */
+  .home-nav--on-dark .home-nav__track { background: rgba(251, 248, 241, 0.25); }
+  .home-nav--on-dark .home-nav__dot { color: var(--kimsa-bone); }
+  .home-nav--on-dark .home-nav__point { background: rgba(251, 248, 241, 0.55); }
+  .home-nav__point {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--kimsa-ink-soft);
+    opacity: 0.4;
+    flex-shrink: 0;
+    transition: background var(--kimsa-dur) var(--kimsa-ease),
+                opacity var(--kimsa-dur) var(--kimsa-ease),
+                transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .home-nav__label {
+    font-family: var(--kimsa-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(6px);
+    transition: opacity var(--kimsa-dur) var(--kimsa-ease),
+                transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .home-nav__dot:hover .home-nav__label,
+  .home-nav__dot:focus-visible .home-nav__label {
+    opacity: 1;
+    transform: none;
+  }
+  .home-nav__dot:hover .home-nav__point,
+  .home-nav__dot:focus-visible .home-nav__point {
+    opacity: 1;
+    background: var(--kimsa-terracotta);
+  }
+  .home-nav__dot.is-active .home-nav__point {
+    opacity: 1;
+    background: var(--kimsa-terracotta);
+    transform: scale(1.5);
+  }
+  .home-nav__dot.is-active .home-nav__label {
+    opacity: 1;
+    transform: none;
+    color: var(--kimsa-terracotta);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const nav = document.querySelector('.home-nav');
+  if (nav) {
+    const dots = Array.from(nav.querySelectorAll('.home-nav__dot'));
+    const sections = dots
+      .map((dot) => document.getElementById(dot.getAttribute('data-target') ?? ''))
+      .filter((el) => !!el);
+
+    const setActive = (id) => {
+      dots.forEach((dot) => {
+        dot.classList.toggle('is-active', dot.getAttribute('data-target') === id);
+      });
+    };
+
+    if ('IntersectionObserver' in window && sections.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) setActive(entry.target.id);
+          });
+        },
+        { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+      );
+      sections.forEach((el) => io.observe(el));
+    }
+
+    // La guía queda fija a media altura del viewport (top:50%). Detectamos
+    // en tiempo real si la sección oscura marcada con data-nav-theme="dark"
+    // cruza justo esa línea central, y le agregamos --on-dark a la guía
+    // para que el texto y el punto pasen a blanco mientras dure.
+    const darkSections = Array.from(document.querySelectorAll('[data-nav-theme="dark"]'));
+    if ('IntersectionObserver' in window && darkSections.length) {
+      const onDark = new Set<Element>();
+      const darkIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) onDark.add(entry.target);
+            else onDark.delete(entry.target);
+          });
+          nav.classList.toggle('home-nav--on-dark', onDark.size > 0);
+        },
+        { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+      );
+      darkSections.forEach((el) => darkIo.observe(el));
+    }
+  }
+</script>

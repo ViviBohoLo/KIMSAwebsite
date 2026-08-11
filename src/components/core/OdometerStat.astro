@@ -1,0 +1,105 @@
+---
+/**
+ * OdometerStat — cifra tipo odómetro (derivado de anewclimate.com): cada
+ * dígito es una tira vertical 0-9 que gira hasta el valor final al entrar en
+ * viewport. Los caracteres que no son dígitos (+, comas, K, B+…) quedan
+ * estáticos. El cálculo de qué es dígito y qué no ocurre en build time aquí;
+ * el <script> del componente solo dispara la traducción vertical cuando el
+ * elemento entra en pantalla (ver global.css para el mecanismo visual y
+ * `prefers-reduced-motion`).
+ */
+interface Props {
+  value: string; // solo la parte numérica con separadores, ej. "150", "8,000"
+  prefix?: string; // ej. "+"
+  suffix?: string; // ej. "K", "B+"
+  label: string;
+  accent?: string;
+  size?: 'md' | 'lg';
+  // Ficha oscura detrás de la etiqueta: necesaria sobre fondos saturados
+  // (terracota, coral…) donde texto claro a opacidad reducida no alcanza
+  // 4.5:1 de contraste. En fondos claros, dejar sin ficha.
+  labelChip?: boolean;
+}
+const { value, prefix = '', suffix = '', label, accent = 'currentColor', size = 'lg', labelChip = false } = Astro.props;
+
+type Part = { digit: number } | { char: string };
+const parts: Part[] = [...value].map((ch) => (/[0-9]/.test(ch) ? { digit: Number(ch) } : { char: ch }));
+---
+<div class="odometer-stat">
+  <div class:list={['odometer', `odometer--${size}`]} data-odometer style={`color:${accent}`}>
+    {prefix && <span class="odometer__static">{prefix}</span>}
+    {parts.map((p) =>
+      'digit' in p ? (
+        <span class="odometer__digit" data-digit={p.digit}>
+          <span class="odometer__strip">
+            {Array.from({ length: 10 }, (_, n) => (
+              <span>{n}</span>
+            ))}
+          </span>
+        </span>
+      ) : (
+        <span class="odometer__static">{p.char}</span>
+      )
+    )}
+    {suffix && <span class="odometer__static">{suffix}</span>}
+  </div>
+  <p class:list={['odometer-stat__label', { 'odometer-stat__label--chip': labelChip }]}>{label}</p>
+</div>
+
+<style>
+  .odometer-stat { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .odometer--md { font-size: 34px; font-weight: 600; }
+  .odometer--lg { font-size: 52px; font-weight: 600; }
+  .odometer-stat__label {
+    font-family: var(--kimsa-font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    max-width: 27ch;
+    opacity: 0.82;
+  }
+  /* Ficha bosque-profundo + texto crema: 12.6:1 de contraste, funciona
+     sobre cualquier banda saturada de la paleta (terracota, coral, ciruela). */
+  .odometer-stat__label--chip {
+    background: var(--kimsa-forest-deep);
+    color: var(--kimsa-bone);
+    opacity: 1;
+    padding: 6px 12px;
+    border-radius: var(--kimsa-radius-sm);
+  }
+  @media (max-width: 900px) {
+    .odometer--lg { font-size: 40px; }
+  }
+</style>
+
+<script>
+  function animate(el) {
+    el.querySelectorAll('.odometer__digit').forEach((d, i) => {
+      const target = Number(d.dataset.digit ?? 0);
+      const strip = d.querySelector('.odometer__strip');
+      if (!strip) return;
+      strip.style.transitionDelay = `${i * 70}ms`;
+      strip.style.transform = `translateY(-${target}em)`;
+    });
+  }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = document.querySelectorAll('[data-odometer]');
+  if (reduce || !('IntersectionObserver' in window)) {
+    targets.forEach(animate);
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    targets.forEach((el) => io.observe(el));
+  }
+</script>

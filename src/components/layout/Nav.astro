@@ -1,9 +1,11 @@
 ---
 /**
- * Nav superior. Dos modos: `overlay` (sobre la foto del hero, texto crema) y
+ * Nav superior. Dos modos: `overlay` (sobre una banda oscura, texto crema) y
  * sólido (páginas interiores, texto tinta). Gana fondo translúcido con blur
  * al hacer scroll. Incluye dropdown de Servicios, selector ES·EN, CTA y menú
- * móvil (hamburguesa).
+ * móvil (hamburguesa). Los links de primer nivel usan el hover de letras
+ * "letter-roll" (derivado de toroto.com): el texto real se envuelve en spans
+ * por carácter en runtime (ver <script>) y CSS global hace el giro al :hover.
  */
 import KimsaLogo from '../brand/KimsaLogo.astro';
 import Button from '../core/Button.astro';
@@ -19,11 +21,23 @@ const servicios = [
   { label: 'CarbonBox', href: '/servicios/carbonbox' },
   { label: 'Curso de Psicología Ambiental', href: '/curso-psicologia-ambiental' },
 ];
-const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
+const trabajo = [
+  { label: 'Proyectos', href: '/proyectos' },
+  { label: 'Publicaciones', href: '/publicaciones' },
+];
+// En la Home, "Conversemos" hace scroll al formulario de contacto al final
+// de la página; en el resto de páginas lleva a la página dedicada /contacto.
+const isHome = Astro.url.pathname === '/';
+const ctaHref = isHome ? '#contacto' : '/contacto';
 ---
 <nav class:list={['nav', { 'nav--overlay': overlay }]} data-overlay={overlay ? 'true' : 'false'}>
   <a href="/" class="nav__brand" aria-label="Inicio KIMSA">
     <KimsaLogo variant={overlay ? 'blanco' : 'oscuro'} height={30} />
+    {overlay && (
+      <span class="nav__tagline" aria-hidden="true">
+        Clima <span class="nav__tagline-mark">▲</span> Conservación <span class="nav__tagline-mark">▲</span> Desarrollo
+      </span>
+    )}
   </a>
 
   <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false">
@@ -32,13 +46,22 @@ const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
 
   <div class="nav__menu">
     <div class="nav__item nav__item--drop">
-      <button class="nav__link nav__droptoggle" aria-expanded="false">Servicios <span class="caret">▾</span></button>
+      <button class="nav__link nav__droptoggle" aria-expanded="false">
+        <span class="nav__link-text">Servicios</span> <span class="caret">▾</span>
+      </button>
       <div class="nav__drop">
         {servicios.map((s) => <a href={s.href}>{s.label}</a>)}
       </div>
     </div>
-    <a class="nav__link" href="/proyectos">Proyectos</a>
-    <a class="nav__link" href="/nosotros">Nosotros</a>
+    <div class="nav__item nav__item--drop">
+      <button class="nav__link nav__droptoggle" aria-expanded="false">
+        <span class="nav__link-text">Nuestro trabajo</span> <span class="caret">▾</span>
+      </button>
+      <div class="nav__drop">
+        {trabajo.map((t) => <a href={t.href}>{t.label}</a>)}
+      </div>
+    </div>
+    <a class="nav__link" href="/nosotros"><span class="nav__link-text">Nosotros</span></a>
 
     <div class="nav__right">
       <div class="nav__lang" role="group" aria-label="Idioma">
@@ -46,7 +69,7 @@ const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
         <span class="nav__lang-sep">·</span>
         <button class="nav__lang-opt" title="English coming soon" disabled>EN</button>
       </div>
-      <Button variant={overlay ? 'ghost' : 'primary'} size="sm" onDark={overlay} href={mailto}>Conversemos →</Button>
+      <Button variant={overlay ? 'ghost' : 'primary'} size="sm" onDark={overlay} href={ctaHref}>Conversemos →</Button>
     </div>
   </div>
 </nav>
@@ -85,7 +108,40 @@ const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   }
 
-  .nav__brand { display: inline-flex; color: inherit; }
+  .nav__brand { position: relative; display: inline-flex; color: inherit; }
+
+  /* Tagline bajo el logo — solo existe en el modo overlay (Home) y solo se
+     ve mientras el nav está arriba, sin fondo; al hacer scroll y el nav
+     pasa a sólido, se desvanece y solo queda el logo (ver .is-scrolled). */
+  .nav__tagline {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--kimsa-font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(251, 248, 241, 0.75);
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--kimsa-dur) var(--kimsa-ease),
+                transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .nav__tagline-mark { color: var(--kimsa-logo-green); font-size: 8px; }
+  .nav.is-scrolled .nav__tagline {
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .nav__tagline { display: none; }
+  }
 
   .nav__menu {
     display: flex;
@@ -211,6 +267,23 @@ const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
 </style>
 
 <script>
+  // Envuelve el texto de cada link en spans por carácter para el hover
+  // "letter-roll" (giro de letras, ver global.css). --i alimenta el delay
+  // escalonado por carácter. Progressive enhancement: sin JS el texto
+  // normal sigue intacto.
+  document.querySelectorAll('.nav__link-text').forEach((el) => {
+    const text = el.textContent ?? '';
+    el.textContent = '';
+    el.classList.add('letter-roll');
+    [...text].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'letter-roll__char' + (ch === ' ' ? ' letter-roll__char--space' : '');
+      span.style.setProperty('--i', String(i));
+      span.textContent = ch === ' ' ? ' ' : ch;
+      el.appendChild(span);
+    });
+  });
+
   // Blur/fondo al hacer scroll + toggle del menú móvil.
   document.querySelectorAll('.nav').forEach((el) => {
     const onScroll = () => {
@@ -224,6 +297,15 @@ const mailto = 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA';
     burger?.addEventListener('click', () => {
       const open = el.classList.toggle('is-open');
       burger.setAttribute('aria-expanded', String(open));
+    });
+
+    // Los enlaces ancla (p.ej. el CTA "Conversemos" en Home) no recargan la
+    // página, así que cerramos el menú móvil manualmente al usarlos.
+    el.querySelectorAll('.nav__menu a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        el.classList.remove('is-open');
+        burger?.setAttribute('aria-expanded', 'false');
+      });
     });
   });
 </script>

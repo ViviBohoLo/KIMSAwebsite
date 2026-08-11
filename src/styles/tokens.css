@@ -100,4 +100,7 @@
   --kimsa-dur: 250ms;
   --kimsa-dur-slow: 350ms;
   --kimsa-blur: blur(10px);
+
+  /* ---- "Trama Andina": easing compartido para hover de letras y odómetro ---- */
+  --kimsa-seam-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }

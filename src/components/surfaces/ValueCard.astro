@@ -1,7 +1,8 @@
 ---
 /**
- * ValueCard — tarjeta pastel con disco ▲ coloreado, título coloreado y un
- * párrafo corto. Para valores / principios (Menos es más, etc).
+ * ValueCard — tarjeta con degradado tenue (no color plano), disco ▲ con su
+ * propio degradado sutil, título coloreado y un párrafo corto. Para
+ * valores / principios (Menos es más, etc).
  */
 interface Props {
   title: string;
@@ -18,8 +19,8 @@ const {
   class: className,
 } = Astro.props;
 ---
-<div class:list={['value-card', className]} style={`background:${tint};`}>
-  <div class="value-card__icon" style={`background:${accent};`}>{icon}</div>
+<div class:list={['value-card', className]} style={`background:linear-gradient(160deg, ${tint} 0%, color-mix(in srgb, ${tint} 55%, white) 100%);`}>
+  <div class="value-card__icon" style={`background:linear-gradient(160deg, ${accent} 0%, color-mix(in srgb, ${accent} 78%, white) 100%);`}>{icon}</div>
   <div class="value-card__title" style={`color:${accent};`}>{title}</div>
   <p class="value-card__body"><slot /></p>
 </div>

@@ -2,13 +2,11 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
-import Eyebrow from '../components/core/Eyebrow.astro';
-import Pill from '../components/core/Pill.astro';
 import Button from '../components/core/Button.astro';
 import MountainMark from '../components/brand/MountainMark.astro';
 
-// URL del curso (video en YouTube). Reemplazar por el enlace real del video.
-const COURSE_URL = 'https://www.youtube.com/@kimsa';
+// URL del curso (playlist en YouTube).
+const COURSE_URL = 'https://www.youtube.com/playlist?list=PL8xdRCuKLgfYcH8vmFadkozc2-IeWqpvT';
 
 const modulos = [
   { n: '01', t: 'Introducción a la psicología ambiental', d: 'Qué es y cuáles son sus aplicaciones reales.' },
@@ -34,7 +32,8 @@ const aprenderas = [
     <div class="curso-hero__mark"><MountainMark size={460} mono="rgba(255,255,255,0.9)" /></div>
     <div class="curso-hero__blob"></div>
     <div class="container curso-hero__inner reveal">
-      <Pill variant="solid" onDark>▲ Curso gratuito · en línea</Pill>
+      <!-- Sin kicker sobre el título: "gratuito · en línea" ya queda dicho
+           en la nota junto al CTA, más abajo — no se pierde información. -->
       <h1 class="curso-hero__title">
         Curso de <em class="em-peach" style="color:#ffe0c4">Psicología Ambiental</em>
       </h1>
@@ -52,8 +51,10 @@ const aprenderas = [
   <!-- Estructura del curso -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
-      <Eyebrow class="reveal">Estructura del curso</Eyebrow>
-      <h2 class="h2 reveal" style="margin:20px 0 56px">Cuatro pasos, un mismo <em class="em-forest">viaje.</em></h2>
+      <div class="curso-tag-head reveal">
+        <span class="side-tag">Estructura del curso</span>
+        <h2 class="h2">Cuatro pasos, un mismo <em class="em-forest">viaje.</em></h2>
+      </div>
       <div class="modulos reveal">
         {modulos.map((m) => (
           <div class="modulo">
@@ -72,8 +73,10 @@ const aprenderas = [
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="curso-learn container">
       <div class="reveal">
-        <Eyebrow>Lo que aprenderás</Eyebrow>
-        <h2 class="h2" style="margin:20px 0 24px">Del sentir <em class="em-terracotta">al actuar.</em></h2>
+        <div class="curso-tag-head">
+          <span class="side-tag">Lo que aprenderás</span>
+          <h2 class="h2">Del sentir <em class="em-terracotta">al actuar.</em></h2>
+        </div>
         <p class="lead">
           Un curso práctico para transformar la ecoansiedad en acción, desde lo emocional
           y lo colectivo.
@@ -120,6 +123,7 @@ const aprenderas = [
   .curso-hero__actions { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .curso-hero__note { font-size: 13px; color: rgba(251,248,241,0.85); }
 
+  .curso-tag-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 32px; }
   .modulos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .modulo { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 28px; background: var(--kimsa-cream); border-radius: var(--kimsa-radius-xl); align-items: start; }
   .modulo__n { font-weight: 300; font-size: 44px; color: var(--kimsa-terracotta); line-height: 1; }

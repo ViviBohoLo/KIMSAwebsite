@@ -1,0 +1,41 @@
+---
+/**
+ * Página de contacto dedicada — destino de "Conversemos" / "Solicitar
+ * propuesta" para quienes navegan fuera de la Home (donde ese CTA hace
+ * scroll directo al formulario). Reutiliza el mismo componente ContactForm.
+ */
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import ContactForm from '../components/sections/ContactForm.astro';
+---
+<Base title="Contacto · KIMSA" description="Escríbanos: cuéntenos sobre su organización y el reto climático que enfrenta. Le respondemos en menos de 48 horas.">
+  <section class="contacto-hero">
+    <Nav />
+    <div class="container contacto-hero__inner reveal">
+      <nav class="contacto-hero__crumb" aria-label="Ruta"><a href="/">Inicio</a> / <span class="current">Contacto</span></nav>
+      <h1 class="contacto-hero__title">Conversemos sobre su <em class="em-forest">próximo paso.</em></h1>
+      <p class="contacto-hero__lead">
+        Cuéntenos sobre su organización y el reto climático que enfrenta. Ya sea una
+        propuesta, una alianza o simplemente una pregunta — queremos escucharla.
+      </p>
+    </div>
+  </section>
+
+  <ContactForm variant="contacto" />
+
+  <Footer />
+</Base>
+
+<style>
+  .contacto-hero { position: relative; background: linear-gradient(180deg, var(--kimsa-bone) 0%, rgba(246,208,194,0.5) 100%); padding-bottom: 72px; }
+  .contacto-hero__inner { padding-top: 8px; }
+  .contacto-hero__crumb { font-size: 13px; color: var(--kimsa-ink-soft); margin: 108px 0 48px; }
+  .contacto-hero__crumb a:hover { color: var(--kimsa-terracotta); }
+  .contacto-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
+  .contacto-hero__title { font-weight: 300; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; margin: 20px 0 24px; max-width: 760px; }
+  .contacto-hero__lead { font-size: 19px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 600px; }
+  @media (max-width: 900px) {
+    .contacto-hero__title { font-size: 38px; }
+  }
+</style>

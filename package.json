@@ -11,6 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.16.18"
+    "astro": "^4.16.18",
+    "graphify": "^1.0.0",
+    "jsvectormap": "^1.7.0"
   }
 }

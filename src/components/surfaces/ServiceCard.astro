@@ -1,44 +1,49 @@
 ---
 /**
- * ServiceCard — tarjeta totalmente coloreada: foto, eyebrow, título,
+ * ServiceCard — tarjeta con degradado tenue (no color plano) foto, título,
  * descripción, chips de sub-temas y link "Conocer más", en crema sobre un
  * color de marca. La grilla de servicios usa forest / terracota / ciruela.
+ * Sin numeración (los tres servicios son paralelos, no una secuencia) ni
+ * eyebrow — un punto de acento antes del título alcanza.
  */
 import PhotoPlaceholder from './PhotoPlaceholder.astro';
 import Tag from '../core/Tag.astro';
 
 interface Props {
-  index: string;
   name: string;
   description: string;
   bullets?: string[];
   bg?: string;
   accent?: string;
   photo?: { src?: string; tint?: string; label?: string };
+  /** Logo de marca (fondo claro, propio) en vez de foto — se muestra
+   * completo (object-fit: contain) sobre una ficha clara, no recortado
+   * como una foto. Úsese para marcas como CarbonBox en vez de `photo`. */
+  logo?: string;
   linkLabel?: string;
   href?: string;
 }
 const {
-  index,
   name,
   description,
   bullets = [],
   bg = 'var(--kimsa-forest)',
   accent = 'var(--kimsa-peach)',
   photo,
+  logo,
   linkLabel = 'Conocer más →',
   href = '#',
 } = Astro.props;
 ---
-<div class="service-card" style={`background:${bg};`}>
-  {photo && (
+<div class="service-card" style={`background:linear-gradient(165deg, ${bg} 0%, color-mix(in srgb, ${bg} 68%, black) 100%);`}>
+  {logo ? (
+    <div class="service-card__logo">
+      <img src={logo} alt={`Logo ${name}`} />
+    </div>
+  ) : photo && (
     <PhotoPlaceholder ratio="4/3" rounded={20} src={photo.src} tint={photo.tint} label={photo.label} />
   )}
-  <div class="service-card__index" style={`color:${accent};`}>
-    <span class="dot" style={`background:${accent};`}></span>
-    {index}
-  </div>
-  <h3 class="service-card__title">{name}</h3>
+  <h3 class="service-card__title"><span class="dot" style={`background:${accent};`}></span>{name}</h3>
   <p class="service-card__desc">{description}</p>
   {bullets.length > 0 && (
     <div class="service-card__tags">
@@ -59,24 +64,27 @@ const {
     position: relative;
     overflow: hidden;
   }
-  .service-card__index {
-    display: inline-flex;
+  .service-card__logo {
+    aspect-ratio: 4/3;
+    border-radius: var(--kimsa-radius-lg);
+    background: var(--kimsa-bone);
+    display: flex;
     align-items: center;
-    gap: 8px;
-    font-family: var(--kimsa-font-sans);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    justify-content: center;
+    padding: 16px;
   }
-  .service-card__index .dot { width: 6px; height: 6px; border-radius: 999px; }
+  .service-card__logo img { width: 100%; height: 100%; object-fit: contain; }
   .service-card__title {
     font-weight: 500;
     font-size: 28px;
     color: var(--kimsa-bone);
     margin: 0;
     line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
+  .service-card__title .dot { width: 9px; height: 9px; border-radius: 999px; flex-shrink: 0; }
   .service-card__desc {
     font-size: 15px;
     line-height: 1.55;

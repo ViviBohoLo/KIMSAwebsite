@@ -4,7 +4,6 @@
  * ciruela, texto crema. Invita al curso de Psicología Ambiental (grabado,
  * gratuito). Reutilizado en la Home y en las páginas de servicio.
  */
-import Eyebrow from '../core/Eyebrow.astro';
 import Button from '../core/Button.astro';
 import MountainMark from '../brand/MountainMark.astro';
 ---
@@ -13,10 +12,12 @@ import MountainMark from '../brand/MountainMark.astro';
     <div class="course-cta__mark"><MountainMark size={420} mono="rgba(255,255,255,0.9)" /></div>
     <div class="course-cta__blob"></div>
     <div class="course-cta__left">
-      <Eyebrow color="#ffe0c4">Curso · Psicología Ambiental</Eyebrow>
-      <h2 class="h2" style="margin:20px 0 24px; color:var(--kimsa-bone)">
-        ¿Cambio climático sin <em class="em-peach" style="color:#ffe0c4">cambio humano?</em>
-      </h2>
+      <div class="course-cta__head">
+        <span class="side-tag" style="color:#ffe0c4">Curso · Psicología Ambiental</span>
+        <h2 class="h2" style="color:var(--kimsa-bone)">
+          ¿Cambio climático sin <em class="em-peach" style="color:#ffe0c4">cambio humano?</em>
+        </h2>
+      </div>
       <p class="course-cta__text">
         Descubre cómo la psicología ambiental puede ayudarte a actuar frente a la crisis
         climática. Revive nuestro curso gratuito y aprende a movilizar el cambio desde lo
@@ -49,6 +50,7 @@ import MountainMark from '../brand/MountainMark.astro';
   .course-cta__mark { position: absolute; right: -80px; bottom: -80px; opacity: 0.18; pointer-events: none; }
   .course-cta__blob { position: absolute; top: -60px; left: 40%; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(245,176,131,0.67) 0%, transparent 70%); filter: blur(40px); pointer-events: none; }
   .course-cta__left { position: relative; }
+  .course-cta__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
   .course-cta__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.92); max-width: 460px; }
   .course-cta__right { position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
   .course-cta__note { font-size: 13px; color: rgba(251,248,241,0.85); }

@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Footer from '../../components/layout/Footer.astro';
-import Eyebrow from '../../components/core/Eyebrow.astro';
 import ServiceHero from '../../components/sections/ServiceHero.astro';
 import StatBand from '../../components/sections/StatBand.astro';
 import NumberedCard from '../../components/surfaces/NumberedCard.astro';
@@ -39,7 +38,6 @@ const refs = projectsByArea('gestion');
 <Base title="Gestión Climática · KIMSA" description="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática.">
   <ServiceHero
     crumb="Gestión Climática"
-    pill="▲ Servicio 01"
     titleMain="Gestión"
     titleEm="Climática"
     emColor="var(--kimsa-forest)"
@@ -54,9 +52,9 @@ const refs = projectsByArea('gestion');
   <!-- Nuestra oferta -->
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
-      <div class="reveal">
-        <Eyebrow>Qué hacemos</Eyebrow>
-        <h2 class="h2" style="margin-top:20px">Nuestra <em class="em-forest">oferta.</em></h2>
+      <div class="reveal svc-head-left">
+        <span class="side-tag">Qué hacemos</span>
+        <h2 class="h2">Nuestra <em class="em-forest">oferta.</em></h2>
       </div>
       <p class="lead reveal">
         Cada servicio se adapta al sector, tamaño y madurez climática de su organización.
@@ -64,8 +62,8 @@ const refs = projectsByArea('gestion');
       </p>
     </div>
     <div class="svc-cards container reveal">
-      {oferta.map((o, i) => (
-        <NumberedCard number={`0${i + 1}`} title={o.t} accent={o.fg} tint={o.bg}>{o.d}</NumberedCard>
+      {oferta.map((o) => (
+        <NumberedCard title={o.t} accent={o.fg} tint={o.bg}>{o.d}</NumberedCard>
       ))}
     </div>
   </section>
@@ -73,8 +71,10 @@ const refs = projectsByArea('gestion');
   <!-- Capacidades -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
-      <Eyebrow class="reveal">Capacidades principales</Eyebrow>
-      <h2 class="h2 reveal" style="margin:20px 0 48px">Cinco frentes, un mismo cuidado.</h2>
+      <div class="reveal caps-head">
+        <span class="side-tag">Capacidades principales</span>
+        <h2 class="h2" style="margin:0">Cinco frentes, un mismo cuidado.</h2>
+      </div>
       <ul class="caps reveal">
         {capacidades.map((c) => (
           <li class="caps__item"><span class="caps__mark">▲</span>{c}</li>
@@ -86,9 +86,9 @@ const refs = projectsByArea('gestion');
   <!-- Referencias / casos -->
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="svc-head container">
-      <div class="reveal">
-        <Eyebrow>Referencias</Eyebrow>
-        <h2 class="h2" style="margin-top:20px">Algunos <em class="em-forest">proyectos.</em></h2>
+      <div class="reveal svc-head-left">
+        <span class="side-tag">Referencias</span>
+        <h2 class="h2">Algunos <em class="em-forest">proyectos.</em></h2>
       </div>
       <p class="lead reveal">Deslice o use las flechas para ver todos los proyectos. Haga clic en uno para ver el detalle.</p>
     </div>
@@ -105,6 +105,8 @@ const refs = projectsByArea('gestion');
 <style>
   .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
   .svc-head .lead { max-width: 540px; }
+  .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .caps-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 48px; }
   .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; }

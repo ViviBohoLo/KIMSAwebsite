@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Footer from '../../components/layout/Footer.astro';
-import Eyebrow from '../../components/core/Eyebrow.astro';
 import ServiceHero from '../../components/sections/ServiceHero.astro';
 import StatBand from '../../components/sections/StatBand.astro';
 import NumberedCard from '../../components/surfaces/NumberedCard.astro';
@@ -35,14 +34,15 @@ const refs = projectsByArea('carbonbox');
 <Base title="CarbonBox · Tecnología para la naturaleza · KIMSA" description="CarbonBox digitaliza la gestión ambiental para empresas y organizaciones: mide, reduce y gestiona tu huella de carbono.">
   <ServiceHero
     crumb="CarbonBox"
-    pill="▲ Servicio 03"
     titleMain="Carbon"
     titleEm="Box"
-    emColor="var(--kimsa-plum)"
+    joined
+    emColor="#1620a4"
     lead="Digitalizamos la gestión ambiental para empresas y organizaciones. Tecnología para la naturaleza que mide, reduce y gestiona tu huella de carbono."
     photo="/assets/projects/carbonbox-platform.jpg"
     photoTint="dusk"
     photoLabel="plataforma CarbonBox · panel de medición de huella"
+    ctaHref="https://www.carbonbox.app"
   />
 
   <StatBand stats={stats} bg="var(--kimsa-plum)" />
@@ -50,9 +50,9 @@ const refs = projectsByArea('carbonbox');
   <!-- Áreas de servicio -->
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
-      <div class="reveal">
-        <Eyebrow>Qué hacemos</Eyebrow>
-        <h2 class="h2" style="margin-top:20px">Gestión ambiental, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitalizada.</em></h2>
+      <div class="reveal svc-head-left">
+        <span class="side-tag">Qué hacemos</span>
+        <h2 class="h2">Gestión ambiental, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitalizada.</em></h2>
       </div>
       <p class="lead reveal">
         CarbonBox reúne en un solo lugar la medición, la reducción y el reporte de tu
@@ -60,17 +60,20 @@ const refs = projectsByArea('carbonbox');
       </p>
     </div>
     <div class="svc-cards container reveal">
-      {areas.map((a, i) => (
-        <NumberedCard number={`0${i + 1}`} title={a.t} accent={a.fg} tint={a.bg}>{a.d}</NumberedCard>
+      {areas.map((a) => (
+        <NumberedCard title={a.t} accent={a.fg} tint={a.bg}>{a.d}</NumberedCard>
       ))}
     </div>
   </section>
 
-  <!-- Cómo funciona -->
+  <!-- Cómo funciona: numeración real (son 3 pasos en orden, no ofertas
+       paralelas), por eso se conserva el disco 01/02/03. -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
-      <Eyebrow class="reveal">Cómo funciona</Eyebrow>
-      <h2 class="h2 reveal" style="margin:20px 0 64px">Tres pasos, cero enredos.</h2>
+      <div class="svc-head-left reveal" style="margin-bottom:48px">
+        <span class="side-tag">Cómo funciona</span>
+        <h2 class="h2" style="margin:0">Tres pasos, cero enredos.</h2>
+      </div>
       <div class="steps reveal">
         {pasos.map((s) => (
           <div class="step" style={`border-color:color-mix(in srgb, ${s.c} 33%, transparent)`}>
@@ -86,8 +89,10 @@ const refs = projectsByArea('carbonbox');
   <!-- Referencias -->
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="container">
-      <Eyebrow class="reveal">Referencias</Eyebrow>
-      <h2 class="h2 reveal" style="margin:20px 0 20px">CarbonBox en <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">acción.</em></h2>
+      <div class="svc-head-left reveal" style="margin-bottom:20px">
+        <span class="side-tag">Referencias</span>
+        <h2 class="h2" style="margin:0">CarbonBox en <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">acción.</em></h2>
+      </div>
       <p class="lead reveal" style="margin-bottom:40px">Haga clic en el proyecto para ver el detalle completo.</p>
       <ProjectsCarousel projects={refs} id="pc-carbon" />
     </div>
@@ -101,6 +106,7 @@ const refs = projectsByArea('carbonbox');
 <style>
   .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
   .svc-head .lead { max-width: 540px; }
+  .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .svc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .step { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); position: relative; margin-top: 20px; background: var(--kimsa-bone); }

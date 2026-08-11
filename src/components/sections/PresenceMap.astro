@@ -1,0 +1,299 @@
+---
+/**
+ * PresenceMap — sección "Dónde estamos" con mapa interactivo (id histórico
+ * map__grid). Usa jsvectormap (mapa "world", MIT) enfocado sobre los 9
+ * países donde KIMSA tiene presencia; cada país se pinta con el color de
+ * marca. Al pasar el mouse sobre un país —ya sea en el mapa o en el nombre
+ * del panel lateral— aparece una etiqueta apuntando a ese país con la
+ * cantidad de proyectos realizados y un par de proyectos destacados.
+ *
+ * Los datos (COUNTRY_STATS) salen de la matriz de experiencia KIMSA 2026.
+ * Sin JS, se ve el mapa ilustrado original como respaldo (progressive
+ * enhancement, igual que `.reveal`: ver Base.astro / global.css).
+ */
+import { COUNTRY_STATS } from '../../data/site';
+
+interface Props {
+  variant?: 'home' | 'nosotros';
+}
+const { variant = 'home' } = Astro.props;
+
+const lead = variant === 'home'
+  ? 'Sede principal en Bogotá D.C., sucursal en San José de Costa Rica, y un HUB de profesionales distribuidos por la región. Pase el mouse sobre un país para ver los proyectos realizados allí.'
+  : 'Sede principal en Bogotá D.C. y sucursal en San José de Costa Rica. Pase el mouse sobre un país para ver los proyectos realizados allí.';
+---
+<div class="pmap__grid container">
+  <div class="reveal">
+    <div class="pmap__head">
+      <span class="side-tag">Dónde estamos</span>
+      <h2 class="h2"><em class="em-forest">Nueve países</em> que llamamos casa.</h2>
+    </div>
+    <p class="pmap__text">{lead}</p>
+    <ul class="pmap__countries" id="pmap-countries">
+      {COUNTRY_STATS.map((c, i) => (
+        <li>
+          <button
+            type="button"
+            class="pmap__country"
+            data-code={c.code}
+            style={`background:${i % 2 ? 'var(--kimsa-blush)' : 'var(--kimsa-bone)'}`}
+          >
+            <span class="pmap__country-name">{c.name}</span>
+            <span class="pmap__country-n">{c.count > 0 ? c.count : 'HUB'}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="pmap__mapwrap reveal">
+    <img class="pmap__fallback" src="/assets/kimsa-map.png" alt="Presencia de KIMSA en América Latina" />
+    <div class="pmap__canvas" id="pmap-canvas" role="img" aria-label="Mapa interactivo de la presencia de KIMSA en América Latina"></div>
+    <div class="pmap__callout" id="pmap-callout" aria-hidden="true">
+      <div class="pmap__callout-name"></div>
+      <div class="pmap__callout-count"></div>
+      <ul class="pmap__callout-list"></ul>
+      <span class="pmap__callout-arrow"></span>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="pmap-data" set:html={JSON.stringify(COUNTRY_STATS)} />
+
+<script>
+  import JsVectorMap from 'jsvectormap';
+  import 'jsvectormap/dist/maps/world.js';
+  import 'jsvectormap/dist/jsvectormap.css';
+
+  const canvas = document.getElementById('pmap-canvas');
+  const dataEl = document.getElementById('pmap-data');
+  if (canvas && dataEl) {
+    /** @type {{name:string, code:string, count:number, highlights:string[]}[]} */
+    const stats = JSON.parse(dataEl.textContent || '[]');
+    const byCode = new Map(stats.map((s) => [s.code, s]));
+    const codes = stats.map((s) => s.code);
+
+    const wrap = canvas.parentElement;
+    const callout = document.getElementById('pmap-callout');
+    const panelItems = new Map(
+      Array.from(document.querySelectorAll('#pmap-countries .pmap__country')).map((el) => [
+        el.getAttribute('data-code'),
+        el,
+      ]),
+    );
+
+    // Continente en blanco por defecto (todos los países, tengamos o no
+    // presencia allí); el color de marca solo aparece al pasar el mouse
+    // — nada de naranja pintado de forma permanente sobre el mapa.
+    const BASE_FILL = '#ffffff';
+    const BASE_STROKE = '#e4dcc9';
+    const MARK_COLOR = '#1f4d3a'; // var(--kimsa-forest)
+
+    let map;
+    let activeCode = null;
+
+    function buildCalloutContent(stat) {
+      callout.querySelector('.pmap__callout-name').textContent = stat.name;
+      const countEl = callout.querySelector('.pmap__callout-count');
+      if (stat.count > 0) {
+        countEl.innerHTML = `<strong>${stat.count}</strong> proyecto${stat.count === 1 ? '' : 's'} realizado${stat.count === 1 ? '' : 's'}`;
+      } else {
+        countEl.textContent = 'Presencia de nuestro HUB regional';
+      }
+      const list = callout.querySelector('.pmap__callout-list');
+      list.innerHTML = '';
+      stat.highlights.slice(0, 2).forEach((h) => {
+        const li = document.createElement('li');
+        li.textContent = h;
+        list.appendChild(li);
+      });
+      list.hidden = stat.highlights.length === 0;
+    }
+
+    function positionCallout(node) {
+      const nodeRect = node.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      const x = nodeRect.left - wrapRect.left + nodeRect.width / 2;
+      const yTop = nodeRect.top - wrapRect.top;
+      callout.style.setProperty('--pmap-x', `${x}px`);
+      callout.style.setProperty('--pmap-y', `${yTop}px`);
+    }
+
+    function activate(code) {
+      const region = map && map.regions[code];
+      const stat = byCode.get(code);
+      if (!region || !stat) return;
+
+      if (activeCode && activeCode !== code) deactivate(activeCode);
+      activeCode = code;
+
+      region.element.hover(true);
+      panelItems.get(code)?.classList.add('is-active');
+
+      buildCalloutContent(stat);
+      positionCallout(region.element.shape.node);
+      callout.classList.add('is-visible');
+    }
+
+    function deactivate(code) {
+      const region = map && map.regions[code || activeCode];
+      region?.element.hover(false);
+      panelItems.get(code || activeCode)?.classList.remove('is-active');
+      if (!code || code === activeCode) {
+        activeCode = null;
+        callout.classList.remove('is-visible');
+      }
+    }
+
+    try {
+      map = new JsVectorMap({
+        selector: '#pmap-canvas',
+        map: 'world',
+        backgroundColor: 'transparent',
+        draggable: false,
+        zoomButtons: false,
+        zoomOnScroll: false,
+        regionsSelectable: false,
+        showTooltip: false,
+        regionStyle: {
+          initial: { fill: BASE_FILL, fillOpacity: 1, stroke: BASE_STROKE, strokeWidth: 0.7 },
+          hover: { fill: BASE_FILL, cursor: 'default' },
+        },
+        onLoaded(instance) {
+          codes.forEach((code) => {
+            const region = instance.regions[code];
+            if (!region) return;
+            // Sin tinte permanente: el país queda blanco como el resto del
+            // continente y solo se marca en verde al pasar el mouse.
+            region.element.shape.style.hover = { fill: MARK_COLOR, stroke: MARK_COLOR, cursor: 'pointer' };
+            const node = region.element.shape.node;
+            node.style.cursor = 'pointer';
+            node.addEventListener('mouseenter', () => activate(code));
+            node.addEventListener('mouseleave', () => deactivate(code));
+            node.addEventListener('focus', () => activate(code));
+            node.addEventListener('blur', () => deactivate(code));
+          });
+          // Encuadre de México a Argentina: se fuerza el foco a incluir esos
+          // dos países aunque no tengan proyectos, para que se vea todo el
+          // continente y no solo la caja de los países con presencia.
+          const focusCodes = Array.from(new Set([...codes, 'MX', 'AR']));
+          instance.setFocus({ regions: focusCodes, animate: true });
+          canvas.classList.add('is-ready');
+        },
+      });
+    } catch (err) {
+      // El mapa es una mejora progresiva; si algo falla, se conserva la
+      // ilustración estática que ya está en el DOM.
+      console.error('[PresenceMap] jsvectormap no pudo inicializarse', err);
+    }
+
+    panelItems.forEach((el, code) => {
+      el.addEventListener('mouseenter', () => activate(code));
+      el.addEventListener('mouseleave', () => deactivate(code));
+      el.addEventListener('focus', () => activate(code));
+      el.addEventListener('blur', () => deactivate(code));
+      el.addEventListener('click', () => (activeCode === code ? deactivate(code) : activate(code)));
+    });
+
+    window.addEventListener('resize', () => deactivate());
+    wrap.addEventListener('scroll', () => deactivate());
+  }
+</script>
+
+<style>
+  .pmap__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+  .pmap__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 32px; }
+  .pmap__text { font-size: 17px; line-height: 1.6; color: var(--kimsa-ink-soft); max-width: 480px; }
+
+  .pmap__countries { list-style: none; margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 520px; }
+  .pmap__country {
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimsa-ink);
+    border: 1.5px solid transparent;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: border-color var(--kimsa-dur) var(--kimsa-ease), transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .pmap__country-n { font-family: var(--kimsa-font-mono); font-size: 12px; color: var(--kimsa-forest); }
+  .pmap__country:hover,
+  .pmap__country.is-active {
+    border-color: var(--kimsa-forest);
+    transform: translateY(-1px);
+  }
+  .pmap__country.is-active .pmap__country-n { color: var(--kimsa-bone); background: var(--kimsa-forest); border-radius: 999px; padding: 1px 8px; }
+  .pmap__country:focus-visible { outline: 2px solid var(--kimsa-forest); outline-offset: 2px; }
+
+  .pmap__mapwrap { position: relative; display: flex; justify-content: center; }
+  .pmap__fallback { width: 420px; max-width: 100%; object-fit: contain; }
+  .pmap__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    opacity: 0;
+    transition: opacity var(--kimsa-dur-slow) var(--kimsa-ease);
+  }
+  /* Solo se muestra el mapa interactivo si hay JS (mismo patrón que .reveal
+     en global.css); sin JS, la ilustración estática queda visible. La clase
+     `.js` vive en <html> (Base.astro), fuera del scope de este componente,
+     así que el ancestro debe quedar sin marcar con :global(). */
+  :global(.js) .pmap__fallback { opacity: 0; }
+  .pmap__canvas.is-ready { opacity: 1; }
+  .pmap__canvas :global(.jvm-region) { transition: fill var(--kimsa-dur) var(--kimsa-ease); }
+
+  .pmap__callout {
+    position: absolute;
+    left: var(--pmap-x, 50%);
+    top: var(--pmap-y, 50%);
+    transform: translate(-50%, calc(-100% - 10px)) scale(0.97);
+    min-width: 220px;
+    max-width: 260px;
+    background: var(--kimsa-forest);
+    color: var(--kimsa-bone);
+    border-radius: var(--kimsa-radius-md);
+    box-shadow: var(--kimsa-shadow-lift);
+    padding: 14px 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* Aparición suave: easing de "llegada" del sistema (el mismo del
+       odómetro / letter-roll) y una duración un poco más larga que el
+       resto de las transiciones del sitio. */
+    transition: opacity 480ms var(--kimsa-seam-ease), transform 480ms var(--kimsa-seam-ease), visibility 480ms;
+    z-index: 5;
+  }
+  .pmap__callout.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, calc(-100% - 8px)) scale(1); }
+  .pmap__callout-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .pmap__callout-count { font-size: 13px; color: var(--kimsa-peach); margin-bottom: 6px; }
+  .pmap__callout-count strong { font-family: var(--kimsa-font-mono); font-size: 15px; }
+  .pmap__callout-list { list-style: none; font-size: 12px; line-height: 1.45; color: rgba(251,248,241,0.85); display: flex; flex-direction: column; gap: 4px; }
+  .pmap__callout-list li { padding-left: 12px; position: relative; }
+  .pmap__callout-list li::before { content: '▲'; position: absolute; left: 0; top: 0.1em; font-size: 8px; color: var(--kimsa-peach); }
+  .pmap__callout-arrow {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: var(--kimsa-forest);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .pmap__grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 520px) {
+    .pmap__countries { grid-template-columns: repeat(2, 1fr); }
+    .pmap__callout { max-width: 210px; min-width: 180px; }
+  }
+</style>

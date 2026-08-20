@@ -11,7 +11,7 @@ const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
 <div class="marquee" role="region" aria-label="Organizaciones que confían en KIMSA">
   <div class="marquee__track">
     {loop.map((c, i) => (
-      <div class="marquee__item" aria-hidden={i >= CLIENT_LOGOS.length ? 'true' : 'false'}>
+      <div class:list={['marquee__item', { 'marquee__item--lg': c.size === 'lg' }]} aria-hidden={i >= CLIENT_LOGOS.length ? 'true' : 'false'}>
         <img src={c.src} alt={c.alt} loading="lazy" />
       </div>
     ))}
@@ -29,7 +29,7 @@ const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     display: flex;
     width: max-content;
     gap: 20px;
-    animation: marquee-scroll 48s linear infinite;
+    animation: marquee-scroll 130s linear infinite;
   }
   .marquee:hover .marquee__track { animation-play-state: paused; }
 
@@ -45,6 +45,9 @@ const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
     justify-content: center;
     padding: 18px 24px;
   }
+  /* Wordmarks muy horizontales (o con mucho margen interno) que se ven
+     diminutos con el padding estándar — misma caja, menos aire alrededor. */
+  .marquee__item--lg { padding: 8px 12px; }
   .marquee__item img {
     max-width: 100%;
     max-height: 100%;
@@ -58,7 +61,7 @@ const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
 
   @media (max-width: 900px) {
     .marquee__item { width: 150px; height: 84px; padding: 14px 18px; }
-    .marquee__track { animation-duration: 36s; }
+    .marquee__track { animation-duration: 95s; }
   }
 
   @media (prefers-reduced-motion: reduce) {

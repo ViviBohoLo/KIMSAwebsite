@@ -21,6 +21,10 @@ export const CONTACT = {
 export interface ClientLogo {
   src: string;
   alt: string;
+  // Logos que se ven pequeños/vacíos con el tamaño estándar de la caja
+  // (ej. wordmarks muy horizontales) — se les da más espacio, sin tocar el
+  // tamaño de la caja del resto.
+  size?: 'lg';
 }
 export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/pnud.png', alt: 'PNUD' },
@@ -29,7 +33,7 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/caf.png', alt: 'CAF' },
   { src: '/assets/clients/unep.png', alt: 'ONU Medio Ambiente' },
   { src: '/assets/clients/tnc.jpg', alt: 'The Nature Conservancy' },
-  { src: '/assets/clients/euroclima.jpg', alt: 'EUROCLIMA+' },
+  { src: '/assets/clients/euroclima.jpg', alt: 'EUROCLIMA+', size: 'lg' },
   { src: '/assets/clients/bancoldex.png', alt: 'Bancóldex' },
   { src: '/assets/clients/minagricultura.webp', alt: 'Ministerio de Agricultura' },
   { src: '/assets/clients/miambiente.webp', alt: 'MiAmbiente' },
@@ -37,16 +41,45 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/icraf.png', alt: 'ICRAF' },
   { src: '/assets/clients/idrc.jpg', alt: 'IDRC' },
   { src: '/assets/clients/flacso.jpg', alt: 'FLACSO' },
-  { src: '/assets/clients/climate-group.png', alt: 'Climate Group' },
+  { src: '/assets/clients/climate-group.png', alt: 'Climate Group', size: 'lg' },
   { src: '/assets/clients/transforma.png', alt: 'Transforma' },
   { src: '/assets/clients/camara-verde.png', alt: 'Cámara Verde' },
-  { src: '/assets/clients/anla.png', alt: 'ANLA — Autoridad Nacional de Licencias Ambientales' },
+  { src: '/assets/clients/anla.png', alt: 'ANLA — Autoridad Nacional de Licencias Ambientales', size: 'lg' },
   { src: '/assets/clients/cormacarena.png', alt: 'Cormacarena' },
   { src: '/assets/clients/corpoguajira.png', alt: 'Corpoguajira' },
   { src: '/assets/clients/gov-narino.jpg', alt: 'Gobernación de Nariño' },
   { src: '/assets/clients/marn-el-salvador.png', alt: 'Gobierno de El Salvador — MARN' },
   { src: '/assets/clients/min-amb-ecuador.png', alt: 'Ministerio del Ambiente de Ecuador' },
   { src: '/assets/clients/serna-honduras.png', alt: 'Gobierno de Honduras — SERNA' },
+
+  // Clientes de CarbonBox (logos aportados por el equipo, agosto 2026) —
+  // ver los proyectos correspondientes en PROJECTS, área 'carbonbox'.
+  { src: '/assets/clients/biomax.png', alt: 'Biomax Biocombustibles' },
+  { src: '/assets/clients/agrosavia.png', alt: 'AGROSAVIA' },
+  { src: '/assets/clients/zhana-solutions.svg', alt: 'Zhana Solutions Green Engineering' },
+  { src: '/assets/clients/copropiedad-zf.png', alt: 'Co-propiedad Zona Franca de Bogotá' },
+  { src: '/assets/clients/cafe-misiones.jpg', alt: 'Hacienda Café Misiones' },
+  { src: '/assets/clients/colegio-anglo.png', alt: 'Colegio Anglo Colombiano' },
+  { src: '/assets/clients/ebsa.png', alt: 'Empresa de Energía de Boyacá' },
+  { src: '/assets/clients/gec-ecoenterprises.png', alt: 'GEC EcoEnterprises Management' },
+  { src: '/assets/clients/cleantechhub.png', alt: 'CleanTechHub' },
+  { src: '/assets/clients/paramo-presenta.png', alt: 'Páramo Presenta' },
+  { src: '/assets/clients/candes.jpg', alt: 'CANDES' },
+  { src: '/assets/clients/eternit.webp', alt: 'Eternit Colombia' },
+  { src: '/assets/clients/comfama.webp', alt: 'Comfama' },
+  { src: '/assets/clients/cataexport.webp', alt: 'CataExport' },
+  { src: '/assets/clients/weia.png', alt: 'WEIA' },
+  { src: '/assets/clients/colgas.webp', alt: 'Colgas' },
+  { src: '/assets/clients/spec-lng.jpg', alt: 'SPEC LNG' },
+  { src: '/assets/clients/asobancaria.png', alt: 'Asobancaria' },
+  { src: '/assets/clients/fsfb.png', alt: 'Fundación Santa Fé de Bogotá' },
+  { src: '/assets/clients/parker.webp', alt: 'Parker' },
+  { src: '/assets/clients/ambielegsa.png', alt: 'AMBIELEGSA' },
+  { src: '/assets/clients/jeronimo-martins.webp', alt: 'Jerónimo Martins' },
+  { src: '/assets/clients/linktic.svg', alt: 'LinkTic' },
+  { src: '/assets/clients/biodiversal.png', alt: 'Biodiversal' },
+  { src: '/assets/clients/control-ambiental-colombia.jpg', alt: 'Control Ambiental de Colombia' },
+  { src: '/assets/clients/ipsos.webp', alt: 'IPSOS' },
 ];
 
 // Estadísticas de presencia por país para el mapa interactivo (id
@@ -180,8 +213,9 @@ export const PROJECTS: Project[] = [
     slug: 'ndc-3-costa-rica',
     title: 'Diseño de hoja de ruta y propuesta de NDC 3.0 en Costa Rica',
     area: 'gestion',
-    client: '',
+    client: 'Fundecooperación Costa Rica · Ministerio de Ambiente y Energía (MINAE)',
     country: 'Costa Rica',
+    year: '2024',
     summary: 'Hoja de ruta y propuesta de actualización de la NDC 3.0 de Costa Rica.',
     description:
       'Acompañamos el diseño de la hoja de ruta y la formulación de la propuesta de tercera Contribución Determinada a Nivel Nacional (NDC 3.0) de Costa Rica, articulando metas de mitigación y adaptación con las prioridades de desarrollo del país.',
@@ -208,8 +242,9 @@ export const PROJECTS: Project[] = [
     slug: 'honduras-ica-bur',
     title: 'Apoyo técnico para la revisión ICA y la actualización del Segundo BUR en Honduras',
     area: 'gestion',
-    client: '',
+    client: 'PNUD Honduras · Secretaría de Recursos Naturales y Ambiente (SERNA)',
     country: 'Honduras',
+    year: '2024',
     summary: 'Revisión del Análisis Internacional (ICA) y actualización del Segundo Informe Bienal de Actualización.',
     description:
       'Brindamos apoyo técnico para la revisión del proceso de Análisis y Consulta Internacional (ICA) y la actualización del Segundo Informe Bienal de Actualización (BUR) de Honduras, fortaleciendo la transparencia climática del país ante la CMNUCC.',
@@ -221,8 +256,9 @@ export const PROJECTS: Project[] = [
     slug: 'honduras-gei-bur',
     title: 'Estimación de GEI y elaboración del Segundo BUR de Honduras',
     area: 'gestion',
-    client: '',
+    client: 'PNUD Honduras · Secretaría de Recursos Naturales y Ambiente (SERNA)',
     country: 'Honduras',
+    year: '2023',
     summary: 'Inventario de emisiones y elaboración del Segundo Informe Bienal de Actualización (BUR).',
     description:
       'Realizamos la estimación de emisiones de gases de efecto invernadero y la elaboración del Segundo Informe Bienal de Actualización (BUR) de Honduras, consolidando la información climática nacional para su reporte internacional.',
@@ -248,8 +284,9 @@ export const PROJECTS: Project[] = [
     slug: 'estrategias-meta',
     title: 'Estrategias climáticas municipales en el Meta',
     area: 'gestion',
-    client: '',
+    client: 'Unión Temporal Biometa · Cormacarena',
     country: 'Colombia',
+    year: '2018',
     summary: 'Formulación de estrategias climáticas para municipios del departamento del Meta.',
     description:
       'Formulamos estrategias climáticas para municipios del departamento del Meta, integrando medidas de mitigación y adaptación con las capacidades y prioridades locales para una acción climática territorial.',
@@ -261,8 +298,9 @@ export const PROJECTS: Project[] = [
     slug: 'licenciamiento-cc',
     title: 'Incorporación del cambio climático en los proyectos licenciados en Colombia',
     area: 'gestion',
-    client: '',
+    client: 'Banco Interamericano de Desarrollo (BID) · ANLA',
     country: 'Colombia',
+    year: '2022',
     summary: 'Fortalecimiento de la variable de cambio climático en proyectos con licencia ambiental.',
     description:
       'Fortalecimos la incorporación del cambio climático en los proyectos con licencia ambiental en Colombia, desarrollando criterios y lineamientos para integrar la mitigación y la adaptación en los procesos de licenciamiento.',
@@ -287,8 +325,9 @@ export const PROJECTS: Project[] = [
     slug: 'picct-narino',
     title: 'Plan Integral de Cambio Climático Territorial de Nariño',
     area: 'gestion',
-    client: '',
+    client: 'Gobernación de Nariño',
     country: 'Colombia',
+    year: '2018',
     summary: 'Formulación del Plan Integral de Cambio Climático Territorial (PICCT) de Nariño.',
     description:
       'Formulamos el Plan Integral de Cambio Climático Territorial (PICCT) del departamento de Nariño, articulando el diagnóstico climático, las medidas de mitigación y adaptación y la participación de actores del territorio.',
@@ -301,14 +340,135 @@ export const PROJECTS: Project[] = [
     slug: 'gestion-urbana-pasto',
     title: 'Plan de gestión climática urbana en San Juan de Pasto',
     area: 'gestion',
-    client: '',
+    client: 'FLACSO Ecuador · Alcaldía de San Juan de Pasto',
     country: 'Colombia',
+    year: '2020',
     summary: 'Plan de gestión climática para el entorno urbano de San Juan de Pasto.',
     description:
       'Desarrollamos un plan de gestión climática urbana para San Juan de Pasto, orientado a reducir emisiones y aumentar la resiliencia de la ciudad frente a los efectos del cambio climático.',
     tags: ['Gestión urbana', 'Ciudades', 'Resiliencia', 'Mitigación'],
     tint: 'river',
     image: '/assets/projects/gestion-urbana-pasto.jpg',
+  },
+
+  // Proyectos aportados por la Matriz consolidada de experiencia KIMSA 2026
+  // (hoja de cálculo del equipo, ago-2026) que no estaban cargados.
+  {
+    slug: 'dnp-footprint-deval',
+    title: 'Evaluación con enfoque Footprint (EvalConnect) para el DNP',
+    area: 'gestion',
+    client: 'DEval (Instituto Alemán de Evaluación del Desarrollo) · Departamento Nacional de Planeación (DNP)',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Apoyo a una evaluación con enfoque de Huella Ecológica (Footprint approach) en Colombia.',
+    description:
+      'Apoyamos la implementación de una evaluación utilizando el enfoque de Huella Ecológica (Footprint approach) en Colombia, en el marco de la iniciativa EvalConnect del Departamento Nacional de Planeación.',
+    tags: ['Evaluación de políticas públicas', 'Huella ecológica'],
+    tint: 'earth',
+  },
+  {
+    slug: 'ndc-el-salvador-2022-cuantificacion',
+    title: 'Cuantificación de la contribución de El Salvador al cambio climático',
+    area: 'gestion',
+    client: 'PNUD El Salvador · Ministerio de Medio Ambiente y Recursos Naturales (MARN)',
+    country: 'El Salvador',
+    year: '2022',
+    summary: 'Actualización de la NDC de El Salvador integrando los sectores energía, AFOLU, residuos e IPPU.',
+    description:
+      'Elaboramos la actualización de la NDC de El Salvador integrando información de los sectores energía, AFOLU (agricultura), residuos sólidos e IPPU, identificando medidas de mitigación y metas, y definiendo medidas de adaptación para biodiversidad y ecosistemas, ciudades y recursos hídricos.',
+    tags: ['NDC', 'Acuerdo de París', 'Política y gobernanza climática'],
+    tint: 'sunset',
+  },
+  {
+    slug: 'ec-leds-alliance-ciat',
+    title: 'Fortalecimiento del impacto de la investigación en desarrollo bajo en emisiones (EC-LEDS)',
+    area: 'gestion',
+    client: 'Alliance Bioversity-CIAT · Ministerio de Agricultura y Desarrollo Rural (MinAgricultura)',
+    country: 'Colombia',
+    year: '2020',
+    summary: 'Mejora del impacto de la investigación EC-LEDS para la política agrícola y climática de Colombia.',
+    description:
+      'Trabajamos para mejorar el impacto de los resultados de la investigación "Enhancing Capacity for Low Emission Development Strategies" (EC-LEDS), apoyando al Gobierno colombiano en la implementación de sus políticas de desarrollo agrícola, su NDC y la Estrategia de Desarrollo Bajo en Carbono.',
+    tags: ['Política y gobernanza climática', 'Mitigación', 'Agricultura'],
+    tint: 'earth',
+  },
+  {
+    slug: 'euroclima-dialogo-giz',
+    title: 'Mecanismo de diálogo país para EUROCLIMA+',
+    area: 'gestion',
+    client: 'GIZ · Programa EUROCLIMA+',
+    country: 'Colombia',
+    year: '2018',
+    summary: 'Recomendaciones para hacer operacional un mecanismo de diálogo entre países del programa EUROCLIMA+.',
+    description:
+      'Elaboramos una estrategia de mecanismos de diálogo nacional para los países del programa EUROCLIMA+ en relación con sus NDC, explorando oportunidades de colaboración con otros actores institucionales que apoyan a los países de América Latina y el Caribe.',
+    tags: ['Política y gobernanza climática', 'EUROCLIMA+'],
+    tint: 'forest',
+  },
+  {
+    slug: 'nama-forestal-arboles-fincas',
+    title: 'Los árboles en las fincas en la NAMA forestal de Colombia',
+    area: 'gestion',
+    client: 'World Agroforestry (ICRAF) · Ministerio de Ambiente y Desarrollo Sostenible',
+    country: 'Colombia',
+    year: '2018',
+    summary: 'Elementos conceptuales para contabilizar los árboles en las fincas dentro de la NAMA forestal.',
+    description:
+      'Identificamos los elementos esenciales para la definición del marco conceptual de la NAMA forestal de Colombia, con énfasis en la contabilización de los árboles en las fincas fuera del bosque.',
+    tags: ['NAMA forestal', 'Investigación', 'Mitigación'],
+    tint: 'river',
+  },
+  {
+    slug: 'transforma-caf-ndc-ods',
+    title: 'Metodología para vincular las operaciones de CAF con las NDC y los ODS',
+    area: 'gestion',
+    client: 'Transforma · EUROCLIMA',
+    country: 'Colombia',
+    year: '2018',
+    summary: 'Metodología para definir la contribución de las operaciones de financiamiento de CAF a las NDC y los ODS.',
+    description:
+      'Desarrollamos una metodología para definir cómo las operaciones de financiamiento y los objetivos de desarrollo sostenible de los países miembros de EUROCLIMA se vinculan con sus NDC.',
+    tags: ['Finanzas climáticas', 'NDC', 'ODS'],
+    tint: 'dusk',
+  },
+  {
+    slug: 'tnc-compensaciones-biodiversidad',
+    title: 'Cambio climático y la estrategia nacional de compensaciones por pérdida de biodiversidad',
+    area: 'gestion',
+    client: 'The Nature Conservancy',
+    country: 'Colombia',
+    year: '2018',
+    summary: 'Recomendaciones para articular la gestión del cambio climático con las compensaciones por biodiversidad.',
+    description:
+      'Generamos insumos para una propuesta de recomendaciones que articula la gestión del cambio climático con la estrategia nacional de compensaciones por pérdida de biodiversidad, analizando la vulnerabilidad y la pertinencia de incluir criterios climáticos.',
+    tags: ['Compensaciones', 'Biodiversidad', 'Vulnerabilidad'],
+    tint: 'earth',
+  },
+  {
+    slug: 'tnc-seminario-monitoreo-forestal',
+    title: 'Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal',
+    area: 'gestion',
+    client: 'The Nature Conservancy · IDEAM',
+    country: 'Colombia',
+    year: '2017',
+    summary: 'Memorias del Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal.',
+    description:
+      'Elaboramos las memorias del Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal, junto a The Nature Conservancy y el Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).',
+    tags: ['Monitoreo forestal', 'Investigación'],
+    tint: 'forest',
+  },
+  {
+    slug: 'picc-la-guajira-hidrocaribe',
+    title: 'Plan Integral de Cambio Climático (PICC) de La Guajira',
+    area: 'gestion',
+    client: 'Hidrocaribe Ltda · Corpoguajira',
+    country: 'Colombia',
+    year: '2017',
+    summary: 'Componente de mitigación del Plan Integral de Cambio Climático del departamento de La Guajira.',
+    description:
+      'Asesoramos la estructuración de planes climáticos territoriales y desarrollamos el componente de mitigación del Plan Integral de Cambio Climático (PICC) del departamento de La Guajira.',
+    tags: ['PICC', 'Territorio', 'Mitigación'],
+    tint: 'sunset',
   },
 
   // ---------- Psicología Ambiental ----------
@@ -444,7 +604,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Fondo Acción · Zhana Solutions Green Engineering',
     country: 'Colombia',
-    year: '2025',
+    year: '2024',
     summary: 'Cálculo de huella de carbono e hídrica de los equipos G-Trap y matriz de impacto ambiental integrada.',
     description:
       'Calculamos y reportamos la huella de carbono y la huella hídrica de los equipos G-Trap (en sus diversos modelos) de tratamiento de aguas residuales industriales, y compilamos una matriz de impacto ambiental que integra indicadores de toxicidad, consumo de agua, emisiones de GEI y biodiversidad.',
@@ -457,7 +617,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Co-propiedad Zona Franca de Bogotá PH',
     country: 'Colombia',
-    year: '2023',
+    year: '2024',
     summary: 'Huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá.',
     description:
       'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá, conforme al GHG Protocol y la norma ISO 14064-1, con recomendaciones de reducción.',
@@ -496,7 +656,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Hacienda Café Misiones',
     country: 'Colombia',
-    year: '2023',
+    year: '2024',
     summary: 'Huella de carbono corporativa 2023 de Hacienda Café Misiones, con seguimiento hasta 2026.',
     description:
       'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de Hacienda Café Misiones, conforme al GHG Protocol y la norma ISO 14064-1, con acompañamiento continuo y recomendaciones de reducción.',
@@ -509,7 +669,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Fundación Colegio Anglo Colombiano',
     country: 'Colombia',
-    year: '2023',
+    year: '2024',
     summary: 'Huella de carbono corporativa 2023 de todas las operaciones del Colegio Anglo Colombiano en Bogotá.',
     description:
       'Implementamos la medición de la huella de carbono organizacional de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, conforme al GHG Protocol y la norma ISO 14064-1.',
@@ -574,7 +734,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Páramo Presenta',
     country: 'Colombia',
-    year: '2023–2025',
+    year: '2023',
     summary: 'Huella de carbono de la producción de los principales festivales de Colombia, edición tras edición.',
     description:
       'Desarrollamos las huellas de carbono de la producción de eventos como el Festival Estéreo Picnic (2023-2026), la Feria Vassar (2023-2024), Corona Sunset (2023-2024), BAUM (2024) y el Festival Cordillera (2024-2025), conforme al GHG Protocol y la norma ISO 14064-1.',
@@ -626,7 +786,7 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'CANDES · Maderera Río Acre S.A.C.',
     country: 'Perú',
-    year: '2022',
+    year: '2023',
     summary: 'Huella de carbono corporativa 2022 de Maderera Río Acre en Perú.',
     description:
       'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2022 de Maderera Río Acre, conforme al GHG Protocol y la norma ISO 14064-1, incluyendo control de calidad de datos y recomendaciones de reducción.',
@@ -652,7 +812,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Comfama',
     country: 'Colombia',
-    year: '2024–2025',
     summary: 'Estimación de la huella de carbono de las dos ediciones del evento Deeper Learning.',
     description:
       'Estimamos la huella de carbono de los eventos Deeper Learning 2024 y 2025 de Comfama en Medellín, mediante la plataforma CarbonBox.',
@@ -665,7 +824,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'CataExport',
     country: 'Colombia',
-    year: '2025',
     summary: 'Huella de carbono corporativa 2025 de CataExport.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de CataExport conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
@@ -702,7 +860,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'SPEC LNG',
     country: 'Colombia',
-    year: '2024',
     summary: 'Estimación de la huella de carbono corporativa 2024 de SPEC LNG.',
     description:
       'Estimamos la huella de carbono corporativa 2024 de SPEC LNG, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
@@ -715,7 +872,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Asobancaria',
     country: 'Colombia',
-    year: '2024',
     summary: 'Estimación de la huella de carbono del 8° Congreso de Finanzas de Asobancaria.',
     description:
       'Estimamos la huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación 2024 de Asobancaria, mediante la plataforma CarbonBox.',
@@ -728,7 +884,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Fundación Santa Fé de Bogotá',
     country: 'Colombia',
-    year: '2025',
     summary: 'Huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
@@ -741,7 +896,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Parker',
     country: 'Argentina',
-    year: '2025',
     summary: 'Huella de carbono corporativa 2025 de Parker en Argentina.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de Parker en Argentina conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
@@ -754,7 +908,6 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'AMBIELEGSA SA',
     country: 'Ecuador',
-    year: '2025',
     summary: 'Huella de carbono corporativa 2025 de AMBIELEGSA en Quito, Ecuador.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de AMBIELEGSA conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
@@ -811,6 +964,35 @@ export const PROJECT_COUNTRIES: string[] = [
 ];
 
 export const projectsByArea = (area: AreaKey) => PROJECTS.filter((p) => p.area === area);
+
+// Empareja cada logo de CLIENT_LOGOS con sus proyectos en PROJECTS, para la
+// página /clientes. No hay un campo explícito que los relacione (los
+// proyectos solo tienen `client` en texto libre, a veces con más de una
+// organización separada por "·"), así que se hace por coincidencia de texto:
+// normalizamos (minúsculas, sin tildes) y consideramos match si el nombre
+// del logo está contenido en alguno de los segmentos de `client`, o
+// viceversa. Clientes sin proyecto asociado en los datos actuales (p. ej.
+// aliados institucionales como GIZ o el BID) simplemente no traen ninguno.
+function normalizeClientText(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // marcas diacriticas combinadas (tildes, diaresis...)
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+export const projectsForClientLogo = (logo: ClientLogo): Project[] => {
+  const target = normalizeClientText(logo.alt);
+  if (!target) return [];
+  return PROJECTS.filter((p) =>
+    p.client
+      .split('·')
+      .map((seg) => normalizeClientText(seg))
+      .filter(Boolean)
+      .some((seg) => seg.includes(target) || target.includes(seg))
+  );
+};
 
 export interface KimsaDocument {
   slug: string;

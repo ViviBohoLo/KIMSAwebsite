@@ -15,7 +15,7 @@ import ProjectModal from '../components/sections/ProjectModal.astro';
 import OdometerStat from '../components/core/OdometerStat.astro';
 import HomeSectionNav from '../components/sections/HomeSectionNav.astro';
 import PresenceMap from '../components/sections/PresenceMap.astro';
-import { PROJECTS, TEAM, CONTACT } from '../data/site';
+import { PROJECTS, TEAM, CONTACT, CLIENT_LOGOS } from '../data/site';
 
 const values = [
   { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
@@ -26,7 +26,7 @@ const values = [
 const services = [
   { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'taller de trabajo · gestión climática' }, href: '/servicios/gestion-climatica' },
   { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'encuentro comunitario · psicología ambiental' }, href: '/servicios/psicologia-ambiental' },
-  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'ISO 14067', 'GHG Protocol'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'equipo CarbonBox' }, href: '/servicios/carbonbox' },
+  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'ISO 14067', 'GHG Protocol', 'Gestión de reducciones', 'Carbono neutralidad'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'equipo CarbonBox' }, href: '/servicios/carbonbox' },
 ];
 
 const stats = [
@@ -106,10 +106,13 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section clients">
     <div class="clients__head reveal">
       <MountainMark size={44} class="clients__mark" />
-      <p class="clients__statement">Confían en KIMSA · 29 organizaciones en 8 países</p>
+      <p class="clients__statement">Confían en KIMSA · {CLIENT_LOGOS.length} organizaciones en 8 países</p>
     </div>
     <div class="clients__marquee reveal">
       <ClientsMarquee />
+    </div>
+    <div class="clients__cta reveal">
+      <Button variant="secondary" size="sm" href="/clientes">Conoce todas las organizaciones que confían en KIMSA →</Button>
     </div>
   </section>
 
@@ -404,6 +407,13 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .clients__head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 44px; }
   .clients__statement { font-size: 20px; font-weight: 500; color: var(--kimsa-ink); text-align: center; }
   .clients__marquee { margin: 0 calc(-1 * var(--kimsa-section-x)); } /* a sangre para el bucle */
+  .clients__cta { display: flex; justify-content: flex-end; margin-top: 32px; }
+  /* HomeSectionNav (la guía de puntos) es fixed a la derecha desde 1240px;
+     se le deja el mismo margen para que no se solape con su etiqueta al
+     pasar el mouse. */
+  @media (min-width: 1240px) {
+    .clients__cta { padding-right: 120px; }
+  }
 
   /* ---------- Blobs (decoración) ---------- */
   .blob { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(40px); pointer-events: none; }

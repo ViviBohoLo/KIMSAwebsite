@@ -38,6 +38,11 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
     </div>
   </div>
 
+  <p class="px__client-filter" id="px-client-filter" hidden>
+    Mostrando proyectos relacionados con <strong id="px-client-name"></strong> ·
+    <a href="/proyectos">Ver todos los proyectos</a>
+  </p>
+
   <div class="px__grid reveal" id="px-grid">
     {PROJECTS.map((p) => (
       <article
@@ -80,10 +85,28 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
 <script>
   const grid = document.getElementById('px-grid');
   if (grid) {
-    const state = { area: 'all', country: 'all', q: '' };
+    // ?slugs=a,b,c (+ ?client=Nombre para el aviso) — llega desde /clientes al
+    // hacer clic en una organización: reutiliza esta misma grilla/filtros en
+    // vez de duplicar la info del proyecto en otra parte.
+    const params = new URLSearchParams(location.search);
+    const slugsParam = params.get('slugs');
+    const clientLabel = params.get('client');
+    const state = {
+      area: 'all',
+      country: 'all',
+      q: '',
+      slugs: slugsParam ? new Set(slugsParam.split(',').filter(Boolean)) : null,
+    };
     const cards = Array.from(grid.querySelectorAll('.px__card'));
     const empty = document.getElementById('px-empty');
     const search = document.getElementById('px-search');
+    const clientFilterBanner = document.getElementById('px-client-filter');
+    const clientFilterName = document.getElementById('px-client-name');
+
+    if (state.slugs && clientFilterBanner && clientFilterName) {
+      clientFilterName.textContent = clientLabel || 'esta organización';
+      clientFilterBanner.hidden = false;
+    }
 
     function apply() {
       let visible = 0;
@@ -91,12 +114,14 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
         const okA = state.area === 'all' || c.getAttribute('data-area') === state.area;
         const okC = state.country === 'all' || c.getAttribute('data-country') === state.country;
         const okQ = state.q === '' || (c.getAttribute('data-search') || '').includes(state.q);
-        const show = okA && okC && okQ;
+        const okS = !state.slugs || state.slugs.has(c.getAttribute('data-project') || '');
+        const show = okA && okC && okQ && okS;
         c.style.display = show ? '' : 'none';
         if (show) visible++;
       });
       if (empty) empty.hidden = visible !== 0;
     }
+    apply();
 
     document.querySelectorAll('.px__chip').forEach((chip) => {
       chip.addEventListener('click', () => {
@@ -219,6 +244,17 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
   }
   .px__pub:hover { opacity: 0.88; }
   .px__empty { text-align: center; color: var(--kimsa-ink-soft); padding: 40px 0; }
+  .px__client-filter {
+    margin: 0 0 28px;
+    padding: 12px 18px;
+    background: var(--kimsa-cream);
+    border-radius: var(--kimsa-radius-md);
+    font-size: 14px;
+    color: var(--kimsa-ink-soft);
+  }
+  .px__client-filter strong { color: var(--kimsa-ink); }
+  .px__client-filter a { color: var(--kimsa-terracotta); font-weight: 600; }
+  .px__client-filter a:hover { text-decoration: underline; }
 
   @media (max-width: 1100px) { .px__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 900px) {

@@ -8,11 +8,11 @@
 
 ## ⚠️ Info y assets que necesitamos (bloqueadores transversales)
 
-- [ ] **Matriz/hoja maestra de experiencia de KIMSA** (incluyendo CarbonBox) — para validar número de proyectos, países, reportes, mecanismos de financiamiento, años y clientes. → afecta **2, 8, 10, 12, 14, 15**.
+- [x] **Matriz/hoja maestra de experiencia de KIMSA** (incluyendo CarbonBox) — para validar número de proyectos, países, reportes, mecanismos de financiamiento, años y clientes. → afecta **2, 8, 10, 12, 14, 15**. _(recibida 2026-08-20: "Matriz consolidada experiencia KIMSA 2026.xlsx", 55 proyectos. Se usó para completar el `client` de 7 proyectos de Gestión Climática que estaban vacíos y para agregar 9 proyectos nuevos que faltaban — ver ítem 15. Con esto se resolvió también el "aliado sin proyecto" de ANLA, Corpoguajira, Cormacarena, GIZ, Transforma, CIAT y FLACSO en `/clientes`. Sigue pendiente cruzarla contra los ítems 8 (números del mapa) y 10 (indicadores de Gestión Climática) — no se tocaron todavía.)_
 - [ ] **Proyecto actual de Costa Rica** (pedir a Natalia o compartir la info a la IA) — no está cargado. → **5b**.
 - [x] **Proyectos de CarbonBox uno a uno** + el proyecto de **Argentina**. → **8, 14, 15**. _(resuelto 2026-08-20: 31 proyectos cargados desde el JSON del equipo, incluyendo el de Parker en Argentina — ver detalle en el ítem 14/15)_
 - [ ] **Fotos**: taller/trabajo de campo (Gestión Climática), comunidad/campo (Psicología Ambiental), dashboard o equipo (CarbonBox), y foto del proyecto de salud mental. → **3, 15**.
-- [ ] **Logos de clientes** en buena calidad: Climate Group, The Nature Conservancy, Cámara Verde (actualizado), Gobiernos de **Honduras** y **El Salvador** (y el que falte). → **2**.
+- [x] **Logos de clientes** en buena calidad: Climate Group, The Nature Conservancy, Cámara Verde (actualizado), Gobiernos de **Honduras** y **El Salvador** (y el que falte). → **2**. _(resuelto 2026-08-20: lista validada por David + 26 logos nuevos de clientes de CarbonBox)_
 - [ ] **URLs reales de redes sociales** de KIMSA. → **9**.
 - [x] **Publicaciones de Psicología Ambiental** (listado + enlaces). → **16**. _(resuelto 2026-08-20: 2 documentos cargados con enlace de Google Drive)_
 - [ ] **Video del hero** + página de referencia. → **6**.
@@ -37,6 +37,7 @@
 ### 12. Carrusel de proyectos — año inconsistente
 - **Qué:** algunas tarjetas muestran año y otras no. Unificar (recomendado: cargar el año de todos y mostrarlo siempre).
 - **Dónde:** `src/components/sections/ProjectsCarousel.astro` + campo `year` en `src/data/site.ts`.
+- **Parcial (2026-08-20):** en los 31 proyectos de CarbonBox el `year` ahora sale siempre del año de `fecha_inicio` del JSON del equipo (nunca del título ni de `fecha_fin`, para no mezclar criterios). Los proyectos donde el JSON no traía `fecha_inicio` (Comfama, CataExport, SPEC LNG, Asobancaria, Fundación Santa Fé, Parker, AMBIELEGSA, WEIA, Colgas, Almacenes Ara, LinkTic, Biodiversal) se dejan sin año en vez de inventarlo. Sigue pendiente decidir si se completa el año de los proyectos más antiguos (no-CarbonBox) que tampoco lo tienen.
 
 ### 9. Iconos de redes — enlaces reales
 - **Qué:** los links no son los de las redes reales de la empresa. Corregir.
@@ -54,10 +55,10 @@
 
 ## 🏔️ Home
 
-### 3. Tarjetas de servicio — fotos y etiquetas
+### 3. Tarjetas de servicio — fotos y etiquetas ✅
 - **Qué:** Gestión Climática → foto de **taller/trabajo de campo**; Psicología Ambiental → **comunidad/campo**; CarbonBox → **equipo o dashboard**. En CarbonBox agregar etiquetas **"Gestión de reducciones"** y **"Carbono neutralidad"**.
 - **Dónde:** array `services` en `src/pages/index.astro`. **Necesita** las 3 fotos.
-- **Parcial (2026-08-20):** ✅ las 3 fotos resueltas — Gestión Climática usa `taller-gestion-climatica-home.jpg` (taller NDC), Psicología Ambiental usa `psicologia-ambiental-home.jpg` (encuentro comunitario), CarbonBox usa `carbonbox-platform.jpg` (foto del equipo, ya usada en `/servicios/carbonbox`). Archivos en `public/assets/projects/` (renombrados a kebab-case, sin espacios). Pendiente: agregar las etiquetas "Gestión de reducciones" y "Carbono neutralidad" al bullet list de CarbonBox.
+- **Hecho (2026-08-20):** las 3 fotos — Gestión Climática usa `taller-gestion-climatica-home.jpg` (taller NDC), Psicología Ambiental usa `psicologia-ambiental-home.jpg` (encuentro comunitario), CarbonBox usa `carbonbox-platform.jpg` (foto del equipo, ya usada en `/servicios/carbonbox`). Archivos en `public/assets/projects/` (renombrados a kebab-case, sin espacios). Bullets de CarbonBox ahora: Huella de carbono, ISO 14064, ISO 14067, GHG Protocol, **Gestión de reducciones**, **Carbono neutralidad**.
 
 ### 6. Video en el hero
 - **Qué:** implementar el **video** del hero, parecido al de la página de referencia.
@@ -105,7 +106,9 @@
 ### 15. Tarjetas de proyecto — completar info + volumen
 - **Qué:** faltan **año**, **cliente(s)** y **productos/publicaciones**. **Salud mental** no tiene foto. Incluir **todos los proyectos de CarbonBox uno a uno** (queremos **volumen**).
 - **Dónde:** `src/components/sections/ProjectsExplorer.astro` + `src/data/site.ts`. **Necesita** matriz, foto de salud mental, listado CarbonBox.
-- **Parcial (2026-08-20):** ✅ volumen de CarbonBox resuelto — 31 proyectos nuevos agregados a `PROJECTS` (`src/data/site.ts`), visibles en `/proyectos` y en el carrusel de `/servicios/carbonbox`. Se agregaron **Perú** y **Argentina** a `PROJECT_COUNTRIES` para el filtro; los proyectos multi-país (CleanTechHub, GEC EcoEnterprises) quedaron con `country: 'Multirregional'` (solo visibles bajo el filtro "Todos"). Pendiente: foto de salud mental y validar productos/publicaciones por proyecto contra la matriz.
+- **Parcial (2026-08-20):** ✅ volumen de CarbonBox resuelto — 31 proyectos nuevos agregados a `PROJECTS` (`src/data/site.ts`), visibles en `/proyectos` y en el carrusel de `/servicios/carbonbox`. Se agregaron **Perú** y **Argentina** a `PROJECT_COUNTRIES` para el filtro; los proyectos multi-país (CleanTechHub, GEC EcoEnterprises) quedaron con `country: 'Multirregional'` (solo visibles bajo el filtro "Todos").
+  - ✅ Con la matriz recibida: se completó el `client` de 7 proyectos de Gestión Climática que estaban vacíos (`ndc-3-costa-rica`, `honduras-ica-bur`, `honduras-gei-bur`, `estrategias-meta`, `licenciamiento-cc`, `picct-narino`, `gestion-urbana-pasto`) y se agregaron **9 proyectos nuevos** de Gestión Climática que la matriz trae y no estaban cargados: evaluación Footprint con DEval/DNP, NDC 2022 de El Salvador, EC-LEDS con Alliance Bioversity-CIAT, diálogo EUROCLIMA+ con GIZ, NAMA forestal con World Agroforestry, metodología CAF/NDC/ODS con Transforma, dos proyectos con TNC (compensaciones y seminario forestal) y el PICC de La Guajira con Corpoguajira.
+  - Pendiente: foto de salud mental y validar el resto de productos/publicaciones por proyecto contra la matriz.
 
 ### 13. Modal de proyecto — botón a la publicación ✅
 - **Qué:** si el proyecto tiene **publicación**, mostrar un **botón/enlace** para ir a ella.
@@ -117,9 +120,11 @@
 
 ## 🏷️ Clientes / Logos
 
-### 2. Carrusel de logos
+### 2. Carrusel de logos ✅ (validado por David)
 - **Qué:** Climate Group **muy pequeño**; The Nature Conservancy **muy pequeño**; Cámara Verde **desactualizado** (reemplazar); faltan **Gobierno de Honduras**, **Gobierno de El Salvador** y otro. David: **revisar la lista de clientes** completa (cruzar con la matriz).
 - **Dónde:** `CLIENT_LOGOS` en `src/data/site.ts`, archivos en `public/assets/clients/`, tamaños en `src/components/sections/ClientsMarquee.astro`. **Necesita** logos faltantes/actualizados.
+- **Hecho (2026-08-20):** David validó la lista de clientes. Se agregaron 26 logos nuevos de clientes de CarbonBox (Biomax, AGROSAVIA, Zhana Solutions, Copropiedad ZF, Hacienda Café Misiones, Colegio Anglo Colombiano, EBSA, GEC EcoEnterprises, CleanTechHub, Páramo Presenta, CANDES, Eternit, Comfama, CataExport, WEIA, Colgas, SPEC LNG, Asobancaria, Fundación Santa Fé de Bogotá, Parker, AMBIELEGSA, Jerónimo Martins, LinkTic, Biodiversal, Control Ambiental de Colombia, IPSOS) además de los gobiernos de Honduras, El Salvador y Ecuador, ANLA, Cormacarena, Corpoguajira y Gobernación de Nariño agregados antes. Todos los archivos renombrados a kebab-case en `public/assets/clients/`. El tamaño de todos los logos en el carrusel ya es uniforme (`ClientsMarquee.astro` usa una caja fija 180×96 con `object-fit: contain`).
+- **Extra (2026-08-20):** velocidad del carrusel reducida (48s → 130s desktop, 36s → 95s mobile); ANLA, Climate Group y EUROCLIMA+ marcados con `size: 'lg'` para que se vean más grandes dentro de la misma caja; el contador "X organizaciones" en el Home ahora es dinámico (`CLIENT_LOGOS.length`, hoy 50) en vez de un número fijo. Se agregó un botón bajo el carrusel ("Conoce todas las organizaciones que confían en KIMSA →") que lleva a la nueva página **`/clientes`**: grilla uniforme con las 50 organizaciones (logo + nombre + conteo de proyectos). Cada tarjeta con proyectos enlaza a `/proyectos?slugs=...&client=...` — reutiliza la grilla y los filtros de Proyectos ya prefiltrada por los proyectos exactos de esa organización (por slug, vía `projectsForClientLogo` en `site.ts`), con un aviso "Mostrando proyectos relacionados con X · Ver todos" arriba de la grilla. Se prefirió esto (decisión del usuario) a duplicar la info del proyecto en un modal aparte. Enlazada también desde el Footer.
 
 ---
 

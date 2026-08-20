@@ -3,6 +3,10 @@
 
 export const CONTACT = {
   email: 'info@kimsa.co',
+  // Número de la sede principal (Colombia) — se mantiene por compatibilidad
+  // con el texto suelto que solo muestra "un" teléfono (ej. CTA de Nosotros).
+  // Para no confundir a quien va a llamar, en Footer/ContactForm cada sede
+  // muestra su propio número (ver `hqs` abajo).
   phone: '+57 320 867 5567',
   phoneHref: 'tel:+573208675567',
   mailto: 'mailto:info@kimsa.co?subject=Conversemos%20con%20KIMSA',
@@ -10,10 +14,20 @@ export const CONTACT = {
   // formulario de contacto y lo reenvía por correo (hoy a una dirección de
   // prueba; cambiar en n8n cuando se confirme el correo corporativo).
   formWebhook: 'https://kim-carbonbox.app.n8n.cloud/webhook/astro-formulario',
-  // Sede principal primero, luego la sucursal.
+  // Sede principal primero, luego la sucursal. Cada sede lleva su propio
+  // teléfono/WhatsApp (número real de esa oficina, no el mismo repetido)
+  // para que quien llame o escriba sepa a qué país está marcando.
   hqs: [
-    { city: 'Bogotá D.C.', country: 'Colombia', color: 'var(--kimsa-forest)' },
-    { city: 'San José', country: 'Costa Rica', color: 'var(--kimsa-terracotta)' },
+    {
+      city: 'Bogotá D.C.', country: 'Colombia', color: 'var(--kimsa-forest)',
+      phone: '+57 320 867 5567', phoneHref: 'tel:+573208675567',
+      whatsapp: 'https://wa.me/573208675567',
+    },
+    {
+      city: 'San José', country: 'Costa Rica', color: 'var(--kimsa-terracotta)',
+      phone: '+506 8314 1891', phoneHref: 'tel:+50683141891',
+      whatsapp: 'https://wa.me/50683141891',
+    },
   ],
 };
 

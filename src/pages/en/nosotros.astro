@@ -176,7 +176,9 @@ const team = TEAM.map((m) => localizeMember(m, 'en'));
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container nos-cta reveal">
       <h2 class="h2" style="margin-bottom:20px">Let's talk about your <em class="em-terracotta">next step.</em></h2>
-      <p class="lead" style="margin-bottom:32px">{CONTACT.email} · {CONTACT.phone}</p>
+      <p class="lead" style="margin-bottom:32px">
+        {CONTACT.email} · {CONTACT.hqs.map((hq) => `${hq.country}: ${hq.phone}`).join(' · ')}
+      </p>
       <Button variant="primary" size="lg" href="/en/contacto">Let's talk →</Button>
     </div>
   </section>

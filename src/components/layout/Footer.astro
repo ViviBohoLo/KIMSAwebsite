@@ -5,6 +5,7 @@
  */
 import KimsaLogo from '../brand/KimsaLogo.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { CONTACT } from '../../data/site';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -34,9 +35,13 @@ const columns = [
     title: t('footer.contact'),
     items: [
       { label: 'info@kimsa.co', href: 'mailto:info@kimsa.co' },
-      { label: '+57 320 867 5567', href: 'https://wa.me/573208675567', target: '_blank' },
-      { label: 'Bogotá D.C., Colombia', href: '' },
-      { label: 'San José, Costa Rica', href: '' },
+      // Cada sede con su propio WhatsApp, rotulado con el país, para que no
+      // se confunda el número de Colombia con el de Costa Rica.
+      ...CONTACT.hqs.map((hq) => ({
+        label: `${hq.country}: ${hq.phone}`,
+        href: hq.whatsapp,
+        target: '_blank' as const,
+      })),
     ],
   },
 ];

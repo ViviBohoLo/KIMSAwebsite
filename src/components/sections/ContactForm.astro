@@ -61,21 +61,26 @@ const copy = (lang === 'en' ? copyEn : copyEs)[variant];
           <span class="contact-form__info-label">{t('contact.email')}</span>
           <span>{CONTACT.email}</span>
         </a>
-        <a class="contact-form__info-item" href="https://wa.me/573208675567" target="_blank" rel="noopener noreferrer">
-          <span class="contact-form__info-label">WhatsApp</span>
-          <span>{CONTACT.phone}</span>
-        </a>
       </div>
 
+      <!-- Cada sede lleva su propio teléfono/WhatsApp (números distintos por
+           país) rotulado con la ciudad, para que quien llame o escriba sepa
+           a qué oficina está marcando y no confunda Colombia con Costa Rica. -->
       <ul class="contact-form__hqs">
         {CONTACT.hqs.map((hq) => (
           <li class="contact-form__hq">
             <span class="contact-form__hq-badge" style={`background:linear-gradient(155deg, ${hq.color} 0%, color-mix(in srgb, ${hq.color} 55%, transparent) 140%)`}>
               <MountainMark size={20} />
             </span>
-            <span>
+            <span class="contact-form__hq-text">
               <span class="contact-form__hq-city">{hq.city}</span>
-              <span class="contact-form__hq-country">{hq.country}</span>
+              <span class="contact-form__hq-country-row">
+                <span class="contact-form__hq-country">{hq.country}</span>
+                <a class="contact-form__hq-phone" href={hq.whatsapp} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp ${hq.country}: ${hq.phone}`}>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.15 8.15 0 0 1-4.16-1.14l-.3-.18-3.09.84.83-3.02-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.52-6.13c-.25-.12-1.45-.72-1.67-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.78.96-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42-.14-.01-.31-.01-.47-.01-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.16 1.74 2.66 4.22 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28z"/></svg>
+                  {hq.phone}
+                </a>
+              </span>
             </span>
           </li>
         ))}
@@ -138,7 +143,7 @@ const copy = (lang === 'en' ? copyEn : copyEs)[variant];
   .contact-form__info-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--kimsa-ink-soft); }
 
   .contact-form__hqs { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
-  .contact-form__hq { display: flex; align-items: center; gap: 14px; }
+  .contact-form__hq { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .contact-form__hq-badge {
     flex-shrink: 0;
     width: 44px;
@@ -149,8 +154,24 @@ const copy = (lang === 'en' ? copyEn : copyEs)[variant];
     justify-content: center;
     box-shadow: var(--kimsa-shadow-chip);
   }
+  .contact-form__hq-text { min-width: 140px; }
   .contact-form__hq-city { display: block; font-weight: 600; font-size: 15px; color: var(--kimsa-ink); }
-  .contact-form__hq-country { display: block; font-size: 13px; color: var(--kimsa-ink-soft); }
+  .contact-form__hq-country-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 2px; }
+  .contact-form__hq-country { font-size: 13px; color: var(--kimsa-ink-soft); }
+  .contact-form__hq-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--kimsa-forest);
+    background: var(--kimsa-tint-forest);
+    border-radius: var(--kimsa-radius-pill);
+    padding: 6px 12px;
+    white-space: nowrap;
+    transition: filter var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .contact-form__hq-phone:hover { filter: brightness(0.95); }
 
   .contact-form__card {
     background: var(--kimsa-surface-card);

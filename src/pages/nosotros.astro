@@ -174,7 +174,9 @@ const story = [
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container nos-cta reveal">
       <h2 class="h2" style="margin-bottom:20px">Conversemos sobre su <em class="em-terracotta">próximo paso.</em></h2>
-      <p class="lead" style="margin-bottom:32px">{CONTACT.email} · {CONTACT.phone}</p>
+      <p class="lead" style="margin-bottom:32px">
+        {CONTACT.email} · {CONTACT.hqs.map((hq) => `${hq.country}: ${hq.phone}`).join(' · ')}
+      </p>
       <Button variant="primary" size="lg" href="/contacto">Conversemos →</Button>
     </div>
   </section>

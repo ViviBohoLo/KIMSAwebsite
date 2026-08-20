@@ -28,11 +28,11 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/bid.jpg', alt: 'BID' },
   { src: '/assets/clients/caf.png', alt: 'CAF' },
   { src: '/assets/clients/unep.png', alt: 'ONU Medio Ambiente' },
-  { src: '/assets/clients/tnc.png', alt: 'The Nature Conservancy' },
+  { src: '/assets/clients/tnc.jpg', alt: 'The Nature Conservancy' },
   { src: '/assets/clients/euroclima.jpg', alt: 'EUROCLIMA+' },
   { src: '/assets/clients/bancoldex.png', alt: 'Bancóldex' },
-  { src: '/assets/clients/minagricultura.png', alt: 'Ministerio de Agricultura' },
-  { src: '/assets/clients/miambiente.png', alt: 'MiAmbiente' },
+  { src: '/assets/clients/minagricultura.webp', alt: 'Ministerio de Agricultura' },
+  { src: '/assets/clients/miambiente.webp', alt: 'MiAmbiente' },
   { src: '/assets/clients/ciat.jpg', alt: 'Alliance Bioversity-CIAT' },
   { src: '/assets/clients/icraf.png', alt: 'ICRAF' },
   { src: '/assets/clients/idrc.jpg', alt: 'IDRC' },
@@ -40,6 +40,13 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/climate-group.png', alt: 'Climate Group' },
   { src: '/assets/clients/transforma.png', alt: 'Transforma' },
   { src: '/assets/clients/camara-verde.png', alt: 'Cámara Verde' },
+  { src: '/assets/clients/anla.png', alt: 'ANLA — Autoridad Nacional de Licencias Ambientales' },
+  { src: '/assets/clients/cormacarena.png', alt: 'Cormacarena' },
+  { src: '/assets/clients/corpoguajira.png', alt: 'Corpoguajira' },
+  { src: '/assets/clients/gov-narino.jpg', alt: 'Gobernación de Nariño' },
+  { src: '/assets/clients/marn-el-salvador.png', alt: 'Gobierno de El Salvador — MARN' },
+  { src: '/assets/clients/min-amb-ecuador.png', alt: 'Ministerio del Ambiente de Ecuador' },
+  { src: '/assets/clients/serna-honduras.png', alt: 'Gobierno de Honduras — SERNA' },
 ];
 
 // Estadísticas de presencia por país para el mapa interactivo (id
@@ -48,8 +55,8 @@ export const CLIENT_LOGOS: ClientLogo[] = [
 // proyectos por país de implementación, incluyendo proyectos regionales
 // que listan varios países (se suman a cada uno). `code` es el ISO
 // 3166-1 alfa-2 usado por jsvectormap para pintar la región en el mapa.
-// Guatemala y Panamá no tienen proyectos registrados aún en la matriz;
-// se muestran como presencia de HUB en vez de un conteo.
+// Guatemala y Panamá se retiraron de la lista: la matriz no registra
+// ningún proyecto en esos países (decisión confirmada, ago-2026).
 export interface CountryStat {
   name: string;
   code: string;
@@ -101,8 +108,13 @@ export const COUNTRY_STATS: CountryStat[] = [
       'Estimación de impacto en carbono de 22 emprendimientos',
     ],
   },
-  { name: 'Guatemala', code: 'GT', count: 0, highlights: [] },
-  { name: 'Panamá', code: 'PA', count: 0, highlights: [] },
+  {
+    name: 'Argentina', code: 'AR', count: 2,
+    highlights: [
+      'Huella de carbono corporativa 2025 con CarbonBox (Parker)',
+      'Estimación de impacto en carbono de 22 emprendimientos (CleanTechHub)',
+    ],
+  },
 ];
 
 export type AreaKey = 'gestion' | 'psicologia' | 'carbonbox';
@@ -141,6 +153,7 @@ export interface Project {
   tags: string[];
   tint: string; // tono del placeholder de foto
   image?: string; // ruta de la foto real cuando esté disponible
+  publicationUrl?: string; // enlace a la publicación de este proyecto en DOCUMENTS (si existe)
 }
 
 // Proyectos con la información real del sitio actual (kimsa.co) + los proyectos
@@ -161,6 +174,7 @@ export const PROJECTS: Project[] = [
     tags: ['NDC 3.0', 'Financiamiento climático', 'CMNUCC', 'Enfoque multisectorial'],
     tint: 'forest',
     image: '/assets/projects/ndc-3-el-salvador.jpg',
+    publicationUrl: 'https://unfccc.int/sites/default/files/2025-12/NDC%20EL%20SALVADOR%202025-%20VF.pdf',
   },
   {
     slug: 'ndc-3-costa-rica',
@@ -174,6 +188,7 @@ export const PROJECTS: Project[] = [
     tags: ['NDC 3.0', 'Hoja de ruta', 'Mitigación', 'Adaptación'],
     tint: 'forest',
     image: '/assets/projects/ndc-3-costa-rica.jpg',
+    publicationUrl: 'https://cambioclimatico.minae.go.cr/wp-content/uploads/2026/01/CND-2025-2035-ULT-VERs.pdf',
   },
   {
     slug: 'mrv-ecuador',
@@ -214,6 +229,7 @@ export const PROJECTS: Project[] = [
     tags: ['Inventario GEI', 'BUR', 'Reportes', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/honduras-gei-bur.jpg',
+    publicationUrl: 'https://unfccc.int/sites/default/files/resource/Document%20NIR%20Hn%202024.pdf',
   },
   {
     slug: 'compensaciones-ambientales',
@@ -279,6 +295,7 @@ export const PROJECTS: Project[] = [
     tags: ['PICCT', 'Territorio', 'Adaptación', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/picct-narino.jpg',
+    publicationUrl: 'https://2020-2023.narino.gov.co/wp-content/uploads/Diagramacion_pigcct-Fondo-Accion-y-Gobernacion.pdf',
   },
   {
     slug: 'gestion-urbana-pasto',
@@ -375,11 +392,423 @@ export const PROJECTS: Project[] = [
     tags: ['Huella de carbono', 'Circularidad', 'CarbonBox', 'Sector público'],
     tint: 'river',
     image: '/assets/projects/sostenibilidad-dnp-colombia.jpg',
+    publicationUrl:
+      'https://colaboracion.dnp.gov.co/sites/CDDNP/Sinergia/2025/DSEPP_1564_Evaluacion_Sistemas_de_Informacion_Informe_Resultados.pdf',
+  },
+
+  // Proyectos de CarbonBox aportados por el equipo (listado agosto 2026).
+  // Nota: el proyecto DNP/IPSOS de este listado ya estaba cargado arriba
+  // como 'sostenibilidad-dnp-colombia', por lo que no se duplica aquí.
+  {
+    slug: 'biomax-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'Biomax Biocombustibles S.A.',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Medición y gestión de la huella de carbono corporativa 2025 de Biomax mediante CarbonBox.',
+    description:
+      'Implementamos la medición de emisiones de gases de efecto invernadero (GEI) organizacionales y la gestión de la huella de carbono corporativa 2025 de Biomax Biocombustibles conforme al GHG Protocol y la norma ISO 14064-1, incluyendo control de calidad de datos y recomendaciones de reducción.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'forest',
+  },
+  {
+    slug: 'agrosavia-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025 — 25 centros de investigación',
+    area: 'carbonbox',
+    client: 'AGROSAVIA — Corporación Colombiana de Investigación Agropecuaria',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Huella de carbono corporativa 2025 de los 25 centros, sedes y fincas experimentales de AGROSAVIA.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de AGROSAVIA para sus 25 centros de investigación, sedes y fincas experimentales, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'sunset',
+  },
+  {
+    slug: 'agrosavia-huella-2024',
+    title: 'Medición y gestión de huella de carbono corporativa 2024 — 25 centros de investigación',
+    area: 'carbonbox',
+    client: 'AGROSAVIA — Corporación Colombiana de Investigación Agropecuaria',
+    country: 'Colombia',
+    year: '2024',
+    summary: 'Huella de carbono corporativa 2024 de los 25 centros, sedes y fincas experimentales de AGROSAVIA.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2024 de AGROSAVIA para sus 25 centros de investigación, sedes y fincas experimentales, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'earth',
+  },
+  {
+    slug: 'gtrap-huella-matriz-ambiental',
+    title: 'Huella de carbono e hídrica de los equipos G-Trap y matriz de impacto ambiental',
+    area: 'carbonbox',
+    client: 'Fondo Acción · Zhana Solutions Green Engineering',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Cálculo de huella de carbono e hídrica de los equipos G-Trap y matriz de impacto ambiental integrada.',
+    description:
+      'Calculamos y reportamos la huella de carbono y la huella hídrica de los equipos G-Trap (en sus diversos modelos) de tratamiento de aguas residuales industriales, y compilamos una matriz de impacto ambiental que integra indicadores de toxicidad, consumo de agua, emisiones de GEI y biodiversidad.',
+    tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
+    tint: 'river',
+  },
+  {
+    slug: 'zona-franca-bogota-huella-2023',
+    title: 'Medición y gestión de huella de carbono corporativa 2023',
+    area: 'carbonbox',
+    client: 'Co-propiedad Zona Franca de Bogotá PH',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá.',
+    description:
+      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá, conforme al GHG Protocol y la norma ISO 14064-1, con recomendaciones de reducción.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'dusk',
+  },
+  {
+    slug: 'calculadora-seaflower',
+    title: 'Herramienta de cálculo de huella ambiental para el Fondo Seaflower',
+    area: 'carbonbox',
+    client: 'Fondo Acción · Davivienda',
+    country: 'Colombia',
+    year: '2024',
+    summary: 'Calculadora de huella de carbono para viajeros a la Reserva de Biósfera Seaflower.',
+    description:
+      'Elaboramos una herramienta de cálculo de huella de carbono para los viajeros a la Reserva de la Biósfera Seaflower (San Andrés, Providencia y Santa Catalina), como parte de una estrategia de movilización de recursos con Daviplata en la que los viajeros compensan su impacto mediante donaciones proporcionales a sus emisiones.',
+    tags: ['Herramienta de cálculo', 'Huella de carbono', 'Mitigación'],
+    tint: 'cool',
+  },
+  {
+    slug: 'biomax-ecopetrol-sebastopol',
+    title: 'Huella de carbono del servicio prestado a Ecopetrol desde Sebastopol',
+    area: 'carbonbox',
+    client: 'Biomax Biocombustibles S.A.',
+    country: 'Colombia',
+    year: '2024',
+    summary: 'Estimación de la huella de carbono del servicio de Biomax a Ecopetrol desde su planta de Sebastopol.',
+    description:
+      'Estimamos la huella de carbono del servicio prestado desde Sebastopol por Biomax a Ecopetrol, mediante un análisis de ciclo de vida bajo estándares internacionales de reporte, usando la plataforma CarbonBox.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Análisis de ciclo de vida'],
+    tint: 'blush',
+  },
+  {
+    slug: 'hacienda-cafe-misiones-huella-2023',
+    title: 'Medición y gestión de huella de carbono corporativa 2023',
+    area: 'carbonbox',
+    client: 'Hacienda Café Misiones',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Huella de carbono corporativa 2023 de Hacienda Café Misiones, con seguimiento hasta 2026.',
+    description:
+      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de Hacienda Café Misiones, conforme al GHG Protocol y la norma ISO 14064-1, con acompañamiento continuo y recomendaciones de reducción.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'warm',
+  },
+  {
+    slug: 'colegio-anglo-colombiano-huella-2023',
+    title: 'Huella de carbono organizacional del Colegio Anglo Colombiano',
+    area: 'carbonbox',
+    client: 'Fundación Colegio Anglo Colombiano',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Huella de carbono corporativa 2023 de todas las operaciones del Colegio Anglo Colombiano en Bogotá.',
+    description:
+      'Implementamos la medición de la huella de carbono organizacional de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'forest',
+  },
+  {
+    slug: 'eeb-boyaca-huella-2023',
+    title: 'Huella de carbono organizacional del edificio administrativo y 7 zonas en Boyacá',
+    area: 'carbonbox',
+    client: 'Empresa de Energía de Boyacá S.A. E.S.P.',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Huella de carbono organizacional del edificio administrativo y 7 zonas operativas en Boyacá.',
+    description:
+      'Implementamos la medición de la huella de carbono organizacional del edificio administrativo y de 7 zonas de la Empresa de Energía de Boyacá, conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'sunset',
+  },
+  {
+    slug: 'gtrap-sostenibilidad-acv',
+    title: 'Evaluación de sostenibilidad de la tecnología G-TRAP',
+    area: 'carbonbox',
+    client: 'Zhana Solutions Green Engineering',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Análisis de ciclo de vida de la tecnología G-TRAP en Bogotá y Cartagena.',
+    description:
+      'Evaluamos la sostenibilidad ambiental de la tecnología G-TRAP mediante un Análisis de Ciclo de Vida (ACV): estimamos su huella de carbono e hídrica en las fases de instalación y operación, identificamos los impactos ambientales en Bogotá y Cartagena, y propusimos acciones de mejora para mitigar los efectos negativos.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Análisis de ciclo de vida'],
+    tint: 'earth',
+  },
+  {
+    slug: 'flp-equilibria-huella-2023',
+    title: 'Huella de carbono organizacional e hídrica de FLP y Equilibria',
+    area: 'carbonbox',
+    client: 'GEC EcoEnterprises Management',
+    country: 'Multirregional',
+    year: '2023',
+    summary: 'Inventarios de GEI (ISO 14064-1) y huella hídrica para FLP (Ecuador y Perú) y Equilibria (Colombia).',
+    description:
+      'Elaboramos 3 inventarios de GEI bajo el estándar ISO 14064-1 y 3 huellas hídricas para las empresas FLP (Ecuador y Perú) y Equilibria (Colombia) dentro de su cadena de producción de cítricos.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'river',
+  },
+  {
+    slug: 'cleantechhub-emprendimientos',
+    title: 'Impacto en carbono de 22 emprendimientos de innovación climática',
+    area: 'carbonbox',
+    client: 'CleanTechHub',
+    country: 'Multirregional',
+    year: '2023',
+    summary: 'Módulo emprendedor de CarbonBox y capacitación para 22 emprendimientos en 5 países de LATAM.',
+    description:
+      'Desarrollamos el módulo emprendedor de la plataforma CarbonBox para 22 emprendimientos de Argentina, México, Colombia, Perú y Ecuador, y realizamos una capacitación sobre huella de carbono para sus mentores y aliados.',
+    tags: ['Huella de carbono de producto', 'Medición de impacto en carbono', 'Análisis de ciclo de vida'],
+    tint: 'dusk',
+  },
+  {
+    slug: 'paramo-presenta-festivales',
+    title: 'Huella de carbono de festivales: Estéreo Picnic, Cordillera, Vassar, BAUM y Corona Sunset',
+    area: 'carbonbox',
+    client: 'Páramo Presenta',
+    country: 'Colombia',
+    year: '2023–2025',
+    summary: 'Huella de carbono de la producción de los principales festivales de Colombia, edición tras edición.',
+    description:
+      'Desarrollamos las huellas de carbono de la producción de eventos como el Festival Estéreo Picnic (2023-2026), la Feria Vassar (2023-2024), Corona Sunset (2023-2024), BAUM (2024) y el Festival Cordillera (2024-2025), conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'blush',
+  },
+  {
+    slug: 'calculadora-idartes',
+    title: 'Estructuración de la calculadora de carbono de IDARTES',
+    area: 'carbonbox',
+    client: 'Fondo Acción · IDARTES',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Calculadora de huella de carbono de eventos y escenarios de Bogotá para el sitio web de IDARTES.',
+    description:
+      'Elaboramos la estructura base de la calculadora de carbono de eventos y escenarios de Bogotá, diseñada para instalarse en la página web del Instituto Distrital de las Artes (IDARTES).',
+    tags: ['Herramienta de cálculo', 'Huella de carbono de eventos', 'Mitigación'],
+    tint: 'cool',
+  },
+  {
+    slug: 'control-ambiental-compost-acv',
+    title: 'Análisis de ciclo de vida del compostaje con aireación',
+    area: 'carbonbox',
+    client: 'Control Ambiental de Colombia S.A.S.',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Comparación del compostaje con aireación frente al manejo tradicional en rellenos sanitarios.',
+    description:
+      'Implementamos el análisis de ciclo de vida de una tecnología de compostaje con aireación para la gestión de residuos orgánicos de Control Ambiental de Colombia, comparando este escenario solución frente al manejo tradicional en rellenos sanitarios, bajo las normas ISO 14044 e ISO 14067.',
+    tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
+    tint: 'warm',
+  },
+  {
+    slug: 'climate-week-colombia-2020',
+    title: 'Climate Week Colombia 2020',
+    area: 'carbonbox',
+    client: 'Cámara Verde de Comercio',
+    country: 'Colombia',
+    year: '2020',
+    summary: 'Organización y huella de carbono de la Semana Climática de Colombia, en formato virtual.',
+    description:
+      'Organizamos, gestionamos y desarrollamos la Semana Climática de Colombia (Climate Week Colombia 2020) en formato virtual, junto a la Cámara Verde de Comercio, incluyendo el cálculo de su huella de carbono.',
+    tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'forest',
+  },
+  {
+    slug: 'maderera-rio-acre-huella-2022',
+    title: 'Medición y gestión de huella de carbono corporativa 2022',
+    area: 'carbonbox',
+    client: 'CANDES · Maderera Río Acre S.A.C.',
+    country: 'Perú',
+    year: '2022',
+    summary: 'Huella de carbono corporativa 2022 de Maderera Río Acre en Perú.',
+    description:
+      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2022 de Maderera Río Acre, conforme al GHG Protocol y la norma ISO 14064-1, incluyendo control de calidad de datos y recomendaciones de reducción.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'sunset',
+  },
+  {
+    slug: 'eternit-diagnostico-gei',
+    title: 'Diagnóstico de Gases de Efecto Invernadero',
+    area: 'carbonbox',
+    client: 'Eternit Colombia S.A',
+    country: 'Colombia',
+    year: '2023',
+    summary: 'Diagnóstico de emisiones de gases de efecto invernadero de Eternit Colombia.',
+    description:
+      'Elaboramos un diagnóstico de Gases de Efecto Invernadero (GEI) para Eternit Colombia, como primer paso hacia la gestión de su huella de carbono corporativa.',
+    tags: ['Huella de carbono corporativa', 'Herramienta de cálculo'],
+    tint: 'earth',
+  },
+  {
+    slug: 'comfama-deeper-learning',
+    title: 'Huella de carbono de los eventos Deeper Learning 2024 y 2025',
+    area: 'carbonbox',
+    client: 'Comfama',
+    country: 'Colombia',
+    year: '2024–2025',
+    summary: 'Estimación de la huella de carbono de las dos ediciones del evento Deeper Learning.',
+    description:
+      'Estimamos la huella de carbono de los eventos Deeper Learning 2024 y 2025 de Comfama en Medellín, mediante la plataforma CarbonBox.',
+    tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'river',
+  },
+  {
+    slug: 'cataexport-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'CataExport',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Huella de carbono corporativa 2025 de CataExport.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de CataExport conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'dusk',
+  },
+  {
+    slug: 'crepes-wafles-indicadores-carbono',
+    title: 'Indicadores de carbono para la cadena de suministro de carne bovina',
+    area: 'carbonbox',
+    client: 'WEIA · Crepes y Wafles',
+    country: 'Colombia',
+    summary: 'Indicadores de carbono agropecuarios para los proveedores de carne bovina de Crepes y Wafles.',
+    description:
+      'Analizamos las condiciones y eslabones de la cadena de producción de carne bovina dentro de la cadena de suministro de Crepes y Wafles, y desarrollamos indicadores de carbono agropecuarios para sus proveedores.',
+    tags: ['Herramienta de cálculo', 'Huella de carbono de producto'],
+    tint: 'blush',
+  },
+  {
+    slug: 'colgas-biogas-la-paz',
+    title: 'Metodologías para reducciones de emisiones del proyecto de biogás La Paz',
+    area: 'carbonbox',
+    client: 'Colgas',
+    country: 'Colombia',
+    summary: 'Análisis preliminar de metodologías para créditos de carbono del proyecto de biogás La Paz.',
+    description:
+      'Realizamos un análisis preliminar de las metodologías disponibles para calcular las reducciones de emisiones asociadas al proyecto de biogás La Paz de Colgas, como base para la formulación de créditos de carbono.',
+    tags: ['Formulación de créditos de carbono', 'Mitigación'],
+    tint: 'warm',
+  },
+  {
+    slug: 'spec-lng-huella-2024',
+    title: 'Huella de carbono corporativa 2024',
+    area: 'carbonbox',
+    client: 'SPEC LNG',
+    country: 'Colombia',
+    year: '2024',
+    summary: 'Estimación de la huella de carbono corporativa 2024 de SPEC LNG.',
+    description:
+      'Estimamos la huella de carbono corporativa 2024 de SPEC LNG, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'cool',
+  },
+  {
+    slug: 'asobancaria-congreso-2024',
+    title: 'Huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación',
+    area: 'carbonbox',
+    client: 'Asobancaria',
+    country: 'Colombia',
+    year: '2024',
+    summary: 'Estimación de la huella de carbono del 8° Congreso de Finanzas de Asobancaria.',
+    description:
+      'Estimamos la huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación 2024 de Asobancaria, mediante la plataforma CarbonBox.',
+    tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'forest',
+  },
+  {
+    slug: 'santa-fe-bogota-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'Fundación Santa Fé de Bogotá',
+    country: 'Colombia',
+    year: '2025',
+    summary: 'Huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'sunset',
+  },
+  {
+    slug: 'parker-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'Parker',
+    country: 'Argentina',
+    year: '2025',
+    summary: 'Huella de carbono corporativa 2025 de Parker en Argentina.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de Parker en Argentina conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'earth',
+  },
+  {
+    slug: 'ambielegsa-huella-2025',
+    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'AMBIELEGSA SA',
+    country: 'Ecuador',
+    year: '2025',
+    summary: 'Huella de carbono corporativa 2025 de AMBIELEGSA en Quito, Ecuador.',
+    description:
+      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de AMBIELEGSA conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'river',
+  },
+  {
+    slug: 'almacenes-ara-huella-corporativa',
+    title: 'Medición y gestión de huella de carbono corporativa',
+    area: 'carbonbox',
+    client: 'Jerónimo Martins · Almacenes Ara',
+    country: 'Colombia',
+    summary: 'Huella de carbono corporativa de Almacenes Ara mediante CarbonBox.',
+    description:
+      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa de Almacenes Ara conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'dusk',
+  },
+  {
+    slug: 'linktic-huella-corporativa',
+    title: 'Medición y gestión de huella de carbono corporativa',
+    area: 'carbonbox',
+    client: 'LinkTic S.A.S',
+    country: 'Colombia',
+    summary: 'Huella de carbono corporativa de LinkTic mediante CarbonBox.',
+    description:
+      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa de LinkTic conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'blush',
+  },
+  {
+    slug: 'biodiversal-compost-acv',
+    title: 'Medición de impacto del compostaje con aireación',
+    area: 'carbonbox',
+    client: 'Biodiversal',
+    country: 'Colombia',
+    summary: 'Análisis de ciclo de vida del compostaje con aireación para Biodiversal.',
+    description:
+      'Implementamos el análisis de ciclo de vida de una tecnología de compostaje con aireación para la gestión de residuos orgánicos de Biodiversal, bajo las normas ISO 14044 e ISO 14067.',
+    tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
+    tint: 'warm',
   },
 ];
 
 // Países presentes (para el filtro), en orden.
-export const PROJECT_COUNTRIES: string[] = ['Colombia', 'Ecuador', 'El Salvador', 'Honduras', 'Costa Rica'];
+export const PROJECT_COUNTRIES: string[] = [
+  'Colombia',
+  'Ecuador',
+  'El Salvador',
+  'Honduras',
+  'Costa Rica',
+  'Perú',
+  'Argentina',
+];
 
 export const projectsByArea = (area: AreaKey) => PROJECTS.filter((p) => p.area === area);
 
@@ -410,6 +839,19 @@ export const DOCUMENTS: KimsaDocument[] = [
     tags: ['NDC', 'Hoja de ruta', 'Mitigación', 'Adaptación'],
     url: 'https://cambioclimatico.minae.go.cr/wp-content/uploads/2026/01/CND-2025-2035-ULT-VERs.pdf',
     tint: 'forest',
+  },
+  {
+    slug: 'bienestar-conexion-naturaleza-metodologias-2025',
+    title:
+      'Documento de resultados a metodologías sobre dinámicas de bienestar ligadas a la conexión con la naturaleza',
+    area: 'psicologia',
+    client: 'KIMSA — Psicología Ambiental',
+    year: '2025',
+    contribution:
+      'Camilo Posada, bajo la supervisión de Carolina Quiñones, sistematizó los resultados de las metodologías aplicadas para explorar las dinámicas de bienestar asociadas a la conexión con la naturaleza.',
+    tags: ['Psicología ambiental', 'Bienestar', 'Conexión con la naturaleza'],
+    url: 'https://drive.google.com/file/d/1zJQoVOX0WbCghc580B0IR7jJCzVdZdB3/view',
+    tint: 'earth',
   },
   {
     slug: 'sostenibilidad-dnp-colombia-documento',
@@ -495,6 +937,18 @@ export const DOCUMENTS: KimsaDocument[] = [
     tags: ['LED', 'Agricultura', 'CCAFS'],
     url: "https://www.researchgate.net/publication/348211821_Scaling_up_the_use_of_low-emissions_development_LED_research_outputs_in_Colombia_Linking_science_to_policy_for_supporting_country's_LED_agriculture",
     tint: 'river',
+  },
+  {
+    slug: 'sondeo-percepcion-emocional-crisis-climatica-colombia-2022',
+    title: 'Sondeo: percepción emocional sobre la crisis climática en Colombia',
+    area: 'psicologia',
+    client: 'KIMSA — Psicología Ambiental',
+    year: '2022',
+    contribution:
+      'Estudio propio de KIMSA elaborado por Carolina Quiñones Hoyos, Viviana Bohórquez y Juliana Romero, que indaga cómo perciben y sienten emocionalmente la crisis climática distintos grupos poblacionales en Colombia.',
+    tags: ['Psicología ambiental', 'Percepción emocional', 'Crisis climática', 'Colombia'],
+    url: 'https://drive.google.com/file/d/1B5jXDsXY53647owftdhY9Vj81EY4eQH_/view',
+    tint: 'sunset',
   },
 ];
 

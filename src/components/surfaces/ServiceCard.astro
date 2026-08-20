@@ -36,21 +36,24 @@ const {
 } = Astro.props;
 ---
 <div class="service-card" style={`background:linear-gradient(165deg, ${bg} 0%, color-mix(in srgb, ${bg} 68%, black) 100%);`}>
-  {logo ? (
-    <div class="service-card__logo">
-      <img src={logo} alt={`Logo ${name}`} />
-    </div>
-  ) : photo && (
-    <PhotoPlaceholder ratio="4/3" rounded={20} src={photo.src} tint={photo.tint} label={photo.label} />
-  )}
-  <h3 class="service-card__title"><span class="dot" style={`background:${accent};`}></span>{name}</h3>
-  <p class="service-card__desc">{description}</p>
-  {bullets.length > 0 && (
-    <div class="service-card__tags">
-      {bullets.map((b) => <Tag onColor>{b}</Tag>)}
-    </div>
-  )}
-  <a class="service-card__link" href={href} style={`color:${accent};`}>{linkLabel}</a>
+  <div class="glow" style={`--glow-color: color-mix(in srgb, ${bg} 45%, white); --glow-size: 300px; --glow-top: -90px; --glow-right: -70px;`}></div>
+  <div class="service-card__content">
+    {logo ? (
+      <div class="service-card__logo">
+        <img src={logo} alt={`Logo ${name}`} />
+      </div>
+    ) : photo && (
+      <PhotoPlaceholder ratio="4/3" rounded={20} src={photo.src} tint={photo.tint} label={photo.label} />
+    )}
+    <h3 class="service-card__title"><span class="dot" style={`background:${accent};`}></span>{name}</h3>
+    <p class="service-card__desc">{description}</p>
+    {bullets.length > 0 && (
+      <div class="service-card__tags">
+        {bullets.map((b) => <Tag onColor>{b}</Tag>)}
+      </div>
+    )}
+    <a class="service-card__link" href={href} style={`color:${accent};`}>{linkLabel}</a>
+  </div>
 </div>
 
 <style>
@@ -58,11 +61,17 @@ const {
     color: var(--kimsa-bone);
     border-radius: var(--kimsa-radius-2xl);
     padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--kimsa-dur) var(--kimsa-ease), box-shadow var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
+  .service-card__content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    position: relative;
-    overflow: hidden;
   }
   .service-card__logo {
     aspect-ratio: 4/3;

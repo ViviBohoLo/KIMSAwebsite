@@ -10,11 +10,11 @@
 
 - [ ] **Matriz/hoja maestra de experiencia de KIMSA** (incluyendo CarbonBox) — para validar número de proyectos, países, reportes, mecanismos de financiamiento, años y clientes. → afecta **2, 8, 10, 12, 14, 15**.
 - [ ] **Proyecto actual de Costa Rica** (pedir a Natalia o compartir la info a la IA) — no está cargado. → **5b**.
-- [ ] **Proyectos de CarbonBox uno a uno** + el proyecto de **Argentina**. → **8, 14, 15**.
+- [x] **Proyectos de CarbonBox uno a uno** + el proyecto de **Argentina**. → **8, 14, 15**. _(resuelto 2026-08-20: 31 proyectos cargados desde el JSON del equipo, incluyendo el de Parker en Argentina — ver detalle en el ítem 14/15)_
 - [ ] **Fotos**: taller/trabajo de campo (Gestión Climática), comunidad/campo (Psicología Ambiental), dashboard o equipo (CarbonBox), y foto del proyecto de salud mental. → **3, 15**.
 - [ ] **Logos de clientes** en buena calidad: Climate Group, The Nature Conservancy, Cámara Verde (actualizado), Gobiernos de **Honduras** y **El Salvador** (y el que falte). → **2**.
 - [ ] **URLs reales de redes sociales** de KIMSA. → **9**.
-- [ ] **Publicaciones de Psicología Ambiental** (listado + enlaces). → **16**.
+- [x] **Publicaciones de Psicología Ambiental** (listado + enlaces). → **16**. _(resuelto 2026-08-20: 2 documentos cargados con enlace de Google Drive)_
 - [ ] **Video del hero** + página de referencia. → **6**.
 - [ ] **Enlaces de publicaciones por proyecto** (para el botón del modal). → **13**.
 
@@ -57,6 +57,7 @@
 ### 3. Tarjetas de servicio — fotos y etiquetas
 - **Qué:** Gestión Climática → foto de **taller/trabajo de campo**; Psicología Ambiental → **comunidad/campo**; CarbonBox → **equipo o dashboard**. En CarbonBox agregar etiquetas **"Gestión de reducciones"** y **"Carbono neutralidad"**.
 - **Dónde:** array `services` en `src/pages/index.astro`. **Necesita** las 3 fotos.
+- **Parcial (2026-08-20):** ✅ las 3 fotos resueltas — Gestión Climática usa `taller-gestion-climatica-home.jpg` (taller NDC), Psicología Ambiental usa `psicologia-ambiental-home.jpg` (encuentro comunitario), CarbonBox usa `carbonbox-platform.jpg` (foto del equipo, ya usada en `/servicios/carbonbox`). Archivos en `public/assets/projects/` (renombrados a kebab-case, sin espacios). Pendiente: agregar las etiquetas "Gestión de reducciones" y "Carbono neutralidad" al bullet list de CarbonBox.
 
 ### 6. Video en el hero
 - **Qué:** implementar el **video** del hero, parecido al de la página de referencia.
@@ -89,6 +90,9 @@
 ### 14. Carrusel vacío + blog/guías + CarbonBox Academy
 - **Qué:** el carrusel se ve muy solo → cargar **todos los proyectos de CarbonBox**. Añadir sección de **blog/guías** y **promocionar CarbonBox Academy**.
 - **Dónde:** `src/pages/servicios/carbonbox.astro` + proyectos en `src/data/site.ts`. **Necesita** listado de proyectos CarbonBox + material.
+- **Parcial (2026-08-20):** ✅ carrusel resuelto — se cargaron 31 proyectos nuevos de CarbonBox (32 en total con el de DNP/IPSOS que ya existía), tomados del JSON de proyectos que compartió el equipo. ✅ blog/guías y CarbonBox Academy resuelto — nueva sección en `/servicios/carbonbox` (`#blog`) que trae en cada build los 3 últimos artículos reales de `carbonbox.app/blog` (portada, categoría, título, resumen y link) más un banner a CarbonBox Academy. Ver `src/lib/carbonboxBlog.ts`.
+  - Como CarbonBox no tiene RSS/API pública, el fetch parsea su HTML de blog (que es Astro estático); si su estructura cambia y el parseo falla, la sección simplemente no se muestra — nunca rompe el build.
+  - **Pendiente (paso manual en Vercel, no se puede hacer por código):** para que esta sección se actualice sola sin esperar un `git push`, crear un Deploy Hook en Vercel (proyecto `kimsa-web` → Settings → Git → Deploy Hooks, rama `main`) y guardarlo como secret `VERCEL_DEPLOY_HOOK_URL` en GitHub (repo → Settings → Secrets and variables → Actions). El workflow que dispara el rebuild diario ya está listo en `.github/workflows/carbonbox-blog-sync.yml` — solo falta ese secret.
 
 ### 18. Experimento: estilo de la web original de CarbonBox
 - **Qué:** **prueba** de la subpágina tomando algo del estilo de carbonbox.app, solo para ver cómo queda. **Hacerlo en una rama aparte** (p. ej. `experimento/carbonbox-estilo`).
@@ -101,10 +105,13 @@
 ### 15. Tarjetas de proyecto — completar info + volumen
 - **Qué:** faltan **año**, **cliente(s)** y **productos/publicaciones**. **Salud mental** no tiene foto. Incluir **todos los proyectos de CarbonBox uno a uno** (queremos **volumen**).
 - **Dónde:** `src/components/sections/ProjectsExplorer.astro` + `src/data/site.ts`. **Necesita** matriz, foto de salud mental, listado CarbonBox.
+- **Parcial (2026-08-20):** ✅ volumen de CarbonBox resuelto — 31 proyectos nuevos agregados a `PROJECTS` (`src/data/site.ts`), visibles en `/proyectos` y en el carrusel de `/servicios/carbonbox`. Se agregaron **Perú** y **Argentina** a `PROJECT_COUNTRIES` para el filtro; los proyectos multi-país (CleanTechHub, GEC EcoEnterprises) quedaron con `country: 'Multirregional'` (solo visibles bajo el filtro "Todos"). Pendiente: foto de salud mental y validar productos/publicaciones por proyecto contra la matriz.
 
-### 13. Modal de proyecto — botón a la publicación
+### 13. Modal de proyecto — botón a la publicación ✅
 - **Qué:** si el proyecto tiene **publicación**, mostrar un **botón/enlace** para ir a ella.
 - **Dónde:** campo (p. ej. `publicationUrl`) en `src/data/site.ts` + `src/components/sections/ProjectModal.astro`. **Necesita** enlaces.
+- **Hecho (2026-08-20):** se agregó `publicationUrl?: string` a `Project` (`src/data/site.ts`) y el botón "Ver publicación →" en `ProjectModal.astro` (solo se muestra cuando el proyecto lo tiene). Se conectó para los 5 proyectos que ya tenían una publicación equivalente cargada en `DOCUMENTS`: `ndc-3-el-salvador`, `ndc-3-costa-rica`, `honduras-gei-bur`, `picct-narino` y `sostenibilidad-dnp-colombia`.
+  - **Pendiente:** el resto de proyectos no tiene publicación asociada todavía. Si el equipo comparte más enlaces (o confirma qué documento de `DOCUMENTS` corresponde a qué proyecto de `PROJECTS`), se agregan de la misma forma.
 
 ---
 
@@ -118,9 +125,13 @@
 
 ## 📰 Publicaciones
 
-### 16. Faltan las publicaciones de Psicología Ambiental
+### 16. Faltan las publicaciones de Psicología Ambiental ✅
 - **Qué:** agregar las publicaciones del área de Psicología Ambiental.
 - **Dónde:** `src/pages/publicaciones.astro` (+ datos si aplica). **Necesita** listado + enlaces.
+- **Hecho (2026-08-20):** se agregaron 2 documentos en `DOCUMENTS` (`src/data/site.ts`) con `area: 'psicologia'`:
+  - *Sondeo: percepción emocional sobre la crisis climática en Colombia* (2022) — Carolina Quiñones Hoyos, Viviana Bohórquez y Juliana Romero.
+  - *Documento de resultados a metodologías sobre dinámicas de bienestar ligadas a la conexión con la naturaleza* (2025) — Camilo Posada, supervisado por Carolina Quiñones.
+  - Los enlaces apuntan a los archivos en Google Drive compartidos por el equipo (`/view`); si se quiere forzar descarga directa habría que subir los PDF a `public/assets/` o a otro hosting.
 
 ---
 

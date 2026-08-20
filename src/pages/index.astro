@@ -24,9 +24,9 @@ const values = [
 ];
 
 const services = [
-  { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/estrategias-meta.jpg', tint: 'forest', label: 'trabajo de campo · medición de carbono' }, href: '/servicios/gestion-climatica' },
-  { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-nueva.jpg', tint: 'sunset', label: 'círculo de diálogo · taller participativo' }, href: '/servicios/psicologia-ambiental' },
-  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'GHG Protocol'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/carbonbox-logo-card.jpg', tint: 'dusk', label: 'logo CarbonBox' }, href: '/servicios/carbonbox' },
+  { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'taller de trabajo · gestión climática' }, href: '/servicios/gestion-climatica' },
+  { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'encuentro comunitario · psicología ambiental' }, href: '/servicios/psicologia-ambiental' },
+  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'ISO 14067', 'GHG Protocol'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'equipo CarbonBox' }, href: '/servicios/carbonbox' },
 ];
 
 const stats = [
@@ -70,6 +70,10 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
        marca reubicada como corte vertical en el borde (no como kicker sobre
        el título). -->
   <section class="hero" id="inicio" data-nav-theme="dark">
+    <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="/assets/videos/Hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__overlay" aria-hidden="true"></div>
     <Nav overlay />
     <div class="hero__glow hero__glow--peach" aria-hidden="true"></div>
     <div class="hero__glow hero__glow--terracotta" aria-hidden="true"></div>
@@ -81,7 +85,7 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
       <div class="hero-band__side">
         <p class="hero-band__lead">
           Somos KIMSA. Una consultora climática joven, nacida en Bogotá en 2017, que
-          trabaja desde 9 países de América Latina para enfrentar la crisis climática
+          trabaja desde 8 países de América Latina para enfrentar la crisis climática
           con rigor, frescura y humanidad.
         </p>
         <Button variant="primary" href="#servicios" class="hero-band__cta">Conozca nuestro trabajo →</Button>
@@ -102,7 +106,7 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section clients">
     <div class="clients__head reveal">
       <MountainMark size={44} class="clients__mark" />
-      <p class="clients__statement">Confían en KIMSA · 29 organizaciones en 9 países</p>
+      <p class="clients__statement">Confían en KIMSA · 29 organizaciones en 8 países</p>
     </div>
     <div class="clients__marquee reveal">
       <ClientsMarquee />
@@ -329,20 +333,42 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
      bosque profundo a coral; no hay límite de sección que "cortar". */
   .hero {
     position: relative;
-    /* Terracota/coral mezclados con crema: el mismo degradado pero menos
-       saturado — el original leía "incendio" en vez de cálido. */
-    background: linear-gradient(180deg,
-      var(--kimsa-forest-deep) 0%,
-      var(--kimsa-forest) 40%,
-      color-mix(in srgb, var(--kimsa-terracotta) 70%, var(--kimsa-cream) 30%) 76%,
-      color-mix(in srgb, var(--kimsa-coral) 55%, var(--kimsa-cream) 45%) 100%);
     color: var(--kimsa-bone);
     padding-bottom: 64px;
     overflow: hidden;
   }
-  .hero-band__grid { padding-top: min(18vh, 210px); }
+  /* Video de fondo: cubre toda la sección, detrás del degradado y el
+     contenido. Se silencia y hace loop para poder autorreproducirse. */
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  /* Mismo degradado que antes (bosque profundo → bosque → terracota →
+     coral), ahora como capa translúcida sobre el video para conservar el
+     contraste del texto sin taparlo por completo. El verde domina más
+     tiempo antes de virar a naranja, y el naranja/coral final está más
+     diluido; opacidad más baja para que el video se note más. */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      var(--kimsa-forest-deep) 0%,
+      var(--kimsa-forest) 58%,
+      color-mix(in srgb, var(--kimsa-terracotta) 45%, var(--kimsa-cream) 55%) 85%,
+      color-mix(in srgb, var(--kimsa-coral) 35%, var(--kimsa-cream) 65%) 100%);
+    opacity: 0.64;
+    pointer-events: none;
+  }
+  .hero-band__grid { position: relative; z-index: 2; padding-top: min(18vh, 210px); }
   .hero__glow {
     position: absolute;
+    z-index: 1;
     border-radius: 50%;
     filter: blur(70px);
     pointer-events: none;
@@ -472,8 +498,8 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .team__band-n { font-weight: 300; font-size: 88px; line-height: 1; }
   .team__band-l { font-size: 15px; max-width: 200px; line-height: 1.4; }
   .team__people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .team__photo { aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; position: relative; display: flex; align-items: flex-end; justify-content: center; }
-  .team__photo img { width: 96%; height: 98%; object-fit: contain; object-position: bottom; }
+  .team__photo { aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+  .team__photo img { width: 90%; height: 90%; object-fit: contain; object-position: center; border-radius: 16px; }
   .team__photo--more { background: linear-gradient(165deg, var(--kimsa-plum) 0%, color-mix(in srgb, var(--kimsa-plum) 70%, transparent) 60%, var(--kimsa-peach) 130%); flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--kimsa-bone); }
   .team__more-n { font-weight: 300; font-size: 56px; line-height: 1; }
   .team__name { margin-top: 16px; font-weight: 500; font-size: 16px; }

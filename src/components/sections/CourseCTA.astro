@@ -6,6 +6,11 @@
  */
 import Button from '../core/Button.astro';
 import MountainMark from '../brand/MountainMark.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
 ---
 <section class="section course-cta">
   <div class="course-cta__box reveal">
@@ -13,20 +18,22 @@ import MountainMark from '../brand/MountainMark.astro';
     <div class="course-cta__blob"></div>
     <div class="course-cta__left">
       <div class="course-cta__head">
-        <span class="side-tag" style="color:#ffe0c4">Curso · Psicología Ambiental</span>
+        <span class="side-tag" style="color:#ffe0c4">{t('course.eyebrow')}</span>
         <h2 class="h2" style="color:var(--kimsa-bone)">
-          ¿Cambio climático sin <em class="em-peach" style="color:#ffe0c4">cambio humano?</em>
+          {lang === 'en'
+            ? <>Climate change without <em class="em-peach" style="color:#ffe0c4">human change?</em></>
+            : <>¿Cambio climático sin <em class="em-peach" style="color:#ffe0c4">cambio humano?</em></>}
         </h2>
       </div>
       <p class="course-cta__text">
-        Descubre cómo la psicología ambiental puede ayudarte a actuar frente a la crisis
-        climática. Revive nuestro curso gratuito y aprende a movilizar el cambio desde lo
-        emocional y lo colectivo.
+        {lang === 'en'
+          ? 'Discover how environmental psychology can help you act on the climate crisis. Watch our free course and learn to mobilize change from the emotional and the collective.'
+          : 'Descubre cómo la psicología ambiental puede ayudarte a actuar frente a la crisis climática. Revive nuestro curso gratuito y aprende a movilizar el cambio desde lo emocional y lo colectivo.'}
       </p>
     </div>
     <div class="course-cta__right">
-      <Button variant="cream" size="lg" href="/curso-psicologia-ambiental">Ver el curso →</Button>
-      <span class="course-cta__note">2 sesiones · en línea · sin costo</span>
+      <Button variant="cream" size="lg" href={p('/curso-psicologia-ambiental')}>{t('course.cta')}</Button>
+      <span class="course-cta__note">{lang === 'en' ? '2 sessions · online · free' : '2 sesiones · en línea · sin costo'}</span>
     </div>
   </div>
 </section>

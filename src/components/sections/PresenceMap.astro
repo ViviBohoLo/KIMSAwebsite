@@ -5,51 +5,67 @@
  * países donde KIMSA tiene presencia; cada país se pinta con el color de
  * marca. Al pasar el mouse sobre un país —ya sea en el mapa o en el nombre
  * del panel lateral— aparece una etiqueta apuntando a ese país con la
- * cantidad de proyectos realizados y un par de proyectos destacados.
+ * cantidad de proyectos realizados y un par de proyectos destacados. Al
+ * hacer clic —en el país del mapa o en su etiqueta del panel— se navega a
+ * /proyectos con el filtro de país preaplicado (mismo patrón que /clientes,
+ * que preaplica el filtro por organización).
  *
  * Los datos (COUNTRY_STATS) salen de la matriz de experiencia KIMSA 2026.
  * Sin JS, se ve el mapa ilustrado original como respaldo (progressive
  * enhancement, igual que `.reveal`: ver Base.astro / global.css).
  */
-import { COUNTRY_STATS } from '../../data/site';
+import { COUNTRY_STATS, localizeCountryStat } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   variant?: 'home' | 'nosotros';
 }
 const { variant = 'home' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const stats = COUNTRY_STATS.map((c) => localizeCountryStat(c, lang));
 
-const lead = variant === 'home'
+const leadEs = variant === 'home'
   ? 'Sede principal en Bogotá D.C., sucursal en San José de Costa Rica, y un HUB de profesionales distribuidos por la región. Pase el mouse sobre un país para ver los proyectos realizados allí.'
   : 'Sede principal en Bogotá D.C. y sucursal en San José de Costa Rica. Pase el mouse sobre un país para ver los proyectos realizados allí.';
+const leadEn = variant === 'home'
+  ? 'Headquarters in Bogotá D.C., branch office in San José, Costa Rica, and a HUB of professionals distributed across the region. Hover over a country to see the projects carried out there.'
+  : 'Headquarters in Bogotá D.C. and branch office in San José, Costa Rica. Hover over a country to see the projects carried out there.';
+const lead = lang === 'en' ? leadEn : leadEs;
+const countryCount = lang === 'en' ? 'Eight countries' : 'Ocho países';
+const titleEnd = lang === 'en' ? 'we call home.' : 'que llamamos casa.';
 ---
 <div class="pmap__grid container">
   <div class="reveal">
     <div class="pmap__head">
-      <span class="side-tag">Dónde estamos</span>
-      <h2 class="h2"><em class="em-forest">Nueve países</em> que llamamos casa.</h2>
+      <span class="side-tag">{t('presence.title')}</span>
+      <h2 class="h2"><em class="em-forest">{countryCount}</em> {titleEnd}</h2>
     </div>
     <p class="pmap__text">{lead}</p>
     <ul class="pmap__countries" id="pmap-countries">
-      {COUNTRY_STATS.map((c, i) => (
-        <li>
-          <button
-            type="button"
-            class="pmap__country"
-            data-code={c.code}
-            style={`background:${i % 2 ? 'var(--kimsa-blush)' : 'var(--kimsa-bone)'}`}
-          >
-            <span class="pmap__country-name">{c.name}</span>
-            <span class="pmap__country-n">{c.count > 0 ? c.count : 'HUB'}</span>
-          </button>
-        </li>
-      ))}
+      {stats.map((c, i) => {
+        const tint = i % 2 ? 'var(--kimsa-blush)' : 'var(--kimsa-tint-forest)';
+        return (
+          <li>
+            <button
+              type="button"
+              class="pmap__country"
+              data-code={c.code}
+              style={`background:linear-gradient(160deg, ${tint} 0%, color-mix(in srgb, ${tint} 55%, white) 100%)`}
+            >
+              <span class="pmap__country-name">{c.name}</span>
+              <span class="pmap__country-n">{c.count > 0 ? c.count : 'HUB'}</span>
+            </button>
+          </li>
+        );
+      })}
     </ul>
   </div>
 
   <div class="pmap__mapwrap reveal">
-    <img class="pmap__fallback" src="/assets/kimsa-map.png" alt="Presencia de KIMSA en América Latina" />
-    <div class="pmap__canvas" id="pmap-canvas" role="img" aria-label="Mapa interactivo de la presencia de KIMSA en América Latina"></div>
-    <div class="pmap__callout" id="pmap-callout" aria-hidden="true">
+    <img class="pmap__fallback" src="/assets/kimsa-map.png" alt={lang === 'en' ? "KIMSA's presence in Latin America" : 'Presencia de KIMSA en América Latina'} />
+    <div class="pmap__canvas" id="pmap-canvas" role="img" aria-label={t('presence.aria')}></div>
+    <div class="pmap__callout" id="pmap-callout" aria-hidden="true" data-lang={lang}>
       <div class="pmap__callout-name"></div>
       <div class="pmap__callout-count"></div>
       <ul class="pmap__callout-list"></ul>
@@ -58,7 +74,7 @@ const lead = variant === 'home'
   </div>
 </div>
 
-<script type="application/json" id="pmap-data" set:html={JSON.stringify(COUNTRY_STATS)} />
+<script type="application/json" id="pmap-data" set:html={JSON.stringify(stats)} />
 
 <script>
   import JsVectorMap from 'jsvectormap';
@@ -68,10 +84,20 @@ const lead = variant === 'home'
   const canvas = document.getElementById('pmap-canvas');
   const dataEl = document.getElementById('pmap-data');
   if (canvas && dataEl) {
-    /** @type {{name:string, code:string, count:number, highlights:string[]}[]} */
+    /** @type {{name:string, rawName:string, code:string, count:number, highlights:string[]}[]} */
     const stats = JSON.parse(dataEl.textContent || '[]');
     const byCode = new Map(stats.map((s) => [s.code, s]));
     const codes = stats.map((s) => s.code);
+
+    // Al hacer clic se navega a /proyectos prefiltrado por país (mismo
+    // patrón que /clientes, que prefiltra por organización).
+    const isEnPath = location.pathname.startsWith('/en');
+    function goToCountryProjects(code) {
+      const stat = byCode.get(code);
+      if (!stat) return;
+      const base = isEnPath ? '/en/proyectos' : '/proyectos';
+      location.href = `${base}?country=${encodeURIComponent(stat.rawName)}`;
+    }
 
     const wrap = canvas.parentElement;
     const callout = document.getElementById('pmap-callout');
@@ -92,13 +118,17 @@ const lead = variant === 'home'
     let map;
     let activeCode = null;
 
+    const isEn = callout.dataset.lang === 'en';
+
     function buildCalloutContent(stat) {
       callout.querySelector('.pmap__callout-name').textContent = stat.name;
       const countEl = callout.querySelector('.pmap__callout-count');
       if (stat.count > 0) {
-        countEl.innerHTML = `<strong>${stat.count}</strong> proyecto${stat.count === 1 ? '' : 's'} realizado${stat.count === 1 ? '' : 's'}`;
+        countEl.innerHTML = isEn
+          ? `<strong>${stat.count}</strong> project${stat.count === 1 ? '' : 's'} carried out`
+          : `<strong>${stat.count}</strong> proyecto${stat.count === 1 ? '' : 's'} realizado${stat.count === 1 ? '' : 's'}`;
       } else {
-        countEl.textContent = 'Presencia de nuestro HUB regional';
+        countEl.textContent = isEn ? 'Presence of our regional HUB' : 'Presencia de nuestro HUB regional';
       }
       const list = callout.querySelector('.pmap__callout-list');
       list.innerHTML = '';
@@ -172,6 +202,7 @@ const lead = variant === 'home'
             node.addEventListener('mouseleave', () => deactivate(code));
             node.addEventListener('focus', () => activate(code));
             node.addEventListener('blur', () => deactivate(code));
+            node.addEventListener('click', () => goToCountryProjects(code));
           });
           // Encuadre de México a Argentina: se fuerza el foco a incluir esos
           // dos países aunque no tengan proyectos, para que se vea todo el
@@ -192,7 +223,7 @@ const lead = variant === 'home'
       el.addEventListener('mouseleave', () => deactivate(code));
       el.addEventListener('focus', () => activate(code));
       el.addEventListener('blur', () => deactivate(code));
-      el.addEventListener('click', () => (activeCode === code ? deactivate(code) : activate(code)));
+      el.addEventListener('click', () => goToCountryProjects(code));
     });
 
     window.addEventListener('resize', () => deactivate());

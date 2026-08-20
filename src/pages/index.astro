@@ -15,7 +15,7 @@ import ProjectModal from '../components/sections/ProjectModal.astro';
 import OdometerStat from '../components/core/OdometerStat.astro';
 import HomeSectionNav from '../components/sections/HomeSectionNav.astro';
 import PresenceMap from '../components/sections/PresenceMap.astro';
-import { PROJECTS, TEAM, CONTACT } from '../data/site';
+import { PROJECTS, TEAM, CONTACT, CLIENT_LOGOS } from '../data/site';
 
 const values = [
   { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
@@ -24,15 +24,15 @@ const values = [
 ];
 
 const services = [
-  { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/estrategias-meta.jpg', tint: 'forest', label: 'trabajo de campo · medición de carbono' }, href: '/servicios/gestion-climatica' },
-  { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-nueva.jpg', tint: 'sunset', label: 'círculo de diálogo · taller participativo' }, href: '/servicios/psicologia-ambiental' },
-  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'GHG Protocol'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/carbonbox-logo-card.jpg', tint: 'dusk', label: 'logo CarbonBox' }, href: '/servicios/carbonbox' },
+  { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'taller de trabajo · gestión climática' }, href: '/servicios/gestion-climatica' },
+  { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'encuentro comunitario · psicología ambiental' }, href: '/servicios/psicologia-ambiental' },
+  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'ISO 14067', 'GHG Protocol', 'Gestión de reducciones', 'Carbono neutralidad'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'equipo CarbonBox' }, href: '/servicios/carbonbox' },
 ];
 
 const stats = [
   { n: '+150', l: 'proyectos en América Latina', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-blush)' },
   { n: '+12', l: 'gobiernos apoyados en el Acuerdo de París', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { n: '+8,000', l: 'actores consultados', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { n: '+8,000', l: 'personas consultadas', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
   { n: '+1,200', l: 'colaboradores capacitados', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
 ];
 // Mismas cifras que arriba, partidas en prefijo/valor numérico para el
@@ -42,15 +42,11 @@ const heroStats = stats.map((s) => {
   return { prefix: m?.[1] ?? '', value: m?.[2] ?? s.n, l: s.l };
 });
 
-const ceiba = [
-  { n: '$16.5M', l: 'COP donados en 2024', c: 'var(--kimsa-peach)' },
-  { n: '1%', l: 'de nuestras utilidades', c: 'var(--kimsa-coral)' },
-  { n: '4', l: 'años de alianza', c: 'var(--kimsa-gold)' },
-];
 
 const story = [
   { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
-  { y: '2020', t: 'Alianza Ceiba Bruja', d: 'El 1% de las utilidades a la conservación del bosque seco tropical.' },
+  { y: '2020', t: 'Expansión LATAM', d: 'Expansión y apoyo a proyectos en varios países de América Latina.' },
+  { y: '2020', t: 'Alianza con la Fundación InnNature', d: 'El 1% de nuestras utilidades apoya la conservación de la Reserva Ceiba Bruja.' },
   { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
   { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
 ];
@@ -70,6 +66,10 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
        marca reubicada como corte vertical en el borde (no como kicker sobre
        el título). -->
   <section class="hero" id="inicio" data-nav-theme="dark">
+    <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="/assets/videos/Hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__overlay" aria-hidden="true"></div>
     <Nav overlay />
     <div class="hero__glow hero__glow--peach" aria-hidden="true"></div>
     <div class="hero__glow hero__glow--terracotta" aria-hidden="true"></div>
@@ -81,7 +81,7 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
       <div class="hero-band__side">
         <p class="hero-band__lead">
           Somos KIMSA. Una consultora climática joven, nacida en Bogotá en 2017, que
-          trabaja desde 9 países de América Latina para enfrentar la crisis climática
+          trabaja desde 8 países de América Latina para enfrentar la crisis climática
           con rigor, frescura y humanidad.
         </p>
         <Button variant="primary" href="#servicios" class="hero-band__cta">Conozca nuestro trabajo →</Button>
@@ -102,10 +102,13 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section clients">
     <div class="clients__head reveal">
       <MountainMark size={44} class="clients__mark" />
-      <p class="clients__statement">Confían en KIMSA · 29 organizaciones en 9 países</p>
+      <p class="clients__statement">Confían en KIMSA · {CLIENT_LOGOS.length} organizaciones en 8 países</p>
     </div>
     <div class="clients__marquee reveal">
       <ClientsMarquee />
+    </div>
+    <div class="clients__cta reveal">
+      <Button variant="secondary" size="sm" href="/clientes">Conoce todas las organizaciones que confían en KIMSA →</Button>
     </div>
   </section>
 
@@ -183,22 +186,16 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
         <div class="ceiba__head">
           <span class="side-tag" style="color:var(--kimsa-peach)">Nuestro aporte a la naturaleza</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            El <em class="em-peach">1%</em> de nuestras utilidades va a la <em class="em-peach">Reserva Ceiba Bruja</em>, en la Sierra Nevada de Santa Marta.
+            El <em class="em-peach">1%</em> de nuestras utilidades va a la
+            <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Reserva Ceiba Bruja</a>,
+            en la Sierra Nevada de Santa Marta.
           </h2>
         </div>
         <p class="ceiba__text">
-          Llevamos cuatro años junto a la Fundación InnNature trabajando en la
-          conservación del bosque seco tropical y apoyando proyectos productivos
-          sostenibles para las comunidades locales.
+          Desde 2020 generamos una alianza con la <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Fundación InnNature</a>,
+          con quien trabajamos en la conservación del bosque seco tropical y apoyamos
+          proyectos productivos sostenibles para las comunidades locales.
         </p>
-        <div class="ceiba__cells">
-          {ceiba.map((c) => (
-            <div class="ceiba__cell">
-              <div class="ceiba__cell-n" style={`color:${c.c}`}>{c.n}</div>
-              <div class="ceiba__cell-l">{c.l}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   </section>
@@ -329,20 +326,42 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
      bosque profundo a coral; no hay límite de sección que "cortar". */
   .hero {
     position: relative;
-    /* Terracota/coral mezclados con crema: el mismo degradado pero menos
-       saturado — el original leía "incendio" en vez de cálido. */
-    background: linear-gradient(180deg,
-      var(--kimsa-forest-deep) 0%,
-      var(--kimsa-forest) 40%,
-      color-mix(in srgb, var(--kimsa-terracotta) 70%, var(--kimsa-cream) 30%) 76%,
-      color-mix(in srgb, var(--kimsa-coral) 55%, var(--kimsa-cream) 45%) 100%);
     color: var(--kimsa-bone);
     padding-bottom: 64px;
     overflow: hidden;
   }
-  .hero-band__grid { padding-top: min(18vh, 210px); }
+  /* Video de fondo: cubre toda la sección, detrás del degradado y el
+     contenido. Se silencia y hace loop para poder autorreproducirse. */
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  /* Mismo degradado que antes (bosque profundo → bosque → terracota →
+     coral), ahora como capa translúcida sobre el video para conservar el
+     contraste del texto sin taparlo por completo. El verde domina más
+     tiempo antes de virar a naranja, y el naranja/coral final está más
+     diluido; opacidad más baja para que el video se note más. */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      var(--kimsa-forest-deep) 0%,
+      var(--kimsa-forest) 58%,
+      color-mix(in srgb, var(--kimsa-terracotta) 45%, var(--kimsa-cream) 55%) 85%,
+      color-mix(in srgb, var(--kimsa-coral) 35%, var(--kimsa-cream) 65%) 100%);
+    opacity: 0.64;
+    pointer-events: none;
+  }
+  .hero-band__grid { position: relative; z-index: 2; padding-top: min(18vh, 210px); }
   .hero__glow {
     position: absolute;
+    z-index: 1;
     border-radius: 50%;
     filter: blur(70px);
     pointer-events: none;
@@ -378,6 +397,13 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .clients__head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 44px; }
   .clients__statement { font-size: 20px; font-weight: 500; color: var(--kimsa-ink); text-align: center; }
   .clients__marquee { margin: 0 calc(-1 * var(--kimsa-section-x)); } /* a sangre para el bucle */
+  .clients__cta { display: flex; justify-content: flex-end; margin-top: 32px; }
+  /* HomeSectionNav (la guía de puntos) es fixed a la derecha desde 1240px;
+     se le deja el mismo margen para que no se solape con su etiqueta al
+     pasar el mouse. */
+  @media (min-width: 1240px) {
+    .clients__cta { padding-right: 120px; }
+  }
 
   /* ---------- Blobs (decoración) ---------- */
   .blob { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(40px); pointer-events: none; }
@@ -426,10 +452,8 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .ceiba__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; position: relative; }
   .ceiba__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 32px; }
   .ceiba__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 520px; }
-  .ceiba__cells { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .ceiba__cell { padding: 20px; background: rgba(255,255,255,0.06); border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); }
-  .ceiba__cell-n { font-weight: 300; font-size: 36px; line-height: 1; }
-  .ceiba__cell-l { font-size: 12px; color: rgba(251,248,241,0.72); margin-top: 8px; }
+  .ceiba__link { text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--kimsa-peach) 55%, transparent); transition: border-color var(--kimsa-dur) var(--kimsa-ease); }
+  .ceiba__link:hover { border-color: var(--kimsa-peach); }
 
   /* ---------- PROYECTOS ---------- */
   .projects { background: var(--kimsa-cream-deep); }
@@ -458,7 +482,16 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .story__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; position: relative; }
   .story__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
   .story__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 460px; }
-  .story__item { display: grid; grid-template-columns: 90px 1fr; gap: 28px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .story__item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 28px;
+    align-items: center;
+    padding: 22px 20px;
+    border-radius: var(--kimsa-radius-lg);
+    background: linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+  }
+  .story__item + .story__item { margin-top: 10px; }
   .story__year { font-weight: 300; font-size: 32px; color: var(--kimsa-peach); line-height: 1; }
   .story__item-title { font-weight: 600; font-size: 18px; margin-bottom: 4px; }
   .story__item-desc { font-size: 14px; color: rgba(251,248,241,0.72); line-height: 1.5; }
@@ -472,8 +505,8 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .team__band-n { font-weight: 300; font-size: 88px; line-height: 1; }
   .team__band-l { font-size: 15px; max-width: 200px; line-height: 1.4; }
   .team__people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .team__photo { aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; position: relative; display: flex; align-items: flex-end; justify-content: center; }
-  .team__photo img { width: 96%; height: 98%; object-fit: contain; object-position: bottom; }
+  .team__photo { aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+  .team__photo img { width: 90%; height: 90%; object-fit: contain; object-position: center; border-radius: 16px; }
   .team__photo--more { background: linear-gradient(165deg, var(--kimsa-plum) 0%, color-mix(in srgb, var(--kimsa-plum) 70%, transparent) 60%, var(--kimsa-peach) 130%); flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--kimsa-bone); }
   .team__more-n { font-weight: 300; font-size: 56px; line-height: 1; }
   .team__name { margin-top: 16px; font-weight: 500; font-size: 16px; }
@@ -500,7 +533,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     .story__mark, .manifesto__mark { display: none; }
   }
   @media (max-width: 520px) {
-    .ceiba__cells { grid-template-columns: 1fr; }
     .projects__small { grid-template-columns: 100px 1fr; }
   }
 </style>

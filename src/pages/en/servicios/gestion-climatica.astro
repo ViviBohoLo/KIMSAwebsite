@@ -1,0 +1,140 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ServiceHero from '../../../components/sections/ServiceHero.astro';
+import StatBand from '../../../components/sections/StatBand.astro';
+import NumberedCard from '../../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../../components/sections/ProjectModal.astro';
+import { projectsByArea } from '../../../data/site';
+
+const stats = [
+  { n: '3', l: 'reports for the United Nations Framework Convention on Climate Change' },
+  { n: '250+', l: 'stakeholders strengthened in adaptation and mitigation' },
+  { n: '6', l: 'regional climate management plans' },
+  { n: '1', l: 'climate finance mechanism' },
+];
+
+const oferta = [
+  { t: 'Climate monitoring systems', d: 'Design and strengthening of Monitoring, Reporting, and Verification (MRV) systems for mitigation.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'GHG inventories', d: 'Preparation of emissions inventories and sectoral and territorial decarbonization pathways.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Risk analysis', d: 'Climate vulnerability assessments for informed decisions in the face of extreme events.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Climate projects and reports', d: 'Formulation of projects for national and international climate funds.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Policies and strategies', d: 'Sectoral, territorial, and institutional plans for climate action.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const capacidades = [
+  { t: 'Technical assistance for the Paris Agreement Enhanced Transparency Framework', c: 'var(--kimsa-forest)' },
+  { t: 'Climate risk assessments and adaptation measures', c: 'var(--kimsa-terracotta)' },
+  { t: 'Institutional capacity strengthening', c: 'var(--kimsa-coral)' },
+  { t: 'MRV systems and GHG emissions accounting', c: 'var(--kimsa-plum)' },
+  { t: 'Design of climate finance instruments', c: 'var(--kimsa-gold)' },
+];
+
+// Referencias: todos los proyectos de gestión climática (ProjectsCarousel
+// los localiza internamente según la URL de la página).
+const refs = projectsByArea('gestion');
+---
+<Base title="Climate Management · KIMSA" description="Specialized consulting in mitigation, adaptation, finance, and climate planning.">
+  <ServiceHero
+    crumb="Climate Management"
+    titleMain="Climate"
+    titleEm="Management"
+    emColor="var(--kimsa-forest)"
+    lead="Specialized consulting in mitigation, adaptation, finance, and climate planning — with humanity and rigor."
+    photo="/assets/projects/taller-gestion-climatica-home.jpg"
+    photoTint="forest"
+    photoLabel="work session · climate management"
+    ctaHref="/en/contacto"
+  />
+
+  <StatBand stats={stats} bg="var(--kimsa-forest)" />
+
+  <!-- Nuestra oferta: fondo claro (igual que en los demás servicios) —
+       el verde del StatBand de arriba ya cubre el acento oscuro de la
+       página, así que esta sección usa crema en vez de otro bloque forest. -->
+  <section class="section svc-oferta" style="background:var(--kimsa-cream)">
+    <div class="svc-head container">
+      <div class="reveal svc-head-left">
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Our <em class="em-forest">offering.</em></h2>
+      </div>
+      <p class="lead reveal">
+        Each service adapts to your organization's sector, size, and climate
+        maturity. No encyclopedias.
+      </p>
+    </div>
+    <div class="svc-cards container reveal">
+      {oferta.map((o) => (
+        <NumberedCard title={o.t} accent={o.fg} tint={o.bg}>{o.d}</NumberedCard>
+      ))}
+    </div>
+  </section>
+
+  <!-- Capacidades -->
+  <section class="section caps-section" style="background:var(--kimsa-bone)">
+    <div class="glow" style="--glow-color: color-mix(in srgb, var(--kimsa-terracotta) 45%, white); --glow-size: 380px; --glow-top: -90px; --glow-right: -100px;"></div>
+    <div class="container">
+      <div class="reveal caps-head">
+        <span class="side-tag">Core capabilities</span>
+        <h2 class="h2" style="margin:0">Five fronts, one shared care.</h2>
+      </div>
+      <ul class="caps reveal">
+        {capacidades.map((c, i) => (
+          <li class="caps__item" style={`--caps-accent:${c.c}`}>
+            <span class="caps__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="caps__text">{c.t}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Referencias / casos -->
+  <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
+    <div class="svc-head container">
+      <div class="reveal svc-head-left">
+        <span class="side-tag">References</span>
+        <h2 class="h2">Some <em class="em-forest">projects.</em></h2>
+      </div>
+      <p class="lead reveal">Swipe or use the arrows to see all projects. Click one to see the details.</p>
+    </div>
+    <div class="container reveal">
+      <ProjectsCarousel projects={refs} id="pc-gestion" />
+    </div>
+  </section>
+
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; position: relative; z-index: 1; }
+  .svc-head .lead { max-width: 540px; }
+  .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .caps-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 48px; position: relative; z-index: 1; }
+  .svc-oferta { position: relative; overflow: hidden; }
+  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
+  .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .caps-section { position: relative; overflow: hidden; }
+  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; position: relative; z-index: 1; }
+  .caps__item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 14px;
+    border-top: 1px solid var(--kimsa-rule);
+    font-size: 17px;
+    line-height: 1.5;
+    border-radius: var(--kimsa-radius-md);
+    transition: background var(--kimsa-dur) var(--kimsa-ease), transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .caps__item:hover { background: color-mix(in srgb, var(--caps-accent) 10%, transparent); transform: translateX(6px); }
+  .caps__num { font-family: var(--kimsa-font-mono); font-weight: 700; font-size: 13px; color: var(--caps-accent); margin-top: 4px; flex-shrink: 0; }
+  @media (max-width: 900px) {
+    .svc-head { grid-template-columns: 1fr; gap: 24px; }
+    .svc-cards { grid-template-columns: 1fr; }
+    .svc-refs { grid-template-columns: 1fr; }
+    .caps { grid-template-columns: 1fr; }
+  }
+</style>

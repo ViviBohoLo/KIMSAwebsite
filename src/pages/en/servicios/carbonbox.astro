@@ -1,0 +1,204 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ServiceHero from '../../../components/sections/ServiceHero.astro';
+import StatBand from '../../../components/sections/StatBand.astro';
+import NumberedCard from '../../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../../components/sections/ProjectModal.astro';
+import Button from '../../../components/core/Button.astro';
+import { projectsByArea } from '../../../data/site';
+import { getCarbonBoxPosts, CARBONBOX_BLOG_URL, CARBONBOX_ACADEMY_URL } from '../../../lib/carbonboxBlog';
+
+const stats = [
+  { n: '50+', l: 'satisfied clients' },
+  { n: '13,000+', l: 'tons of greenhouse gases managed' },
+  { n: '6', l: 'economic sectors addressed' },
+  { n: '500+', l: 'people trained in decarbonization' },
+];
+
+const areas = [
+  { t: 'Carbon footprint estimation', d: 'Calculate your company or event emissions following recognized international standards.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Reduction and decarbonization', d: 'Automate your emission reduction plan and track your goals.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Product carbon footprint', d: 'Measure the carbon impact of your entire value chain.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Training and self-management', d: 'Through CarbonBox Academy we offer training to manage your footprint on your own.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+];
+
+const pasos = [
+  { n: '01', t: 'Annual subscription', d: 'Access the platform to manage your carbon footprint all year round.', c: 'var(--kimsa-plum)' },
+  { n: '02', t: 'Training and support', d: 'Expert training and support throughout the process.', c: 'var(--kimsa-terracotta)' },
+  { n: '03', t: 'International standards', d: 'Aligned with ISO 14064-1 and the GHG Protocol.', c: 'var(--kimsa-forest)' },
+];
+
+const refs = projectsByArea('carbonbox');
+
+// Últimos artículos de carbonbox.app/blog (ver src/lib/carbonboxBlog.ts).
+// Nota: el blog de CarbonBox solo existe en español — estos artículos se
+// muestran tal cual (no hay traducción automática de contenido externo).
+const carbonboxPosts = await getCarbonBoxPosts(3);
+---
+<Base title="CarbonBox · Technology for nature · KIMSA" description="CarbonBox digitizes environmental management for companies and organizations: measure, reduce, and manage your carbon footprint.">
+  <ServiceHero
+    crumb="CarbonBox"
+    titleMain="Carbon"
+    titleEm="Box"
+    joined
+    emColor="#1620a4"
+    lead="We digitize environmental management for companies and organizations. Technology for nature that measures, reduces, and manages your carbon footprint."
+    photo="/assets/projects/carbonbox-platform.jpg"
+    photoTint="dusk"
+    photoLabel="CarbonBox platform · footprint measurement dashboard"
+    ctaHref="https://www.carbonbox.app"
+  />
+
+  <StatBand stats={stats} bg="var(--kimsa-plum)" />
+
+  <!-- Áreas de servicio -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="svc-head container">
+      <div class="reveal svc-head-left">
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Environmental management, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitized.</em></h2>
+      </div>
+      <p class="lead reveal">
+        CarbonBox brings together the measurement, reduction, and reporting of your
+        environmental impact in one place — with expert support.
+      </p>
+    </div>
+    <div class="svc-cards container reveal">
+      {areas.map((a) => (
+        <NumberedCard title={a.t} accent={a.fg} tint={a.bg}>{a.d}</NumberedCard>
+      ))}
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:48px">
+        <span class="side-tag">How it works</span>
+        <h2 class="h2" style="margin:0">Three steps, zero hassle.</h2>
+      </div>
+      <div class="steps reveal">
+        {pasos.map((s) => (
+          <div class="step" style={`border-color:color-mix(in srgb, ${s.c} 33%, transparent)`}>
+            <div class="step__disc" style={`background:${s.c}`}>{s.n}</div>
+            <h3 class="step__title" style={`color:${s.c}`}>{s.t}</h3>
+            <p class="step__desc">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Referencias -->
+  <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:20px">
+        <span class="side-tag">References</span>
+        <h2 class="h2" style="margin:0">CarbonBox in <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">action.</em></h2>
+      </div>
+      <p class="lead reveal" style="margin-bottom:40px">Click on a project to see the full details.</p>
+      <ProjectsCarousel projects={refs} id="pc-carbon" />
+    </div>
+  </section>
+
+  <!-- Blog + CarbonBox Academy -->
+  <section class="section" id="blog" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:20px">
+        <span class="side-tag">Blog</span>
+        <h2 class="h2" style="margin:0">Ideas and science to <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">decarbonize.</em></h2>
+      </div>
+      <p class="lead reveal" style="margin-bottom:40px">Articles from the CarbonBox team on carbon footprint, regulation, and sustainability strategy (currently published in Spanish).</p>
+
+      {carbonboxPosts.length > 0 && (
+        <div class="cb-blog-grid reveal">
+          {carbonboxPosts.map((p) => (
+            <a class="cb-blog-card" href={p.url} target="_blank" rel="noopener noreferrer">
+              {p.cover && <div class="cb-blog-card__media"><img src={p.cover} alt={p.title} loading="lazy" /></div>}
+              <div class="cb-blog-card__body">
+                {p.category && <span class="cb-blog-card__tag">{p.category}</span>}
+                <h3 class="cb-blog-card__title">{p.title}</h3>
+                {p.excerpt && <p class="cb-blog-card__excerpt">{p.excerpt}</p>}
+                {p.date && <span class="cb-blog-card__date">{p.date}</span>}
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+      <p class="cb-blog-more reveal">
+        <a href={CARBONBOX_BLOG_URL} target="_blank" rel="noopener noreferrer">See all articles at carbonbox.app/blog →</a>
+      </p>
+
+      <div class="cb-academy reveal">
+        <div class="cb-academy__text">
+          <span class="side-tag">CarbonBox Academy</span>
+          <p>Free guides, webinars, and masterclasses to manage your carbon footprint on your own.</p>
+        </div>
+        <Button variant="primary" size="md" href={CARBONBOX_ACADEMY_URL} target="_blank" rel="noopener noreferrer">
+          Go to CarbonBox Academy →
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
+  .svc-head .lead { max-width: 540px; }
+  .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .svc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); position: relative; margin-top: 20px; background: var(--kimsa-bone); }
+  .step__disc { position: absolute; top: -20px; left: 28px; width: 56px; height: 56px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--kimsa-bone); }
+  .step__title { font-weight: 600; font-size: 22px; margin: 28px 0 12px; }
+  .step__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 820px; }
+
+  .cb-blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
+  .cb-blog-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--kimsa-surface-card);
+    border-radius: var(--kimsa-radius-xl);
+    box-shadow: var(--kimsa-shadow-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--kimsa-dur) var(--kimsa-ease), box-shadow var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .cb-blog-card:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
+  .cb-blog-card__media { aspect-ratio: 16/9; overflow: hidden; background: var(--kimsa-cream); }
+  .cb-blog-card__media img { width: 100%; height: 100%; object-fit: cover; }
+  .cb-blog-card__body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .cb-blog-card__tag { align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--kimsa-plum); background: var(--kimsa-tint-plum); border-radius: 999px; padding: 5px 12px; }
+  .cb-blog-card__title { font-weight: 500; font-size: 19px; line-height: 1.3; margin: 0; }
+  .cb-blog-card__excerpt { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .cb-blog-card__date { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--kimsa-ink-soft); }
+
+  .cb-blog-more { margin: 0 0 40px; }
+  .cb-blog-more a { font-size: 14px; font-weight: 600; color: var(--kimsa-plum); }
+  .cb-blog-more a:hover { text-decoration: underline; }
+
+  .cb-academy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 32px 36px;
+    border-radius: var(--kimsa-radius-xl);
+    background: var(--kimsa-tint-gold);
+  }
+  .cb-academy__text p { margin: 8px 0 0; font-size: 15px; color: var(--kimsa-ink-soft); max-width: 480px; }
+
+  @media (max-width: 900px) {
+    .svc-head { grid-template-columns: 1fr; gap: 24px; }
+    .svc-cards, .steps, .svc-refs, .cb-blog-grid { grid-template-columns: 1fr; }
+  }
+</style>

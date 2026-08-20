@@ -17,15 +17,10 @@ const values = [
 
 const story = [
   { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
-  { y: '2020', t: 'Alianza Ceiba Bruja', d: 'El 1% de las utilidades a la conservación del bosque seco tropical.' },
+  { y: '2020', t: 'Expansión LATAM', d: 'Expansión y apoyo a proyectos en varios países de América Latina.' },
+  { y: '2020', t: 'Alianza con la Fundación InnNature', d: 'El 1% de nuestras utilidades apoya la conservación de la Reserva Ceiba Bruja.' },
   { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
   { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
-];
-
-const ceiba = [
-  { n: '$16.5M', l: 'COP donados en 2024', c: 'var(--kimsa-peach)' },
-  { n: '1%', l: 'de nuestras utilidades', c: 'var(--kimsa-coral)' },
-  { n: '4', l: 'años de alianza', c: 'var(--kimsa-gold)' },
 ];
 ---
 <Base title="Nosotros · KIMSA" description="KIMSA es una consultora climática latinoamericana con una estructura horizontal y colaborativa. Conozca nuestro propósito, equipo e historia.">
@@ -157,22 +152,15 @@ const ceiba = [
         <div class="nos-ceiba__head">
           <span class="side-tag" style="color:var(--kimsa-peach)">Nuestro aporte a la naturaleza</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            El <em class="em-peach">1%</em> de nuestras utilidades va a la <em class="em-peach">Reserva Ceiba Bruja.</em>
+            El <em class="em-peach">1%</em> de nuestras utilidades va a la
+            <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Reserva Ceiba Bruja.</a>
           </h2>
         </div>
         <p class="nos-ceiba__text">
-          Llevamos cuatro años junto a la Fundación InnNature trabajando en la conservación
-          del bosque seco tropical en la Sierra Nevada de Santa Marta y apoyando proyectos
-          productivos sostenibles para las comunidades locales.
+          Desde 2020 generamos una alianza con la <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Fundación InnNature</a>,
+          con quien trabajamos en la conservación del bosque seco tropical en la Sierra Nevada
+          de Santa Marta y apoyamos proyectos productivos sostenibles para las comunidades locales.
         </p>
-        <div class="nos-ceiba__cells">
-          {ceiba.map((c) => (
-            <div class="nos-ceiba__cell">
-              <div class="nos-ceiba__cell-n" style={`color:${c.c}`}>{c.n}</div>
-              <div class="nos-ceiba__cell-l">{c.l}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   </section>
@@ -186,7 +174,9 @@ const ceiba = [
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container nos-cta reveal">
       <h2 class="h2" style="margin-bottom:20px">Conversemos sobre su <em class="em-terracotta">próximo paso.</em></h2>
-      <p class="lead" style="margin-bottom:32px">{CONTACT.email} · {CONTACT.phone}</p>
+      <p class="lead" style="margin-bottom:32px">
+        {CONTACT.email} · {CONTACT.hqs.map((hq) => `${hq.country}: ${hq.phone}`).join(' · ')}
+      </p>
       <Button variant="primary" size="lg" href="/contacto">Conversemos →</Button>
     </div>
   </section>
@@ -216,7 +206,16 @@ const ceiba = [
   .nos-story__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; position: relative; }
   .nos-story__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
   .nos-story__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 460px; }
-  .nos-story__item { display: grid; grid-template-columns: 90px 1fr; gap: 28px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .nos-story__item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 28px;
+    align-items: center;
+    padding: 22px 20px;
+    border-radius: var(--kimsa-radius-lg);
+    background: linear-gradient(160deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+  }
+  .nos-story__item + .nos-story__item { margin-top: 10px; }
   .nos-story__year { font-weight: 300; font-size: 32px; color: var(--kimsa-peach); line-height: 1; }
   .nos-story__item-title { font-weight: 600; font-size: 18px; margin-bottom: 4px; }
   .nos-story__item-desc { font-size: 14px; color: rgba(251,248,241,0.72); line-height: 1.5; }
@@ -242,10 +241,8 @@ const ceiba = [
   .nos-ceiba__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; position: relative; }
   .nos-ceiba__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 32px; }
   .nos-ceiba__text { font-size: 17px; line-height: 1.6; color: rgba(251,248,241,0.85); max-width: 520px; }
-  .nos-ceiba__cells { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .nos-ceiba__cell { padding: 20px; background: rgba(255,255,255,0.06); border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); }
-  .nos-ceiba__cell-n { font-weight: 300; font-size: 32px; line-height: 1; }
-  .nos-ceiba__cell-l { font-size: 12px; color: rgba(251,248,241,0.72); margin-top: 8px; }
+  .nos-ceiba__link { text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--kimsa-peach) 55%, transparent); transition: border-color var(--kimsa-dur) var(--kimsa-ease); }
+  .nos-ceiba__link:hover { border-color: var(--kimsa-peach); }
 
   .nos-cta { text-align: center; display: flex; flex-direction: column; align-items: center; }
 
@@ -253,7 +250,6 @@ const ceiba = [
     .nos-hero__title { font-size: 44px; }
     .nos-purpose, .nos-how, .nos-story__grid, .nos-team-head, .nos-ceiba__grid { grid-template-columns: 1fr; gap: 36px; }
     .nos-values, .nos-team { grid-template-columns: 1fr; }
-    .nos-ceiba__cells { grid-template-columns: 1fr; }
     .nos-story__mark { display: none; }
   }
 </style>

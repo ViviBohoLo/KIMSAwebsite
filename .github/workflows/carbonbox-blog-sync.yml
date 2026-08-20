@@ -1,0 +1,43 @@
+# Redespliega el sitio de KIMSA de forma periódica para que la sección de
+# blog en /servicios/carbonbox (src/pages/servicios/carbonbox.astro) se
+# sincronice sola con los últimos artículos de carbonbox.app/blog — sin
+# esperar a que alguien haga `git push` al repo de KIMSA.
+#
+# El fetch a carbonbox.app pasa en tiempo de build (src/lib/carbonboxBlog.ts),
+# así que lo único que hace este workflow es "tocar" el deploy en Vercel para
+# forzar un nuevo build cada cierto tiempo.
+#
+# Setup requerido (una sola vez, en el dashboard de Vercel — no se puede
+# hacer por código):
+#   1. Vercel → proyecto kimsa-web → Settings → Git → Deploy Hooks.
+#   2. Crear un hook sobre la rama `main` (nombre sugerido: "carbonbox-blog-sync").
+#   3. Copiar la URL que genera Vercel.
+#   4. En GitHub: repo → Settings → Secrets and variables → Actions →
+#      New repository secret → nombre `VERCEL_DEPLOY_HOOK_URL`, valor la URL del paso 3.
+#
+# Mientras ese secreto no exista, este workflow no falla: simplemente no
+# hace nada (ver el `if` del paso).
+name: Sincronizar blog de CarbonBox
+
+on:
+  schedule:
+    # Todos los días a las 09:00 UTC (~04:00 hora Colombia/Bogotá).
+    - cron: '0 9 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar rebuild en Vercel
+        if: ${{ env.HOOK_URL != '' }}
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: curl -fsS -X POST "$HOOK_URL"
+
+      - name: Aviso si falta configurar el secret
+        if: ${{ env.HOOK_URL == '' }}
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          echo "::warning::Falta el secret VERCEL_DEPLOY_HOOK_URL — este workflow no dispara ningún rebuild todavía. Ver instrucciones en .github/workflows/carbonbox-blog-sync.yml."

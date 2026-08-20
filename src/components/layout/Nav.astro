@@ -9,45 +9,57 @@
  */
 import KimsaLogo from '../brand/KimsaLogo.astro';
 import Button from '../core/Button.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
 
 interface Props {
   overlay?: boolean;
 }
 const { overlay = false } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+// Prefijo /en delante de cada ruta interna cuando estamos en la versión en
+// inglés (en español no lleva prefijo — ver astro.config.mjs).
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
+
 const servicios = [
-  { label: 'Gestión Climática', href: '/servicios/gestion-climatica' },
-  { label: 'Psicología Ambiental', href: '/servicios/psicologia-ambiental' },
-  { label: 'CarbonBox', href: '/servicios/carbonbox' },
-  { label: 'Curso de Psicología Ambiental', href: '/curso-psicologia-ambiental' },
+  { label: t('nav.gestion'), href: p('/servicios/gestion-climatica') },
+  { label: t('nav.psicologia'), href: p('/servicios/psicologia-ambiental') },
+  { label: t('nav.carbonbox'), href: p('/servicios/carbonbox') },
+  { label: t('nav.course'), href: p('/curso-psicologia-ambiental') },
 ];
 const trabajo = [
-  { label: 'Proyectos', href: '/proyectos' },
-  { label: 'Publicaciones', href: '/publicaciones' },
+  { label: t('nav.projects'), href: p('/proyectos') },
+  { label: t('nav.publications'), href: p('/publicaciones') },
+  { label: t('nav.clients'), href: p('/clientes') },
 ];
 // En la Home, "Conversemos" hace scroll al formulario de contacto al final
 // de la página; en el resto de páginas lleva a la página dedicada /contacto.
-const isHome = Astro.url.pathname === '/';
-const ctaHref = isHome ? '#contacto' : '/contacto';
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/en' || Astro.url.pathname === '/en/';
+const ctaHref = isHome ? '#contacto' : p('/contacto');
+const esHref = getLocalizedPath(Astro.url.pathname, 'es');
+const enHref = getLocalizedPath(Astro.url.pathname, 'en');
 ---
 <nav class:list={['nav', { 'nav--overlay': overlay }]} data-overlay={overlay ? 'true' : 'false'}>
-  <a href="/" class="nav__brand" aria-label="Inicio KIMSA">
+  <a href={p('/')} class="nav__brand" aria-label={t('nav.home')}>
     <KimsaLogo variant={overlay ? 'blanco' : 'oscuro'} height={30} />
     {overlay && (
       <span class="nav__tagline" aria-hidden="true">
-        Clima <span class="nav__tagline-mark">▲</span> Conservación <span class="nav__tagline-mark">▲</span> Desarrollo
+        {lang === 'en'
+          ? <>Climate <span class="nav__tagline-mark">▲</span> Conservation <span class="nav__tagline-mark">▲</span> Development</>
+          : <>Clima <span class="nav__tagline-mark">▲</span> Conservación <span class="nav__tagline-mark">▲</span> Desarrollo</>}
       </span>
     )}
   </a>
 
-  <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false">
+  <button class="nav__burger" aria-label={t('nav.openMenu')} aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 
   <div class="nav__menu">
     <div class="nav__item nav__item--drop">
       <button class="nav__link nav__droptoggle" aria-expanded="false">
-        <span class="nav__link-text">Servicios</span> <span class="caret">▾</span>
+        <span class="nav__link-text">{t('nav.services')}</span> <span class="caret">▾</span>
       </button>
       <div class="nav__drop">
         {servicios.map((s) => <a href={s.href}>{s.label}</a>)}
@@ -55,21 +67,21 @@ const ctaHref = isHome ? '#contacto' : '/contacto';
     </div>
     <div class="nav__item nav__item--drop">
       <button class="nav__link nav__droptoggle" aria-expanded="false">
-        <span class="nav__link-text">Nuestro trabajo</span> <span class="caret">▾</span>
+        <span class="nav__link-text">{t('nav.work')}</span> <span class="caret">▾</span>
       </button>
       <div class="nav__drop">
-        {trabajo.map((t) => <a href={t.href}>{t.label}</a>)}
+        {trabajo.map((tr) => <a href={tr.href}>{tr.label}</a>)}
       </div>
     </div>
-    <a class="nav__link" href="/nosotros"><span class="nav__link-text">Nosotros</span></a>
+    <a class="nav__link" href={p('/nosotros')}><span class="nav__link-text">{t('nav.about')}</span></a>
 
     <div class="nav__right">
-      <div class="nav__lang" role="group" aria-label="Idioma">
-        <button class="nav__lang-opt is-active" aria-current="true">ES</button>
+      <div class="nav__lang" role="group" aria-label={t('nav.lang')}>
+        <a class="nav__lang-opt" class:list={{ 'is-active': lang === 'es' }} aria-current={lang === 'es' ? 'true' : 'false'} href={esHref}>ES</a>
         <span class="nav__lang-sep">·</span>
-        <button class="nav__lang-opt" title="English coming soon" disabled>EN</button>
+        <a class="nav__lang-opt" class:list={{ 'is-active': lang === 'en' }} aria-current={lang === 'en' ? 'true' : 'false'} href={enHref}>EN</a>
       </div>
-      <Button variant={overlay ? 'ghost' : 'primary'} size="sm" onDark={overlay} href={ctaHref}>Conversemos →</Button>
+      <Button variant={overlay ? 'ghost' : 'primary'} size="sm" onDark={overlay} href={ctaHref}>{t('nav.cta')}</Button>
     </div>
   </div>
 </nav>
@@ -207,12 +219,13 @@ const ctaHref = isHome ? '#contacto' : '/contacto';
     color: inherit;
     font-family: var(--kimsa-font-sans);
     font-size: 14px;
+    text-decoration: none;
     cursor: pointer;
     padding: 0;
     opacity: 0.6;
   }
+  .nav__lang-opt:hover { opacity: 0.85; }
   .nav__lang-opt.is-active { opacity: 1; font-weight: 600; }
-  .nav__lang-opt:disabled { cursor: not-allowed; }
 
   /* Hamburguesa */
   .nav__burger {

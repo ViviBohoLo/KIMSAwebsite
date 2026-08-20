@@ -4,7 +4,13 @@
  * Cada tarjeta abre el ProjectModal (incluir <ProjectModal/> en la página).
  */
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
-import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../../data/site';
+import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_COLOR, areaLabel, localizeCountryName, localizeProject } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
+const projects = PROJECTS.map((proj) => localizeProject(proj, lang));
 ---
 <div class="px">
   <div class="px__search reveal">
@@ -16,67 +22,114 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
       type="search"
       id="px-search"
       class="px__search-input"
-      placeholder="Buscar proyectos por título, cliente o palabra clave…"
-      aria-label="Buscar proyectos"
+      placeholder={t('projects.searchPlaceholder')}
+      aria-label={t('projects.searchLabel')}
     />
   </div>
 
   <div class="px__filters reveal">
-    <div class="px__group" role="group" aria-label="Filtrar por área">
-      <span class="px__glabel">Área</span>
-      <button class="px__chip is-active" data-filter="area" data-value="all">Todos</button>
+    <div class="px__group" role="group" aria-label={t('projects.filterAreaLabel')}>
+      <span class="px__glabel">{t('projects.filterArea')}</span>
+      <button class="px__chip is-active" data-filter="area" data-value="all">{t('projects.all')}</button>
       {AREAS.map((a) => (
-        <button class="px__chip" data-filter="area" data-value={a.key}>{a.label}</button>
+        <button class="px__chip" data-filter="area" data-value={a.key}>{areaLabel(a.key, lang)}</button>
       ))}
     </div>
-    <div class="px__group" role="group" aria-label="Filtrar por país">
-      <span class="px__glabel">País</span>
-      <button class="px__chip is-active" data-filter="country" data-value="all">Todos</button>
+    <div class="px__group" role="group" aria-label={t('projects.filterCountryLabel')}>
+      <span class="px__glabel">{t('projects.filterCountry')}</span>
+      <button class="px__chip is-active" data-filter="country" data-value="all">{t('projects.all')}</button>
       {PROJECT_COUNTRIES.map((c) => (
-        <button class="px__chip" data-filter="country" data-value={c}>{c}</button>
+        <button class="px__chip" data-filter="country" data-value={c}>{localizeCountryName(c, lang)}</button>
       ))}
     </div>
   </div>
 
+  <p class="px__client-filter" id="px-client-filter" hidden>
+    {t('projects.showingFor')} <strong id="px-client-name"></strong> ·
+    <a href={p('/proyectos')}>{t('projects.viewAll')}</a>
+  </p>
+
   <div class="px__grid reveal" id="px-grid">
-    {PROJECTS.map((p) => (
+    {projects.map((proj) => (
       <article
         class="px__card"
-        data-project={p.slug}
-        data-area={p.area}
-        data-country={p.country}
-        data-search={`${p.title} ${p.client} ${p.summary} ${p.tags.join(' ')}`.toLowerCase()}
+        data-project={proj.slug}
+        data-area={proj.area}
+        data-country={proj.country}
+        data-search={`${proj.title} ${proj.client} ${proj.summary} ${proj.tags.join(' ')}`.toLowerCase()}
         tabindex="0"
         role="button"
-        aria-label={`Ver ${p.title}`}
+        aria-label={`${lang === 'en' ? 'View' : 'Ver'} ${proj.title}`}
       >
         <div class="px__media">
-          {p.image
-            ? <img src={p.image} alt={p.title} />
-            : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${p.country} · foto de proyecto`} />}
+          {proj.image
+            ? <img src={proj.image} alt={proj.title} />
+            : <PhotoPlaceholder ratio="4/3" tint={proj.tint} rounded={0} label={`${localizeCountryName(proj.country, lang)} · ${lang === 'en' ? 'project photo' : 'foto de proyecto'}`} />}
         </div>
         <div class="px__body">
-          <span class="px__area" style={`color:${AREA_COLOR[p.area]}; background:color-mix(in srgb, ${AREA_COLOR[p.area]} 12%, transparent)`}>
-            {AREA_LABEL[p.area]}
+          <span class="px__area" style={`color:${AREA_COLOR[proj.area]}; background:color-mix(in srgb, ${AREA_COLOR[proj.area]} 12%, transparent)`}>
+            {areaLabel(proj.area, lang)}
           </span>
-          <h3 class="px__title">{p.title}</h3>
-          {p.client && <p class="px__client">{p.client}</p>}
-          <p class="px__summary">{p.summary}</p>
-          <span class="px__more">Ver proyecto →</span>
+          <h3 class="px__title">{proj.title}</h3>
+          {proj.client && <p class="px__client">{proj.client}</p>}
+          <p class="px__summary">{proj.summary}</p>
+          <div class="px__footer">
+            <span class="px__more">{t('projects.viewMore')}</span>
+            {proj.publicationUrl && (
+              <a class="px__pub" href={proj.publicationUrl} target="_blank" rel="noopener noreferrer">
+                {t('projects.viewPublication')}
+              </a>
+            )}
+          </div>
         </div>
       </article>
     ))}
   </div>
-  <p class="px__empty" id="px-empty" hidden>No hay proyectos con estos filtros.</p>
+  <p class="px__empty" id="px-empty" hidden>{t('projects.empty')}</p>
 </div>
 
 <script>
   const grid = document.getElementById('px-grid');
   if (grid) {
-    const state = { area: 'all', country: 'all', q: '' };
+    // ?slugs=a,b,c (+ ?client=Nombre para el aviso) — llega desde /clientes al
+    // hacer clic en una organización: reutiliza esta misma grilla/filtros en
+    // vez de duplicar la info del proyecto en otra parte.
+    // ?country=Nombre — llega desde el mapa de presencia (PresenceMap) al
+    // hacer clic en un país (mapa o etiqueta del panel): preselecciona el
+    // chip de país correspondiente, reutilizando el filtro ya existente.
+    const params = new URLSearchParams(location.search);
+    const slugsParam = params.get('slugs');
+    const clientLabel = params.get('client');
+    const countryParam = params.get('country');
+    const state = {
+      area: 'all',
+      country: 'all',
+      q: '',
+      slugs: slugsParam ? new Set(slugsParam.split(',').filter(Boolean)) : null,
+    };
     const cards = Array.from(grid.querySelectorAll('.px__card'));
     const empty = document.getElementById('px-empty');
     const search = document.getElementById('px-search');
+    const clientFilterBanner = document.getElementById('px-client-filter');
+    const clientFilterName = document.getElementById('px-client-name');
+
+    if (state.slugs && clientFilterBanner && clientFilterName) {
+      const fallback = location.pathname.startsWith('/en') ? 'this organization' : 'esta organización';
+      clientFilterName.textContent = clientLabel || fallback;
+      clientFilterBanner.hidden = false;
+    }
+
+    if (countryParam) {
+      const countryChip = document.querySelector(
+        '.px__chip[data-filter="country"][data-value="' + CSS.escape(countryParam) + '"]',
+      );
+      if (countryChip) {
+        state.country = countryParam;
+        document
+          .querySelectorAll('.px__chip[data-filter="country"]')
+          .forEach((c) => c.classList.toggle('is-active', c === countryChip));
+      }
+    }
 
     function apply() {
       let visible = 0;
@@ -84,12 +137,14 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
         const okA = state.area === 'all' || c.getAttribute('data-area') === state.area;
         const okC = state.country === 'all' || c.getAttribute('data-country') === state.country;
         const okQ = state.q === '' || (c.getAttribute('data-search') || '').includes(state.q);
-        const show = okA && okC && okQ;
+        const okS = !state.slugs || state.slugs.has(c.getAttribute('data-project') || '');
+        const show = okA && okC && okQ && okS;
         c.style.display = show ? '' : 'none';
         if (show) visible++;
       });
       if (empty) empty.hidden = visible !== 0;
     }
+    apply();
 
     document.querySelectorAll('.px__chip').forEach((chip) => {
       chip.addEventListener('click', () => {
@@ -112,6 +167,13 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
       c.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); }
       });
+    });
+
+    // El botón de publicación va dentro de la tarjeta clicable: evitar que su
+    // clic también abra el modal del proyecto (o navegue por Enter/Espacio).
+    document.querySelectorAll('.px__pub').forEach((a) => {
+      a.addEventListener('click', (e) => e.stopPropagation());
+      a.addEventListener('keydown', (e) => e.stopPropagation());
     });
   }
 </script>
@@ -180,8 +242,42 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
   .px__title { font-weight: 500; font-size: 19px; line-height: 1.3; margin: 0; }
   .px__client { font-size: 13px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0; }
   .px__summary { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
-  .px__more { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--kimsa-forest); }
+  .px__footer { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .px__more {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--kimsa-forest);
+    border: 1.5px solid var(--kimsa-forest);
+    border-radius: var(--kimsa-radius-pill);
+    padding: 7px 15px;
+  }
+  .px__pub {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--kimsa-bone);
+    background: var(--kimsa-terracotta);
+    border-radius: var(--kimsa-radius-pill);
+    padding: 7px 15px;
+    text-decoration: none;
+    transition: opacity var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .px__pub:hover { opacity: 0.88; }
   .px__empty { text-align: center; color: var(--kimsa-ink-soft); padding: 40px 0; }
+  .px__client-filter {
+    margin: 0 0 28px;
+    padding: 12px 18px;
+    background: var(--kimsa-cream);
+    border-radius: var(--kimsa-radius-md);
+    font-size: 14px;
+    color: var(--kimsa-ink-soft);
+  }
+  .px__client-filter strong { color: var(--kimsa-ink); }
+  .px__client-filter a { color: var(--kimsa-terracotta); font-weight: 600; }
+  .px__client-filter a:hover { text-decoration: underline; }
 
   @media (max-width: 1100px) { .px__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 900px) {

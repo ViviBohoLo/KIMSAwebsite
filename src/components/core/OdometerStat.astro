@@ -60,13 +60,16 @@ const parts: Part[] = [...value].map((ch) => (/[0-9]/.test(ch) ? { digit: Number
     opacity: 0.82;
   }
   /* Ficha bosque-profundo + texto crema: 12.6:1 de contraste, funciona
-     sobre cualquier banda saturada de la paleta (terracota, coral, ciruela). */
+     sobre cualquier banda saturada de la paleta (terracota, coral, ciruela).
+     Degradado sutil + resplandor en vez de verde plano, para que no se vea
+     apagada sobre la franja de cifras. */
   .odometer-stat__label--chip {
-    background: var(--kimsa-forest-deep);
+    background: linear-gradient(155deg, color-mix(in srgb, var(--kimsa-forest-deep) 88%, white) 0%, var(--kimsa-forest-deep) 100%);
     color: var(--kimsa-bone);
     opacity: 1;
     padding: 6px 12px;
     border-radius: var(--kimsa-radius-sm);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--kimsa-forest-deep) 55%, transparent);
   }
   @media (max-width: 900px) {
     .odometer--lg { font-size: 40px; }

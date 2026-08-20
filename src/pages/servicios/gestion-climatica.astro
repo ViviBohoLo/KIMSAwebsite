@@ -6,7 +6,6 @@ import StatBand from '../../components/sections/StatBand.astro';
 import NumberedCard from '../../components/surfaces/NumberedCard.astro';
 import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
 import ProjectModal from '../../components/sections/ProjectModal.astro';
-import CourseCTA from '../../components/sections/CourseCTA.astro';
 import { projectsByArea } from '../../data/site';
 
 const stats = [
@@ -25,11 +24,11 @@ const oferta = [
 ];
 
 const capacidades = [
-  'Asistencia técnica para el Marco de Transparencia Reforzado del Acuerdo de París',
-  'Evaluaciones de riesgo climático y medidas de adaptación',
-  'Fortalecimiento de capacidades institucionales',
-  'Sistemas MRV y contabilidad de emisiones GEI',
-  'Diseño de instrumentos financieros climáticos',
+  { t: 'Asistencia técnica para el Marco de Transparencia Reforzado del Acuerdo de París', c: 'var(--kimsa-forest)' },
+  { t: 'Evaluaciones de riesgo climático y medidas de adaptación', c: 'var(--kimsa-terracotta)' },
+  { t: 'Fortalecimiento de capacidades institucionales', c: 'var(--kimsa-coral)' },
+  { t: 'Sistemas MRV y contabilidad de emisiones GEI', c: 'var(--kimsa-plum)' },
+  { t: 'Diseño de instrumentos financieros climáticos', c: 'var(--kimsa-gold)' },
 ];
 
 // Referencias: todos los proyectos de gestión climática
@@ -42,15 +41,17 @@ const refs = projectsByArea('gestion');
     titleEm="Climática"
     emColor="var(--kimsa-forest)"
     lead="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática — con humanidad y rigor."
-    photo="/assets/projects/estrategias-meta.jpg"
+    photo="/assets/projects/taller-gestion-climatica-home.jpg"
     photoTint="forest"
-    photoLabel="trabajo de campo · medición de carbono en cultivo"
+    photoLabel="taller de trabajo · gestión climática"
   />
 
   <StatBand stats={stats} bg="var(--kimsa-forest)" />
 
-  <!-- Nuestra oferta -->
-  <section class="section" style="background:var(--kimsa-cream)">
+  <!-- Nuestra oferta: fondo claro (igual que en los demás servicios) —
+       el verde del StatBand de arriba ya cubre el acento oscuro de la
+       página, así que esta sección usa crema en vez de otro bloque forest. -->
+  <section class="section svc-oferta" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
         <span class="side-tag">Qué hacemos</span>
@@ -69,15 +70,19 @@ const refs = projectsByArea('gestion');
   </section>
 
   <!-- Capacidades -->
-  <section class="section" style="background:var(--kimsa-bone)">
+  <section class="section caps-section" style="background:var(--kimsa-bone)">
+    <div class="glow" style="--glow-color: color-mix(in srgb, var(--kimsa-terracotta) 45%, white); --glow-size: 380px; --glow-top: -90px; --glow-right: -100px;"></div>
     <div class="container">
       <div class="reveal caps-head">
         <span class="side-tag">Capacidades principales</span>
         <h2 class="h2" style="margin:0">Cinco frentes, un mismo cuidado.</h2>
       </div>
       <ul class="caps reveal">
-        {capacidades.map((c) => (
-          <li class="caps__item"><span class="caps__mark">▲</span>{c}</li>
+        {capacidades.map((c, i) => (
+          <li class="caps__item" style={`--caps-accent:${c.c}`}>
+            <span class="caps__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="caps__text">{c.t}</span>
+          </li>
         ))}
       </ul>
     </div>
@@ -97,21 +102,33 @@ const refs = projectsByArea('gestion');
     </div>
   </section>
 
-  <CourseCTA />
   <Footer />
   <ProjectModal />
 </Base>
 
 <style>
-  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; }
+  .svc-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: end; margin-bottom: 56px; position: relative; z-index: 1; }
   .svc-head .lead { max-width: 540px; }
   .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-  .caps-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 48px; }
-  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .caps-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 48px; position: relative; z-index: 1; }
+  .svc-oferta { position: relative; overflow: hidden; }
+  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
   .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; }
-  .caps__item { display: flex; gap: 14px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--kimsa-rule); font-size: 17px; line-height: 1.5; }
-  .caps__mark { color: var(--kimsa-terracotta); font-size: 13px; margin-top: 5px; }
+  .caps-section { position: relative; overflow: hidden; }
+  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; position: relative; z-index: 1; }
+  .caps__item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 14px;
+    border-top: 1px solid var(--kimsa-rule);
+    font-size: 17px;
+    line-height: 1.5;
+    border-radius: var(--kimsa-radius-md);
+    transition: background var(--kimsa-dur) var(--kimsa-ease), transform var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .caps__item:hover { background: color-mix(in srgb, var(--caps-accent) 10%, transparent); transform: translateX(6px); }
+  .caps__num { font-family: var(--kimsa-font-mono); font-weight: 700; font-size: 13px; color: var(--caps-accent); margin-top: 4px; flex-shrink: 0; }
   @media (max-width: 900px) {
     .svc-head { grid-template-columns: 1fr; gap: 24px; }
     .svc-cards { grid-template-columns: 1fr; }

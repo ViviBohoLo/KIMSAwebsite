@@ -5,27 +5,37 @@
  * Los datos de todos los proyectos se incrustan como JSON y el script los lee
  * por slug. Cierra con la X, clic en el fondo o Esc.
  */
-import { PROJECTS, AREA_LABEL, AREA_COLOR } from '../../data/site';
+import { PROJECTS, areaLabel, AREA_COLOR, localizeCountryName, localizeProject } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
-// Datos mínimos que necesita el modal (con color/label de área ya resueltos).
-const data = PROJECTS.map((p) => ({
-  slug: p.slug,
-  title: p.title,
-  client: p.client,
-  country: p.country,
-  year: p.year ?? '',
-  description: p.description,
-  tags: p.tags,
-  tint: p.tint,
-  image: p.image ?? '',
-  areaLabel: AREA_LABEL[p.area],
-  areaColor: AREA_COLOR[p.area],
-}));
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Datos mínimos que necesita el modal (con color/label de área ya resueltos,
+// y ya en el idioma de la página que incluye este componente).
+const data = PROJECTS.map((raw) => {
+  const p = localizeProject(raw, lang);
+  return {
+    slug: p.slug,
+    title: p.title,
+    client: p.client,
+    country: localizeCountryName(p.country, lang),
+    year: p.year ?? '',
+    description: p.description,
+    tags: p.tags,
+    tint: p.tint,
+    image: p.image ?? '',
+    publicationUrl: p.publicationUrl ?? '',
+    areaLabel: areaLabel(p.area, lang),
+    areaColor: AREA_COLOR[p.area],
+  };
+});
+const photoLabel = lang === 'en' ? 'project photo' : 'foto de proyecto';
 ---
 <div class="pm" id="project-modal" hidden>
   <div class="pm__backdrop" data-close></div>
   <div class="pm__dialog" role="dialog" aria-modal="true" aria-labelledby="pm-title">
-    <button class="pm__close" aria-label="Cerrar" data-close>×</button>
+    <button class="pm__close" aria-label={t('modal.close')} data-close>×</button>
     <div class="pm__media" id="pm-media"></div>
     <div class="pm__body">
       <div class="pm__badges">
@@ -36,9 +46,11 @@ const data = PROJECTS.map((p) => ({
       <p class="pm__client" id="pm-client"></p>
       <p class="pm__desc" id="pm-desc"></p>
       <div class="pm__tags" id="pm-tags"></div>
+      <a class="pm__pub" id="pm-pub" href="#" target="_blank" rel="noopener noreferrer" hidden>{t('projects.viewPublication')}</a>
     </div>
   </div>
 </div>
+<span id="pm-photo-label" hidden>{photoLabel}</span>
 
 <script type="application/json" id="pm-data" set:html={JSON.stringify(data)}></script>
 
@@ -62,6 +74,8 @@ const data = PROJECTS.map((p) => ({
     const clientEl = document.getElementById('pm-client');
     const descEl = document.getElementById('pm-desc');
     const tagsEl = document.getElementById('pm-tags');
+    const pubEl = document.getElementById('pm-pub');
+    const photoLabel = document.getElementById('pm-photo-label')?.textContent || 'foto de proyecto';
 
     let lastFocus = null;
 
@@ -76,12 +90,14 @@ const data = PROJECTS.map((p) => ({
       clientEl.style.display = p.client ? '' : 'none';
       descEl.textContent = p.description;
       tagsEl.innerHTML = p.tags.map((t) => '<span class="pm__tag">' + t + '</span>').join('');
+      pubEl.hidden = !p.publicationUrl;
+      if (p.publicationUrl) pubEl.href = p.publicationUrl;
       if (p.image) {
         media.style.background = '';
         media.innerHTML = '<img src="' + p.image + '" alt="' + p.title + '">';
       } else {
         const [a, b] = tints[p.tint] || tints.warm;
-        media.innerHTML = '<span class="pm__ph">↳ ' + p.country + ' · foto de proyecto</span>';
+        media.innerHTML = '<span class="pm__ph">↳ ' + p.country + ' · ' + photoLabel + '</span>';
         media.style.background =
           'repeating-linear-gradient(135deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 14px), linear-gradient(160deg, ' + a + ', ' + b + ')';
       }
@@ -171,6 +187,22 @@ const data = PROJECTS.map((p) => ({
   .pm__client { font-size: 14px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0 0 20px; }
   .pm__desc { font-size: 16px; line-height: 1.65; color: var(--kimsa-ink-soft); margin: 0 0 24px; }
   .pm__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pm__pub {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 24px;
+    font-family: var(--kimsa-font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--kimsa-bone);
+    background: var(--kimsa-terracotta);
+    border-radius: var(--kimsa-radius-pill);
+    padding: 12px 22px;
+    text-decoration: none;
+    transition: opacity var(--kimsa-dur) var(--kimsa-ease);
+  }
+  .pm__pub:hover { opacity: 0.9; }
+  .pm__pub[hidden] { display: none; }
   :global(.pm__tag) { font-size: 12px; font-weight: 500; color: var(--kimsa-ink); background: var(--kimsa-cream); border: 1px solid var(--kimsa-rule); border-radius: 999px; padding: 6px 12px; }
 
   @keyframes pm-fade { from { opacity: 0; } to { opacity: 1; } }

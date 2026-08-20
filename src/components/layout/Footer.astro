@@ -4,33 +4,44 @@
  * sociales redondos terracota, columnas de links y fila legal.
  */
 import KimsaLogo from '../brand/KimsaLogo.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { CONTACT } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
 
 const columns = [
   {
-    title: 'Explorar',
+    title: t('footer.explore'),
     items: [
-      { label: 'Gestión Climática', href: '/servicios/gestion-climatica' },
-      { label: 'Psicología Ambiental', href: '/servicios/psicologia-ambiental' },
-      { label: 'CarbonBox', href: '/servicios/carbonbox' },
-      { label: 'Proyectos', href: '/proyectos' },
-      { label: 'Publicaciones', href: '/publicaciones' },
-      { label: 'Nosotros', href: '/nosotros' },
+      { label: t('nav.gestion'), href: p('/servicios/gestion-climatica') },
+      { label: t('nav.psicologia'), href: p('/servicios/psicologia-ambiental') },
+      { label: t('nav.carbonbox'), href: p('/servicios/carbonbox') },
+      { label: t('nav.projects'), href: p('/proyectos') },
+      { label: t('nav.publications'), href: p('/publicaciones') },
+      { label: t('nav.clients'), href: p('/clientes') },
+      { label: t('nav.about'), href: p('/nosotros') },
     ],
   },
   {
-    title: 'Recursos',
+    title: t('footer.resources'),
     items: [
-      { label: 'Curso de Psicología Ambiental', href: '/curso-psicologia-ambiental' },
-      { label: 'Reserva Ceiba Bruja', href: '/nosotros#ceiba' },
+      { label: t('nav.course'), href: p('/curso-psicologia-ambiental') },
+      { label: t('footer.ceiba'), href: p('/nosotros#ceiba') },
     ],
   },
   {
-    title: 'Contacto',
+    title: t('footer.contact'),
     items: [
       { label: 'info@kimsa.co', href: 'mailto:info@kimsa.co' },
-      { label: '+57 320 867 5567', href: 'https://wa.me/573208675567', target: '_blank' },
-      { label: 'Bogotá D.C., Colombia', href: '' },
-      { label: 'San José, Costa Rica', href: '' },
+      // Cada sede con su propio WhatsApp, rotulado con el país, para que no
+      // se confunda el número de Colombia con el de Costa Rica.
+      ...CONTACT.hqs.map((hq) => ({
+        label: `${hq.country}: ${hq.phone}`,
+        href: hq.whatsapp,
+        target: '_blank' as const,
+      })),
     ],
   },
 ];
@@ -42,10 +53,10 @@ const icons: Record<string, string> = {
   youtube: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.08 0 12 0 12s0 3.92.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z',
 };
 const socials = [
-  { key: 'linkedin', href: 'https://www.linkedin.com/company/kimsa', title: 'LinkedIn' },
-  { key: 'instagram', href: 'https://www.instagram.com/kimsa.co', title: 'Instagram' },
-  { key: 'facebook', href: 'https://www.facebook.com/kimsa.co', title: 'Facebook' },
-  { key: 'youtube', href: 'https://www.youtube.com/@kimsa', title: 'YouTube' },
+  { key: 'linkedin', href: 'https://www.linkedin.com/company/kimsa-co/', title: 'LinkedIn' },
+  { key: 'instagram', href: 'https://www.instagram.com/kimsacolombia/?hl=es-la', title: 'Instagram' },
+  { key: 'facebook', href: 'https://www.facebook.com/profile.php?id=100087469351544', title: 'Facebook' },
+  { key: 'youtube', href: 'https://www.youtube.com/@kimsa-climaconservacionyde5537/featured', title: 'YouTube' },
 ];
 const year = new Date().getFullYear();
 ---
@@ -53,9 +64,7 @@ const year = new Date().getFullYear();
   <div class="footer__grid container">
     <div class="footer__brand">
       <KimsaLogo variant="blanco" height={34} />
-      <p class="footer__tagline">
-        Clima · Conservación · Desarrollo. Una consultora climática latinoamericana nacida en Bogotá en 2017.
-      </p>
+      <p class="footer__tagline">{t('footer.tagline')}</p>
       <div class="footer__socials">
         {socials.map((s) => (
           <a class="footer__social" href={s.href} title={s.title} aria-label={s.title} target="_blank" rel="noopener">
@@ -85,8 +94,8 @@ const year = new Date().getFullYear();
     ))}
   </div>
   <div class="footer__legal container">
-    <span>© {year} KIMSA S.A.S.</span>
-    <span>Hecho con cuidado por gente de Latinoamérica</span>
+    <span>© {year} {t('footer.rights')}</span>
+    <span>{t('footer.madeWith')}</span>
   </div>
 </footer>
 

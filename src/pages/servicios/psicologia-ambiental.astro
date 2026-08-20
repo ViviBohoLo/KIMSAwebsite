@@ -6,7 +6,6 @@ import StatBand from '../../components/sections/StatBand.astro';
 import NumberedCard from '../../components/surfaces/NumberedCard.astro';
 import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
 import ProjectModal from '../../components/sections/ProjectModal.astro';
-import CourseCTA from '../../components/sections/CourseCTA.astro';
 import { projectsByArea } from '../../data/site';
 const refs = projectsByArea('psicologia');
 
@@ -46,9 +45,9 @@ const herramientas = [
     titleEm="Ambiental"
     emColor="var(--kimsa-terracotta)"
     lead="Despertamos y conectamos con nuestra humanidad para el equilibrio del planeta y las sociedades."
-    photo="/assets/projects/psicologia-hero.jpg"
+    photo="/assets/projects/psicologia-ambiental-home.jpg"
     photoTint="sunset"
-    photoLabel="círculo de diálogo · taller participativo con comunidad"
+    photoLabel="encuentro comunitario · psicología ambiental"
   />
 
   <StatBand stats={stats} bg="var(--kimsa-terracotta)" />
@@ -130,7 +129,6 @@ const herramientas = [
     </div>
   </section>
 
-  <CourseCTA />
   <Footer />
   <ProjectModal />
 </Base>

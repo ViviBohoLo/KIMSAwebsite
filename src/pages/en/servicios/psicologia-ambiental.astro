@@ -1,53 +1,53 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Footer from '../../components/layout/Footer.astro';
-import ServiceHero from '../../components/sections/ServiceHero.astro';
-import StatBand from '../../components/sections/StatBand.astro';
-import NumberedCard from '../../components/surfaces/NumberedCard.astro';
-import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
-import ProjectModal from '../../components/sections/ProjectModal.astro';
-import { projectsByArea } from '../../data/site';
+import Base from '../../../layouts/Base.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ServiceHero from '../../../components/sections/ServiceHero.astro';
+import StatBand from '../../../components/sections/StatBand.astro';
+import NumberedCard from '../../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../../components/sections/ProjectModal.astro';
+import { projectsByArea } from '../../../data/site';
 const refs = projectsByArea('psicologia');
 
 const stats = [
-  { n: '+70', l: 'actores consultados en la creación del clúster intersectorial' },
-  { n: '5', l: 'procesos comunitarios y étnicos (Pacífico y Andes)' },
-  { n: '4', l: 'temáticas especializadas' },
-  { n: '3', l: 'aliados organizacionales' },
+  { n: '+70', l: 'stakeholders consulted in creating the cross-sector cluster' },
+  { n: '5', l: 'community and ethnic processes (Pacific and Andes)' },
+  { n: '4', l: 'specialized topics' },
+  { n: '3', l: 'organizational partners' },
 ];
 
 const areas = [
-  { t: 'Plataformas participativas', d: 'Diseñamos procesos colaborativos con actores diversos.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Género e inclusión social', d: 'Incorporamos enfoques diferenciales para la equidad.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Monitoreo y evaluación', d: 'Medición cualitativa y cuantitativa del cambio.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Conversaciones estructuradas', d: 'Facilitamos el diálogo entre generaciones y sectores.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
-  { t: 'Salud mental y naturaleza', d: 'Promovemos el bienestar emocional como base del cuidado ambiental.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Participatory platforms', d: 'We design collaborative processes with diverse stakeholders.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Gender and social inclusion', d: 'We incorporate differentiated approaches for equity.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Monitoring and evaluation', d: 'Qualitative and quantitative measurement of change.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Structured conversations', d: 'We facilitate dialogue between generations and sectors.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Mental health and nature', d: 'We promote emotional wellbeing as a foundation for environmental care.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
 ];
 
 const razones = [
-  'Las transformaciones ambientales requieren cambios culturales y emocionales.',
-  'Conectar con lo que sentimos moviliza decisiones sostenibles.',
-  'Ningún cambio técnico se sostiene sin la apropiación social.',
+  'Environmental transformations require cultural and emotional change.',
+  'Connecting with what we feel mobilizes sustainable decisions.',
+  'No technical change is sustained without social ownership.',
 ];
 
 const herramientas = [
-  'Facilitación y metodologías participativas (mapeo colectivo, World Café, design thinking)',
-  'Análisis de redes y narrativa colectiva',
-  'Indicadores de bienestar y cambio cultural',
-  'Evaluaciones sensibles al género y al territorio',
+  'Facilitation and participatory methodologies (collective mapping, World Café, design thinking)',
+  'Network analysis and collective narrative',
+  'Wellbeing and cultural-change indicators',
+  'Gender- and territory-sensitive evaluations',
 ];
-
 ---
-<Base title="Psicología Ambiental · KIMSA" description="Integramos herramientas de la psicología ambiental para facilitar procesos colectivos de cambio y conectar a las personas con la naturaleza.">
+<Base title="Environmental Psychology · KIMSA" description="We integrate environmental psychology tools to facilitate collective change processes and connect people with nature.">
   <ServiceHero
-    crumb="Psicología Ambiental"
-    titleMain="Psicología"
-    titleEm="Ambiental"
+    crumb="Environmental Psychology"
+    titleMain="Environmental"
+    titleEm="Psychology"
     emColor="var(--kimsa-terracotta)"
-    lead="Despertamos y conectamos con nuestra humanidad para el equilibrio del planeta y las sociedades."
+    lead="We awaken and reconnect with our humanity for the balance of the planet and societies."
     photo="/assets/projects/psicologia-ambiental-home.jpg"
     photoTint="sunset"
-    photoLabel="encuentro comunitario · psicología ambiental"
+    photoLabel="community gathering · environmental psychology"
+    ctaHref="/en/contacto"
   />
 
   <StatBand stats={stats} bg="var(--kimsa-terracotta)" />
@@ -56,15 +56,15 @@ const herramientas = [
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container narrow reveal">
       <div class="svc-tag-head">
-        <span class="side-tag">Nuestro enfoque</span>
+        <span class="side-tag">Our approach</span>
         <h2 class="h2">
-          Facilitamos procesos colectivos de cambio con <em class="em-terracotta">sentido profundo.</em>
+          We facilitate collective change processes with <em class="em-terracotta">deep meaning.</em>
         </h2>
       </div>
       <p class="lead">
-        Desde KIMSA integramos herramientas de la psicología ambiental para facilitar
-        procesos colectivos de cambio, conectar a las personas con la naturaleza y generar
-        acciones sostenibles con sentido profundo.
+        At KIMSA we integrate environmental psychology tools to facilitate collective
+        change processes, connect people with nature, and generate sustainable
+        actions with deep meaning.
       </p>
     </div>
   </section>
@@ -73,8 +73,8 @@ const herramientas = [
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="container">
       <div class="svc-tag-head reveal">
-        <span class="side-tag">Qué hacemos</span>
-        <h2 class="h2">Áreas de trabajo.</h2>
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Areas of work.</h2>
       </div>
       <div class="svc-cards reveal">
         {areas.map((a) => (
@@ -88,8 +88,8 @@ const herramientas = [
   <section class="section" style="background:var(--kimsa-forest); color:var(--kimsa-bone)">
     <div class="container">
       <div class="svc-tag-head reveal">
-        <span class="side-tag" style="color:var(--kimsa-peach)">¿Por qué trabajar en la dimensión psicosocial?</span>
-        <h2 class="h2" style="color:var(--kimsa-bone)">Tres razones clave.</h2>
+        <span class="side-tag" style="color:var(--kimsa-peach)">Why work on the psychosocial dimension?</span>
+        <h2 class="h2" style="color:var(--kimsa-bone)">Three key reasons.</h2>
       </div>
       <div class="reasons reveal">
         {razones.map((r) => (
@@ -106,8 +106,8 @@ const herramientas = [
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
       <div class="svc-tag-head reveal">
-        <span class="side-tag">Herramientas que usamos</span>
-        <h2 class="h2">Métodos para <em class="em-terracotta">movilizar.</em></h2>
+        <span class="side-tag">Tools we use</span>
+        <h2 class="h2">Methods to <em class="em-terracotta">mobilize.</em></h2>
       </div>
       <ul class="caps reveal">
         {herramientas.map((h) => (
@@ -121,10 +121,10 @@ const herramientas = [
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="container">
       <div class="svc-tag-head reveal">
-        <span class="side-tag">Proyectos destacados</span>
-        <h2 class="h2">Donde lo psicosocial <em class="em-terracotta">deja huella.</em></h2>
+        <span class="side-tag">Featured projects</span>
+        <h2 class="h2">Where the psychosocial <em class="em-terracotta">leaves a mark.</em></h2>
       </div>
-      <p class="lead reveal" style="margin-bottom:40px">Deslice o use las flechas para verlos todos. Haga clic en un proyecto para ver el detalle.</p>
+      <p class="lead reveal" style="margin-bottom:40px">Swipe or use the arrows to see them all. Click a project to see the details.</p>
       <ProjectsCarousel projects={refs} id="pc-psico" />
     </div>
   </section>

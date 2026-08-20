@@ -9,13 +9,16 @@
 import Button from '../core/Button.astro';
 import MountainMark from '../brand/MountainMark.astro';
 import { CONTACT } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   variant?: 'home' | 'contacto';
 }
 const { variant = 'home' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
-const copy = {
+const copyEs = {
   home: {
     eyebrow: 'Hablemos',
     titleMain: '¿Tiene un reto climático ',
@@ -28,7 +31,22 @@ const copy = {
     titleEm: 'podemos ayudar.',
     lead: 'Complete el formulario y nuestro equipo se pondrá en contacto en menos de 48 horas.',
   },
-}[variant];
+};
+const copyEn = {
+  home: {
+    eyebrow: "Let's talk",
+    titleMain: 'Have a climate challenge ',
+    titleEm: 'in mind?',
+    lead: 'Tell us about your organization and the challenge you face. We reply in less than 48 hours.',
+  },
+  contacto: {
+    eyebrow: 'Contact form',
+    titleMain: 'Tell us how we ',
+    titleEm: 'can help.',
+    lead: "Fill out the form and our team will get in touch in less than 48 hours.",
+  },
+};
+const copy = (lang === 'en' ? copyEn : copyEs)[variant];
 ---
 <section class="section contact-form" id="contacto">
   <div class="contact-form__grid container">
@@ -40,7 +58,7 @@ const copy = {
       <p class="lead contact-form__lead">{copy.lead}</p>
       <div class="contact-form__info">
         <a class="contact-form__info-item" href={CONTACT.mailto}>
-          <span class="contact-form__info-label">Correo</span>
+          <span class="contact-form__info-label">{t('contact.email')}</span>
           <span>{CONTACT.email}</span>
         </a>
         <a class="contact-form__info-item" href="https://wa.me/573208675567" target="_blank" rel="noopener noreferrer">
@@ -64,45 +82,45 @@ const copy = {
       </ul>
     </div>
 
-    <form class="contact-form__card reveal" data-endpoint={CONTACT.formWebhook} novalidate>
+    <form class="contact-form__card reveal" data-endpoint={CONTACT.formWebhook} data-lang={lang} novalidate>
       <div class="contact-form__row">
         <label class="contact-form__field">
-          <span>Nombre <span class="contact-form__req" aria-hidden="true">*</span></span>
-          <input type="text" name="nombre" autocomplete="name" placeholder="¿Cómo te llamas?" required aria-required="true" />
+          <span>{t('contact.name')} <span class="contact-form__req" aria-hidden="true">*</span></span>
+          <input type="text" name="nombre" autocomplete="name" placeholder={t('contact.namePlaceholder')} required aria-required="true" />
           <span class="contact-form__error" data-error-for="nombre"></span>
         </label>
         <label class="contact-form__field">
-          <span>Correo <span class="contact-form__req" aria-hidden="true">*</span></span>
-          <input type="email" name="email" autocomplete="email" placeholder="tucorreo@ejemplo.com" required aria-required="true" />
+          <span>{t('contact.email')} <span class="contact-form__req" aria-hidden="true">*</span></span>
+          <input type="email" name="email" autocomplete="email" placeholder={t('contact.emailPlaceholder')} required aria-required="true" />
           <span class="contact-form__error" data-error-for="email"></span>
         </label>
       </div>
       <div class="contact-form__row">
         <label class="contact-form__field">
-          <span>Teléfono / WhatsApp <span class="contact-form__req" aria-hidden="true">*</span></span>
-          <input type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required aria-required="true" />
+          <span>{t('contact.phone')} <span class="contact-form__req" aria-hidden="true">*</span></span>
+          <input type="tel" name="telefono" autocomplete="tel" placeholder={t('contact.phonePlaceholder')} required aria-required="true" />
           <span class="contact-form__error" data-error-for="telefono"></span>
         </label>
         <label class="contact-form__field">
-          <span>Asunto <span class="contact-form__req" aria-hidden="true">*</span></span>
-          <input type="text" name="asunto" placeholder="Ej. propuesta, alianza, prensa…" required aria-required="true" />
+          <span>{t('contact.subject')} <span class="contact-form__req" aria-hidden="true">*</span></span>
+          <input type="text" name="asunto" placeholder={t('contact.subjectPlaceholder')} required aria-required="true" />
           <span class="contact-form__error" data-error-for="asunto"></span>
         </label>
       </div>
       <label class="contact-form__field">
-        <span>Mensaje <span class="contact-form__req" aria-hidden="true">*</span> <span class="contact-form__hint">mínimo 10 palabras</span></span>
-        <textarea name="mensaje" rows="5" placeholder="Cuéntanos un poco sobre tu proyecto o reto climático…" required aria-required="true"></textarea>
+        <span>{t('contact.message')} <span class="contact-form__req" aria-hidden="true">*</span> <span class="contact-form__hint">{t('contact.messageHint')}</span></span>
+        <textarea name="mensaje" rows="5" placeholder={t('contact.messagePlaceholder')} required aria-required="true"></textarea>
         <span class="contact-form__error" data-error-for="mensaje"></span>
       </label>
 
       <!-- honeypot anti-spam: invisible para personas, tentador para bots -->
       <div class="contact-form__hp" aria-hidden="true">
-        <label for="contact-website">No completar este campo</label>
+        <label for="contact-website">{t('contact.honeypot')}</label>
         <input id="contact-website" type="text" name="sitio_web" tabindex="-1" autocomplete="off" />
       </div>
 
       <div class="contact-form__foot">
-        <Button type="submit" size="lg" class="contact-form__submit">Enviar mensaje →</Button>
+        <Button type="submit" size="lg" class="contact-form__submit">{t('contact.submit')}</Button>
         <p class="contact-form__status" role="status" aria-live="polite"></p>
       </div>
     </form>
@@ -195,36 +213,68 @@ const copy = {
   const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
   const isValidPhone = (str) => str.replace(/[^0-9]/g, '').length >= 7;
 
-  // Reglas de los campos obligatorios: cada una devuelve un mensaje de error
-  // (string) o '' si el valor es válido.
-  const fieldRules = {
-    nombre: (v) => (v.trim() ? '' : 'Por favor indica tu nombre.'),
-    email: (v) => {
-      const val = v.trim();
-      if (!val) return 'Por favor indica tu correo.';
-      if (!isValidEmail(val)) return 'Ese correo no parece válido.';
-      return '';
+  // Mensajes por idioma — el formulario aparece tanto en /es (sin prefijo)
+  // como en /en/*, así que cada instancia lee su propio idioma de
+  // data-lang (puesto por el frontmatter, ver arriba) en vez de asumir uno.
+  const MESSAGES = {
+    es: {
+      name: 'Por favor indica tu nombre.',
+      emailEmpty: 'Por favor indica tu correo.',
+      emailInvalid: 'Ese correo no parece válido.',
+      phoneEmpty: 'Por favor indica un teléfono de contacto.',
+      phoneInvalid: 'Ese teléfono no parece válido.',
+      subject: 'Por favor indica el asunto de tu mensaje.',
+      messageEmpty: 'Cuéntanos brevemente tu mensaje.',
+      messageShort: (n) => `Escribe al menos ${n} palabras para que podamos entender tu solicitud.`,
+      reviewFields: 'Revisa los campos marcados antes de enviar.',
+      sending: 'Enviando…',
+      success: '¡Gracias! Recibimos tu mensaje y te contactaremos pronto.',
+      error: 'Hubo un problema al enviar. Escríbenos directamente a info@kimsa.co.',
     },
-    telefono: (v) => {
-      const val = v.trim();
-      if (!val) return 'Por favor indica un teléfono de contacto.';
-      if (!isValidPhone(val)) return 'Ese teléfono no parece válido.';
-      return '';
-    },
-    asunto: (v) => (v.trim() ? '' : 'Por favor indica el asunto de tu mensaje.'),
-    mensaje: (v) => {
-      const val = v.trim();
-      if (!val) return 'Cuéntanos brevemente tu mensaje.';
-      if (wordCount(val) < MIN_MESSAGE_WORDS) return `Escribe al menos ${MIN_MESSAGE_WORDS} palabras para que podamos entender tu solicitud.`;
-      return '';
+    en: {
+      name: 'Please enter your name.',
+      emailEmpty: 'Please enter your email.',
+      emailInvalid: "That email doesn't look valid.",
+      phoneEmpty: 'Please enter a contact phone number.',
+      phoneInvalid: "That phone number doesn't look valid.",
+      subject: 'Please enter the subject of your message.',
+      messageEmpty: 'Tell us briefly about your message.',
+      messageShort: (n) => `Write at least ${n} words so we can understand your request.`,
+      reviewFields: 'Please review the marked fields before submitting.',
+      sending: 'Sending…',
+      success: "Thank you! We've received your message and will contact you soon.",
+      error: 'There was a problem sending your message. Write to us directly at info@kimsa.co.',
     },
   };
 
   document.querySelectorAll('.contact-form__card').forEach((form) => {
     const endpoint = form.dataset.endpoint;
+    const M = MESSAGES[form.dataset.lang === 'en' ? 'en' : 'es'];
+    const fieldRules = {
+      nombre: (v) => (v.trim() ? '' : M.name),
+      email: (v) => {
+        const val = v.trim();
+        if (!val) return M.emailEmpty;
+        if (!isValidEmail(val)) return M.emailInvalid;
+        return '';
+      },
+      telefono: (v) => {
+        const val = v.trim();
+        if (!val) return M.phoneEmpty;
+        if (!isValidPhone(val)) return M.phoneInvalid;
+        return '';
+      },
+      asunto: (v) => (v.trim() ? '' : M.subject),
+      mensaje: (v) => {
+        const val = v.trim();
+        if (!val) return M.messageEmpty;
+        if (wordCount(val) < MIN_MESSAGE_WORDS) return M.messageShort(MIN_MESSAGE_WORDS);
+        return '';
+      },
+    };
     const submitBtn = form.querySelector('.contact-form__submit');
     const statusEl = form.querySelector('.contact-form__status');
-    const submitLabel = submitBtn ? submitBtn.textContent : 'Enviar mensaje →';
+    const submitLabel = submitBtn ? submitBtn.textContent : '';
 
     const setStatus = (type, msg) => {
       if (!statusEl) return;
@@ -267,7 +317,7 @@ const copy = {
       const honeypot = form.querySelector('[name="sitio_web"]');
       if (honeypot && honeypot.value) {
         form.reset();
-        setStatus('success', '¡Gracias! Recibimos tu mensaje y te contactaremos pronto.');
+        setStatus('success', M.success);
         return;
       }
 
@@ -276,7 +326,7 @@ const copy = {
       if (results.includes(false)) {
         const firstInvalid = form.elements.namedItem(names[results.indexOf(false)]);
         firstInvalid?.focus();
-        setStatus('error', 'Revisa los campos marcados antes de enviar.');
+        setStatus('error', M.reviewFields);
         return;
       }
 
@@ -290,7 +340,7 @@ const copy = {
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Enviando…';
+        submitBtn.textContent = M.sending;
       }
       setStatus('', '');
 
@@ -303,9 +353,9 @@ const copy = {
         if (!res.ok) throw new Error(`status ${res.status}`);
         form.reset();
         names.forEach(clearFieldError); // el reset vacía los campos; no re-validar contra vacío
-        setStatus('success', '¡Gracias! Recibimos tu mensaje y te contactaremos pronto.');
+        setStatus('success', M.success);
       } catch (err) {
-        setStatus('error', 'Hubo un problema al enviar. Escríbenos directamente a info@kimsa.co.');
+        setStatus('error', M.error);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;

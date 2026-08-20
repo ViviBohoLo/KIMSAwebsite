@@ -1,17 +1,21 @@
 ---
 import '../styles/global.css';
+import { getLangFromUrl } from '../i18n/utils';
 
 interface Props {
   title?: string;
   description?: string;
 }
+const lang = getLangFromUrl(Astro.url);
 const {
-  title = 'KIMSA · Clima · Conservación · Desarrollo',
-  description = 'KIMSA es una consultora climática latinoamericana. Diseñamos soluciones para que la naturaleza y las personas vuelvan a hablarse — sin hacer enciclopedias.',
+  title = lang === 'en' ? 'KIMSA · Climate · Conservation · Development' : 'KIMSA · Clima · Conservación · Desarrollo',
+  description = lang === 'en'
+    ? 'KIMSA is a Latin American climate consultancy. We design solutions so nature and people can talk to each other again — no encyclopedias.'
+    : 'KIMSA es una consultora climática latinoamericana. Diseñamos soluciones para que la naturaleza y las personas vuelvan a hablarse — sin hacer enciclopedias.',
 } = Astro.props;
 ---
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

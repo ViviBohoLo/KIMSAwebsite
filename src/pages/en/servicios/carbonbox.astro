@@ -1,54 +1,53 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Footer from '../../components/layout/Footer.astro';
-import ServiceHero from '../../components/sections/ServiceHero.astro';
-import StatBand from '../../components/sections/StatBand.astro';
-import NumberedCard from '../../components/surfaces/NumberedCard.astro';
-import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
-import ProjectModal from '../../components/sections/ProjectModal.astro';
-import Button from '../../components/core/Button.astro';
-import { projectsByArea } from '../../data/site';
-import { getCarbonBoxPosts, CARBONBOX_BLOG_URL, CARBONBOX_ACADEMY_URL } from '../../lib/carbonboxBlog';
+import Base from '../../../layouts/Base.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ServiceHero from '../../../components/sections/ServiceHero.astro';
+import StatBand from '../../../components/sections/StatBand.astro';
+import NumberedCard from '../../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../../components/sections/ProjectModal.astro';
+import Button from '../../../components/core/Button.astro';
+import { projectsByArea } from '../../../data/site';
+import { getCarbonBoxPosts, CARBONBOX_BLOG_URL, CARBONBOX_ACADEMY_URL } from '../../../lib/carbonboxBlog';
 
 const stats = [
-  { n: '50+', l: 'clientes satisfechos' },
-  { n: '13.000+', l: 'toneladas de gases de efecto invernadero gestionadas' },
-  { n: '6', l: 'sectores de la economía abordados' },
-  { n: '500+', l: 'colaboradores capacitados en descarbonización' },
+  { n: '50+', l: 'satisfied clients' },
+  { n: '13,000+', l: 'tons of greenhouse gases managed' },
+  { n: '6', l: 'economic sectors addressed' },
+  { n: '500+', l: 'people trained in decarbonization' },
 ];
 
 const areas = [
-  { t: 'Estimación de huella de carbono', d: 'Calcula las emisiones de tu empresa o evento siguiendo los estándares internacionales reconocidos.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Reducción y descarbonización', d: 'Automatiza tu plan de reducción de emisiones y haz seguimiento a tus metas.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Huella de carbono de producto', d: 'Mide el impacto en carbono de toda tu cadena de valor.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Capacitación y autogestión', d: 'A través de CarbonBox Academy ofrecemos formación para gestionar tu huella de forma autónoma.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Carbon footprint estimation', d: 'Calculate your company or event emissions following recognized international standards.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Reduction and decarbonization', d: 'Automate your emission reduction plan and track your goals.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Product carbon footprint', d: 'Measure the carbon impact of your entire value chain.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Training and self-management', d: 'Through CarbonBox Academy we offer training to manage your footprint on your own.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
 ];
 
 const pasos = [
-  { n: '01', t: 'Suscripción anual', d: 'Accede a la plataforma para gestionar la huella de carbono durante todo el año.', c: 'var(--kimsa-plum)' },
-  { n: '02', t: 'Capacitación y acompañamiento', d: 'Formación y soporte de expertos durante todo el proceso.', c: 'var(--kimsa-terracotta)' },
-  { n: '03', t: 'Estándares internacionales', d: 'Alineados con ISO 14064-1 y el GHG Protocol.', c: 'var(--kimsa-forest)' },
+  { n: '01', t: 'Annual subscription', d: 'Access the platform to manage your carbon footprint all year round.', c: 'var(--kimsa-plum)' },
+  { n: '02', t: 'Training and support', d: 'Expert training and support throughout the process.', c: 'var(--kimsa-terracotta)' },
+  { n: '03', t: 'International standards', d: 'Aligned with ISO 14064-1 and the GHG Protocol.', c: 'var(--kimsa-forest)' },
 ];
 
 const refs = projectsByArea('carbonbox');
 
-// Últimos artículos de carbonbox.app/blog, traídos en tiempo de build (ver
-// src/lib/carbonboxBlog.ts). Si el fetch falla o su HTML cambió de forma
-// inesperada, carbonboxPosts queda vacío y la grilla simplemente no se
-// renderiza — nunca debe romper el build de este sitio.
+// Últimos artículos de carbonbox.app/blog (ver src/lib/carbonboxBlog.ts).
+// Nota: el blog de CarbonBox solo existe en español — estos artículos se
+// muestran tal cual (no hay traducción automática de contenido externo).
 const carbonboxPosts = await getCarbonBoxPosts(3);
 ---
-<Base title="CarbonBox · Tecnología para la naturaleza · KIMSA" description="CarbonBox digitaliza la gestión ambiental para empresas y organizaciones: mide, reduce y gestiona tu huella de carbono.">
+<Base title="CarbonBox · Technology for nature · KIMSA" description="CarbonBox digitizes environmental management for companies and organizations: measure, reduce, and manage your carbon footprint.">
   <ServiceHero
     crumb="CarbonBox"
     titleMain="Carbon"
     titleEm="Box"
     joined
     emColor="#1620a4"
-    lead="Digitalizamos la gestión ambiental para empresas y organizaciones. Tecnología para la naturaleza que mide, reduce y gestiona tu huella de carbono."
+    lead="We digitize environmental management for companies and organizations. Technology for nature that measures, reduces, and manages your carbon footprint."
     photo="/assets/projects/carbonbox-platform.jpg"
     photoTint="dusk"
-    photoLabel="plataforma CarbonBox · panel de medición de huella"
+    photoLabel="CarbonBox platform · footprint measurement dashboard"
     ctaHref="https://www.carbonbox.app"
   />
 
@@ -58,12 +57,12 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
-        <span class="side-tag">Qué hacemos</span>
-        <h2 class="h2">Gestión ambiental, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitalizada.</em></h2>
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Environmental management, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitized.</em></h2>
       </div>
       <p class="lead reveal">
-        CarbonBox reúne en un solo lugar la medición, la reducción y el reporte de tu
-        impacto ambiental — con acompañamiento experto.
+        CarbonBox brings together the measurement, reduction, and reporting of your
+        environmental impact in one place — with expert support.
       </p>
     </div>
     <div class="svc-cards container reveal">
@@ -73,13 +72,12 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     </div>
   </section>
 
-  <!-- Cómo funciona: numeración real (son 3 pasos en orden, no ofertas
-       paralelas), por eso se conserva el disco 01/02/03. -->
+  <!-- Cómo funciona -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
       <div class="svc-head-left reveal" style="margin-bottom:48px">
-        <span class="side-tag">Cómo funciona</span>
-        <h2 class="h2" style="margin:0">Tres pasos, cero enredos.</h2>
+        <span class="side-tag">How it works</span>
+        <h2 class="h2" style="margin:0">Three steps, zero hassle.</h2>
       </div>
       <div class="steps reveal">
         {pasos.map((s) => (
@@ -97,23 +95,22 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="container">
       <div class="svc-head-left reveal" style="margin-bottom:20px">
-        <span class="side-tag">Referencias</span>
-        <h2 class="h2" style="margin:0">CarbonBox en <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">acción.</em></h2>
+        <span class="side-tag">References</span>
+        <h2 class="h2" style="margin:0">CarbonBox in <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">action.</em></h2>
       </div>
-      <p class="lead reveal" style="margin-bottom:40px">Haga clic en el proyecto para ver el detalle completo.</p>
+      <p class="lead reveal" style="margin-bottom:40px">Click on a project to see the full details.</p>
       <ProjectsCarousel projects={refs} id="pc-carbon" />
     </div>
   </section>
 
-  <!-- Blog + CarbonBox Academy: los artículos se sincronizan solos desde
-       carbonbox.app/blog en cada build (ver src/lib/carbonboxBlog.ts). -->
+  <!-- Blog + CarbonBox Academy -->
   <section class="section" id="blog" style="background:var(--kimsa-bone)">
     <div class="container">
       <div class="svc-head-left reveal" style="margin-bottom:20px">
         <span class="side-tag">Blog</span>
-        <h2 class="h2" style="margin:0">Ideas y ciencia para <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">descarbonizar.</em></h2>
+        <h2 class="h2" style="margin:0">Ideas and science to <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">decarbonize.</em></h2>
       </div>
-      <p class="lead reveal" style="margin-bottom:40px">Artículos del equipo de CarbonBox sobre huella de carbono, normativa y estrategia de sostenibilidad.</p>
+      <p class="lead reveal" style="margin-bottom:40px">Articles from the CarbonBox team on carbon footprint, regulation, and sustainability strategy (currently published in Spanish).</p>
 
       {carbonboxPosts.length > 0 && (
         <div class="cb-blog-grid reveal">
@@ -132,16 +129,16 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
       )}
 
       <p class="cb-blog-more reveal">
-        <a href={CARBONBOX_BLOG_URL} target="_blank" rel="noopener noreferrer">Ver todos los artículos en carbonbox.app/blog →</a>
+        <a href={CARBONBOX_BLOG_URL} target="_blank" rel="noopener noreferrer">See all articles at carbonbox.app/blog →</a>
       </p>
 
       <div class="cb-academy reveal">
         <div class="cb-academy__text">
           <span class="side-tag">CarbonBox Academy</span>
-          <p>Guías, webinars y masterclasses gratuitas para gestionar tu huella de carbono de forma autónoma.</p>
+          <p>Free guides, webinars, and masterclasses to manage your carbon footprint on your own.</p>
         </div>
         <Button variant="primary" size="md" href={CARBONBOX_ACADEMY_URL} target="_blank" rel="noopener noreferrer">
-          Ir a CarbonBox Academy →
+          Go to CarbonBox Academy →
         </Button>
       </div>
     </div>

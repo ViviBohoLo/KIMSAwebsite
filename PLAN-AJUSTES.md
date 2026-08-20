@@ -26,13 +26,15 @@
 - **Qué:** el logo de la Cámara está sobre fondo blanco; dejarlo **transparente** y **un poco más grande**.
 - **Dónde:** `public/assets/kimsa-camara.png` (quitar fondo blanco, como se hizo con el isotipo) y `.impact__badge img` en `src/pages/index.astro`.
 
-### 5a. Alianza con InNature (Ceiba Bruja)
+### 5a. Alianza con InNature (Ceiba Bruja) ✅
 - **Qué:** quitar las tarjetas de indicadores (se repiten con lo de arriba). Del aporte, **quitar el valor de la donación ($16.5M)**. Donde se menciona **"Reserva Ceiba Bruja"**, enlazar a https://www.innnature.org/.
 - **Dónde:** sección Ceiba en `src/pages/index.astro` (array `ceiba` + markup) y `#ceiba` en `src/pages/nosotros.astro`.
+- **Hecho (2026-08-20):** en ambas páginas se quitaron las 3 tarjetas de indicadores (con el valor `$16.5M` incluido) y el array `ceiba` que las alimentaba; "Reserva Ceiba Bruja" ahora es un link a innnature.org (nueva pestaña).
 
-### 7. "Nuestra historia" (home) — corregir años
+### 7. "Nuestra historia" (home) — corregir años ✅
 - **Qué:** cambiar el hito de Ceiba Bruja; poner **"2020 — Expansión y apoyos a proyectos en varios países de LATAM"**. **Validar el año** con la info real.
 - **Dónde:** array `story` en `src/pages/index.astro` (revisar también `src/pages/nosotros.astro`).
+- **Hecho (2026-08-20):** el hito 2020 en ambos archivos ahora dice "Expansión LATAM — Expansión y apoyo a proyectos en varios países de América Latina". El año 2020 en sí no se cambió (no hay info nueva que lo contradiga); si el equipo confirma otro año, es un cambio de una línea.
 
 ### 12. Carrusel de proyectos — año inconsistente
 - **Qué:** algunas tarjetas muestran año y otras no. Unificar (recomendado: cargar el año de todos y mostrarlo siempre).
@@ -47,9 +49,10 @@
 
 ## 🎨 Consistencia visual (tarjetas de color)
 
-### 17. Tarjetas de color se ven planas en varias partes
+### 17. Tarjetas de color se ven planas en varias partes ✅
 - **Qué:** el degradado tenue (ya en `ValueCard`, `NumberedCard`, `ServiceCard`) no quedó en todo el sitio. En **Nosotros** falta. En **"Nuestra historia"**, **"Donaciones/Ceiba"** y **"Dónde estamos"** dejar igual a las correcciones del Home.
 - **Dónde:** `src/pages/nosotros.astro`, `src/pages/index.astro`, componentes en `src/components/surfaces/`.
+- **Hecho (2026-08-20):** "Nuestra historia" (Home y Nosotros) — los ítems ya no son solo una línea divisoria: cada uno tiene su propio degradado sutil, como una tarjeta. "Dónde estamos" (`PresenceMap.astro`, compartido por Home y Nosotros) — la lista de países pasó de bone/blush **planos** alternados a degradado sutil alternado (forest/blush). "Donaciones/Ceiba" quedó resuelta con el ítem 5a (se quitaron las tarjetas planas, no hace falta degradado porque ya no existen). `ValueCard`/`NumberedCard`/`ServiceCard` ya tenían el degradado — no se tocaron.
 
 ---
 
@@ -80,9 +83,10 @@
 - **Qué:** revisar el conteo: **"3 reportes" podría ser 4** con el de El Salvador. Validar también **mecanismo(s) de financiamiento**.
 - **Dónde:** array `stats` en `src/pages/servicios/gestion-climatica.astro`. **Necesita** matriz.
 
-### 11. "Qué hacemos" / "Capacidades" — se ven planas
+### 11. "Qué hacemos" / "Capacidades" — se ven planas ✅
 - **Qué:** fondo de "Qué hacemos" debería ser **oscuro** (las tarjetas se ven muy planas). En "Capacidades" proponer una **figura/animación/algo más dinámico**.
 - **Dónde:** `src/pages/servicios/gestion-climatica.astro` + estilos de `NumberedCard` y la lista de capacidades.
+- **Hecho (2026-08-20):** "Qué hacemos" ahora tiene fondo oscuro en degradado (bosque → bosque profundo, con resplandor `.glow`), igual que StatBand/Ceiba — las 5 `NumberedCard` (claras) resaltan en vez de verse planas sobre crema. "Capacidades" pasó de un simple ▲ estático a numeración 01-05 con color propio por ítem, resplandor de fondo y una micro-interacción al pasar el mouse (se desliza y se tiñe con su color de acento).
 
 ---
 
@@ -142,10 +146,18 @@
 
 ## 🌐 Internacionalización
 
-### 1. Traducción a inglés de todo el sitio
+### 1. Traducción a inglés de todo el sitio ✅
 - **Qué:** el sitio hoy está solo en español; falta **toda la versión en inglés**.
 - **Dónde:** `astro.config.mjs` ya tiene i18n (`es` por defecto, `en` disponible). Definir estrategia (rutas `/en/…` o diccionario). Traducir todo + nav/footer y activar el selector ES·EN.
 - **Nota:** es el ítem más grande; dejarlo para un bloque dedicado.
+- **Hecho (2026-08-20):**
+  - **Infraestructura:** `src/i18n/ui.ts` (diccionario de textos de interfaz compartidos) + `src/i18n/utils.ts` (`getLangFromUrl`, `useTranslations`, `getLocalizedPath`). `Base.astro` pone `<html lang="es"|"en">` según la URL.
+  - **~15 componentes compartidos** (`Nav`, `Footer`, `ProjectsExplorer`, `ProjectsCarousel`, `ProjectModal`, `DocumentCard`, `ContactForm`, `CourseCTA`, `PresenceMap`, `ServiceHero`, `ClientsMarquee`, `HomeSectionNav`, `ServiceCard`…) ahora leen el idioma de la URL y muestran su texto (botones, labels, placeholders, mensajes de validación del formulario) en el idioma correcto — sin prop-drilling, vía `Astro.url`.
+  - **Datos** (`src/data/site.ts`): los 57 proyectos y los 10 documentos tienen campos `title_en`/`summary_en`/`description_en`/`tags_en` (o `contribution_en`) junto a los originales en español; `TEAM` tiene `role_en`/`bio_en`. Helpers `localizeProject`, `localizeDocument`, `localizeMember`, `localizeCountryName`, `areaLabel` resuelven el idioma correcto. Los nombres de cliente/organización (`client`) **no se tradujeron** — son nombres propios de instituciones, sin equivalente oficial en inglés.
+  - **10 páginas en inglés** bajo `src/pages/en/` (mismo contenido y componentes que su par en español, con copy traducido): home, nosotros, proyectos, publicaciones, clientes, contacto, curso-psicologia-ambiental, y los 3 `servicios/*`.
+  - **Selector ES·EN** en el nav: ya no está deshabilitado — cambia de idioma manteniendo la misma página (usa `getLocalizedPath`).
+  - **Build de producción verificado:** `npm run build` genera las 20 páginas (10 ES + 10 EN) sin errores.
+  - **Límite conocido:** los artículos del blog de CarbonBox (sección `#blog` en `/en/servicios/carbonbox`) se traen de `carbonbox.app/blog`, que solo existe en español — se muestran tal cual, con una nota aclaratoria en el copy de esa sección.
 
 ---
 

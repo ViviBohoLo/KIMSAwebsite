@@ -6,32 +6,36 @@
  */
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
 import type { Project } from '../../data/site';
-import { AREA_COLOR } from '../../data/site';
+import { AREA_COLOR, localizeCountryName, localizeProject } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   projects: Project[];
   id?: string;
 }
 const { projects, id = 'pc' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const items = projects.map((proj) => localizeProject(proj, lang));
 ---
 <div class="pc" data-carousel={id}>
   <div class="pc__track" id={`${id}-track`}>
-    {projects.map((p) => (
-      <article class="pc__card" data-project={p.slug} tabindex="0" role="button" aria-label={`Ver ${p.title}`}>
+    {items.map((p) => (
+      <article class="pc__card" data-project={p.slug} tabindex="0" role="button" aria-label={`${lang === 'en' ? 'View' : 'Ver'} ${p.title}`}>
         <div class="pc__media">
           {p.image
             ? <img src={p.image} alt={p.title} />
-            : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${p.country} · foto de proyecto`} />}
+            : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${localizeCountryName(p.country, lang)} · ${lang === 'en' ? 'project photo' : 'foto de proyecto'}`} />}
         </div>
         <div class="pc__body">
-          <span class="pc__loc">{p.country}{p.year ? ` · ${p.year}` : ''}</span>
+          <span class="pc__loc">{localizeCountryName(p.country, lang)}{p.year ? ` · ${p.year}` : ''}</span>
           <h3 class="pc__title">{p.title}</h3>
           <p class="pc__summary">{p.summary}</p>
           <div class="pc__footer">
-            <span class="pc__more" style={`color:${AREA_COLOR[p.area]}; border-color:${AREA_COLOR[p.area]}`}>Ver proyecto →</span>
+            <span class="pc__more" style={`color:${AREA_COLOR[p.area]}; border-color:${AREA_COLOR[p.area]}`}>{t('projects.viewMore')}</span>
             {p.publicationUrl && (
               <a class="pc__pub" href={p.publicationUrl} target="_blank" rel="noopener noreferrer">
-                Ver publicación →
+                {t('projects.viewPublication')}
               </a>
             )}
           </div>
@@ -40,8 +44,8 @@ const { projects, id = 'pc' } = Astro.props;
     ))}
   </div>
   <div class="pc__nav">
-    <button class="pc__arrow" data-dir="-1" aria-label="Anterior">←</button>
-    <button class="pc__arrow" data-dir="1" aria-label="Siguiente">→</button>
+    <button class="pc__arrow" data-dir="-1" aria-label={t('carousel.prev')}>←</button>
+    <button class="pc__arrow" data-dir="1" aria-label={t('carousel.next')}>→</button>
   </div>
 </div>
 

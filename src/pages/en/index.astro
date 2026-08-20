@@ -1,39 +1,39 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/layout/Nav.astro';
-import Footer from '../components/layout/Footer.astro';
-import Button from '../components/core/Button.astro';
-import MountainMark from '../components/brand/MountainMark.astro';
-import PhotoPlaceholder from '../components/surfaces/PhotoPlaceholder.astro';
-import ClientsMarquee from '../components/sections/ClientsMarquee.astro';
-import ValueCard from '../components/surfaces/ValueCard.astro';
-import ServiceCard from '../components/surfaces/ServiceCard.astro';
-import Card from '../components/surfaces/Card.astro';
-import CourseCTA from '../components/sections/CourseCTA.astro';
-import ContactForm from '../components/sections/ContactForm.astro';
-import ProjectModal from '../components/sections/ProjectModal.astro';
-import OdometerStat from '../components/core/OdometerStat.astro';
-import HomeSectionNav from '../components/sections/HomeSectionNav.astro';
-import PresenceMap from '../components/sections/PresenceMap.astro';
-import { PROJECTS, TEAM, CONTACT, CLIENT_LOGOS } from '../data/site';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Button from '../../components/core/Button.astro';
+import MountainMark from '../../components/brand/MountainMark.astro';
+import PhotoPlaceholder from '../../components/surfaces/PhotoPlaceholder.astro';
+import ClientsMarquee from '../../components/sections/ClientsMarquee.astro';
+import ValueCard from '../../components/surfaces/ValueCard.astro';
+import ServiceCard from '../../components/surfaces/ServiceCard.astro';
+import Card from '../../components/surfaces/Card.astro';
+import CourseCTA from '../../components/sections/CourseCTA.astro';
+import ContactForm from '../../components/sections/ContactForm.astro';
+import ProjectModal from '../../components/sections/ProjectModal.astro';
+import OdometerStat from '../../components/core/OdometerStat.astro';
+import HomeSectionNav from '../../components/sections/HomeSectionNav.astro';
+import PresenceMap from '../../components/sections/PresenceMap.astro';
+import { PROJECTS, TEAM, CONTACT, CLIENT_LOGOS, localizeProject, localizeMember, localizeCountryName } from '../../data/site';
 
 const values = [
-  { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Gente creativa', d: 'Un enfoque fresco, neutral e innovador para encontrar soluciones de desarrollo consciente.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Sus procesos, nuestro objetivo', d: 'Trabajamos de la mano con los clientes para asegurar aplicabilidad y continuidad.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Less is more', d: 'We simplify the most complex problems. Our results are brief, understandable, and useful.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Creative people', d: 'A fresh, neutral, and innovative approach to finding conscious development solutions.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Your processes, our goal', d: 'We work hand in hand with clients to ensure applicability and continuity.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
 ];
 
 const services = [
-  { name: 'Gestión Climática', description: 'Medimos, planeamos y transformamos procesos para reducir emisiones y adaptarnos al cambio climático.', bullets: ['Inventarios GEI', 'Sistemas MRV', 'Adaptación', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'taller de trabajo · gestión climática' }, href: '/servicios/gestion-climatica' },
-  { name: 'Psicología Ambiental', description: 'Integramos enfoques sociales, culturales y emocionales para co-crear soluciones climáticas con las comunidades.', bullets: ['Cambio de comportamiento', 'Participación', 'Género e inclusión'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'encuentro comunitario · psicología ambiental' }, href: '/servicios/psicologia-ambiental' },
-  { name: 'CarbonBox', description: 'Tecnología para la naturaleza: medimos, gestionamos y descarbonizamos huellas ambientales de empresas y organizaciones.', bullets: ['Huella de carbono', 'ISO 14064', 'ISO 14067', 'GHG Protocol', 'Gestión de reducciones', 'Carbono neutralidad'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'equipo CarbonBox' }, href: '/servicios/carbonbox' },
+  { name: 'Climate Management', description: 'We measure, plan, and transform processes to reduce emissions and adapt to climate change.', bullets: ['GHG inventories', 'MRV systems', 'Adaptation', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'work session · climate management' }, href: '/en/servicios/gestion-climatica' },
+  { name: 'Environmental Psychology', description: 'We integrate social, cultural, and emotional approaches to co-create climate solutions with communities.', bullets: ['Behavior change', 'Participation', 'Gender and inclusion'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'community gathering · environmental psychology' }, href: '/en/servicios/psicologia-ambiental' },
+  { name: 'CarbonBox', description: 'Technology for nature: we measure, manage, and decarbonize the environmental footprints of companies and organizations.', bullets: ['Carbon footprint', 'ISO 14064', 'ISO 14067', 'GHG Protocol', 'Reduction management', 'Carbon neutrality'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'CarbonBox team' }, href: '/en/servicios/carbonbox' },
 ];
 
 const stats = [
-  { n: '+150', l: 'proyectos en América Latina', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-blush)' },
-  { n: '+12', l: 'gobiernos apoyados en el Acuerdo de París', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { n: '+8,000', l: 'personas consultadas', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
-  { n: '+1,200', l: 'colaboradores capacitados', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { n: '+150', l: 'projects in Latin America', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-blush)' },
+  { n: '+12', l: 'governments supported under the Paris Agreement', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { n: '+8,000', l: 'people consulted', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { n: '+1,200', l: 'people trained', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
 ];
 // Mismas cifras que arriba, partidas en prefijo/valor numérico para el
 // contador tipo odómetro del hero (ver OdometerStat).
@@ -42,29 +42,24 @@ const heroStats = stats.map((s) => {
   return { prefix: m?.[1] ?? '', value: m?.[2] ?? s.n, l: s.l };
 });
 
-
 const story = [
-  { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
-  { y: '2020', t: 'Expansión LATAM', d: 'Expansión y apoyo a proyectos en varios países de América Latina.' },
-  { y: '2020', t: 'Alianza con la Fundación InnNature', d: 'El 1% de nuestras utilidades apoya la conservación de la Reserva Ceiba Bruja.' },
-  { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
-  { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
+  { y: '2017', t: 'KIMSA is born', d: 'Founded in Bogotá with a Latin American vocation.' },
+  { y: '2020', t: 'LATAM expansion', d: 'Expansion and support for projects in several Latin American countries.' },
+  { y: '2020', t: 'Alliance with the InnNature Foundation', d: '1% of our profits support the conservation of the Ceiba Bruja Reserve.' },
+  { y: '2022', t: 'CarbonBox launch', d: 'Our platform to measure and manage footprints.' },
+  { y: '2024', t: 'Company of the Year', d: 'Recognized by the Bogotá Chamber of Commerce.' },
 ];
 
 const bySlug = (s: string) => PROJECTS.find((p) => p.slug === s)!;
-const featured = bySlug('ndc-3-el-salvador');
-// Una muestra por área para la Home (el listado completo está en /proyectos)
-const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnatura'].map(bySlug);
+const featured = localizeProject(bySlug('ndc-3-el-salvador'), 'en');
+// Una muestra por área para la Home (el listado completo está en /en/proyectos)
+const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnatura'].map((s) => localizeProject(bySlug(s), 'en'));
+const team = TEAM.map((m) => localizeMember(m, 'en'));
 ---
 <Base>
   <HomeSectionNav />
 
   <!-- ============ HERO ============ -->
-  <!-- Titular+CTA y cifras conviven en UNA sola sección con un degradado
-       continuo (bosque profundo → bosque → terracota → coral): sin cortes
-       de sección, el color simplemente fluye de arriba a abajo. Etiqueta de
-       marca reubicada como corte vertical en el borde (no como kicker sobre
-       el título). -->
   <section class="hero" id="inicio" data-nav-theme="dark">
     <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
       <source src="/assets/videos/Hero.mp4" type="video/mp4" />
@@ -76,21 +71,18 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
 
     <div class="hero-band__grid container">
       <h1 class="hero-band__title">
-        Diseñamos soluciones para que la naturaleza y las personas <em class="em-peach">vuelvan a hablarse.</em>
+        We design solutions so nature and people <em class="em-peach">can talk to each other again.</em>
       </h1>
       <div class="hero-band__side">
         <p class="hero-band__lead">
-          Somos KIMSA. Una consultora climática joven, nacida en Bogotá en 2017, que
-          trabaja desde 8 países de América Latina para enfrentar la crisis climática
-          con rigor, frescura y humanidad.
+          We are KIMSA. A young climate consultancy, born in Bogotá in 2017, working
+          from 8 Latin American countries to tackle the climate crisis with rigor,
+          freshness, and humanity.
         </p>
-        <Button variant="primary" href="#servicios" class="hero-band__cta">Conozca nuestro trabajo →</Button>
+        <Button variant="primary" href="#servicios" class="hero-band__cta">See our work →</Button>
       </div>
     </div>
 
-    <!-- Mismas cifras que la sección "Impacto" más abajo, como tira de
-         prueba tipo odómetro (derivado de anewclimate.com) — primero la
-         promesa, luego la evidencia. -->
     <div class="hero-stats__row container">
       {heroStats.map((s) => (
         <OdometerStat value={s.value} prefix={s.prefix} label={s.l} accent="var(--kimsa-bone)" labelChip />
@@ -102,13 +94,13 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section clients">
     <div class="clients__head reveal">
       <MountainMark size={44} class="clients__mark" />
-      <p class="clients__statement">Confían en KIMSA · {CLIENT_LOGOS.length} organizaciones en 8 países</p>
+      <p class="clients__statement">Trusted by {CLIENT_LOGOS.length} organizations in 8 countries</p>
     </div>
     <div class="clients__marquee reveal">
       <ClientsMarquee />
     </div>
     <div class="clients__cta reveal">
-      <Button variant="secondary" size="sm" href="/clientes">Conoce todas las organizaciones que confían en KIMSA →</Button>
+      <Button variant="secondary" size="sm" href="/en/clientes">See all the organizations that trust KIMSA →</Button>
     </div>
   </section>
 
@@ -120,12 +112,12 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     <div class="manifesto__grid container">
       <div class="reveal manifesto__label">
         <MountainMark size={72} />
-        <span class="side-tag">Nuestro propósito</span>
+        <span class="side-tag">Our purpose</span>
       </div>
       <div>
         <h2 class="h2-lg reveal">
-          Generamos <em class="em-forest">productos y soluciones</em> útiles, replicables e
-          innovadoras que <em class="em-terracotta">transforman la sociedad</em> — sin hacer enciclopedias.
+          We create <em class="em-forest">useful, replicable, and innovative products and
+          solutions</em> that <em class="em-terracotta">transform society</em> — no encyclopedias.
         </h2>
         <div class="manifesto__values reveal">
           {values.map((v) => <ValueCard title={v.t} accent={v.fg} tint={v.bg}>{v.d}</ValueCard>)}
@@ -138,12 +130,12 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section services" id="servicios">
     <div class="services__head container">
       <div class="reveal services__head-left">
-        <span class="side-tag">Qué hacemos</span>
-        <h2 class="h2">Tres caminos, una misma <em class="em-forest">brújula.</em></h2>
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Three paths, one <em class="em-forest">compass.</em></h2>
       </div>
       <p class="lead reveal">
-        Acompañamos a empresas, gobiernos y comunidades con humanidad, creatividad e
-        innovación. Cada proyecto se adapta a su contexto y ritmo.
+        We work alongside companies, governments, and communities with humanity,
+        creativity, and innovation. Each project adapts to its own context and pace.
       </p>
     </div>
     <div class="services__grid container reveal">
@@ -152,26 +144,23 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   </section>
 
   <!-- ============ IMPACTO ============ -->
-  <!-- Sin grilla de cifras (a pedido explícito) — se conserva únicamente el
-       reconocimiento Empresa del Año 2024. Sección quieta de una columna,
-       buen contrapunto de ritmo después de la cascada de cifras del hero. -->
   <section class="section impact">
     <div class="blob blob--peach" style="top:-80px; left:-80px;"></div>
     <div class="impact__grid container">
       <div class="reveal impact__head">
-        <span class="side-tag">Lo que sembramos</span>
-        <h2 class="h2-lg">Un trabajo que deja <em class="em-forest">huella.</em></h2>
+        <span class="side-tag">What we sow</span>
+        <h2 class="h2-lg">Work that leaves a <em class="em-forest">mark.</em></h2>
       </div>
       <p class="impact__text reveal">
-        Desde 2017 acompañamos a empresas, gobiernos y comunidades en América
-        Latina — un camino constante que la Cámara de Comercio de Bogotá
-        reconoció como Empresa del Año 2024.
+        Since 2017 we've worked with companies, governments, and communities
+        across Latin America — a steady path the Bogotá Chamber of Commerce
+        recognized as Company of the Year 2024.
       </p>
       <div class="impact__badge reveal">
-        <img src="/assets/kimsa-camara.png" alt="Cámara de Comercio de Bogotá" />
+        <img src="/assets/kimsa-camara.png" alt="Bogotá Chamber of Commerce" />
         <div>
-          <div class="impact__badge-title">Empresa del Año 2024</div>
-          <div class="impact__badge-sub">Reconocidas por la Cámara de Comercio de Bogotá</div>
+          <div class="impact__badge-title">Company of the Year 2024</div>
+          <div class="impact__badge-sub">Recognized by the Bogotá Chamber of Commerce</div>
         </div>
       </div>
     </div>
@@ -181,20 +170,20 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section ceiba" id="ceiba" data-nav-theme="dark">
     <div class="blob blob--terracotta" style="top:-100px; right:-100px; width:500px; height:500px;"></div>
     <div class="ceiba__grid container">
-      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Reserva Ceiba Bruja" ratio="4/3" tint="earth" rounded={32} label="reserva ceiba bruja · bosque seco tropical · sierra nevada" />
+      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Ceiba Bruja Reserve" ratio="4/3" tint="earth" rounded={32} label="ceiba bruja reserve · tropical dry forest · sierra nevada" />
       <div class="reveal">
         <div class="ceiba__head">
-          <span class="side-tag" style="color:var(--kimsa-peach)">Nuestro aporte a la naturaleza</span>
+          <span class="side-tag" style="color:var(--kimsa-peach)">Our contribution to nature</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            El <em class="em-peach">1%</em> de nuestras utilidades va a la
-            <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Reserva Ceiba Bruja</a>,
-            en la Sierra Nevada de Santa Marta.
+            <em class="em-peach">1%</em> of our profits go to the
+            <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Ceiba Bruja Reserve</a>,
+            in the Sierra Nevada de Santa Marta.
           </h2>
         </div>
         <p class="ceiba__text">
-          Desde 2020 generamos una alianza con la <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Fundación InnNature</a>,
-          con quien trabajamos en la conservación del bosque seco tropical y apoyamos
-          proyectos productivos sostenibles para las comunidades locales.
+          Since 2020 we've had an alliance with the <a class="em-peach ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">InnNature Foundation</a>,
+          working together on the conservation of tropical dry forest and supporting
+          sustainable productive projects for local communities.
         </p>
       </div>
     </div>
@@ -204,16 +193,16 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   <section class="section projects" id="proyectos-home">
     <div class="projects__head container">
       <div class="reveal projects__head-left">
-        <span class="side-tag">Nuestro trabajo</span>
-        <h2 class="h2">Proyectos que dejan <em class="em-forest">huella.</em></h2>
+        <span class="side-tag">Our work</span>
+        <h2 class="h2">Projects that leave a <em class="em-forest">mark.</em></h2>
       </div>
-      <Button variant="ghost" href="/proyectos" class="reveal">Ver todos los proyectos →</Button>
+      <Button variant="ghost" href="/en/proyectos" class="reveal">See all projects →</Button>
     </div>
     <div class="projects__grid container">
-      <Card padded={false} class="reveal projects__featured" data-project={featured.slug} role="button" tabindex="0" aria-label={`Ver ${featured.title}`}>
-        <PhotoPlaceholder ratio="16/10" src={featured.image} alt={featured.title} tint={featured.tint} rounded={0} label={`proyecto destacado · ${featured.country}`} />
+      <Card padded={false} class="reveal projects__featured" data-project={featured.slug} role="button" tabindex="0" aria-label={`View ${featured.title}`}>
+        <PhotoPlaceholder ratio="16/10" src={featured.image} alt={featured.title} tint={featured.tint} rounded={0} label={`featured project · ${localizeCountryName(featured.country, 'en')}`} />
         <div class="projects__featured-body">
-          <span class="projects__badge">Proyecto destacado · {featured.country}</span>
+          <span class="projects__badge">Featured project · {localizeCountryName(featured.country, 'en')}</span>
           <h3 class="projects__featured-title">{featured.title}</h3>
           <p class="projects__featured-desc">{featured.summary}</p>
           <div class="projects__tags">
@@ -223,10 +212,10 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
       </Card>
       <div class="projects__col">
         {secondary.map((p) => (
-          <div class="reveal projects__small" data-project={p.slug} role="button" tabindex="0" aria-label={`Ver ${p.title}`}>
-            <PhotoPlaceholder fill src={p.image} alt={p.title} tint={p.tint} rounded={0} label={p.country} />
+          <div class="reveal projects__small" data-project={p.slug} role="button" tabindex="0" aria-label={`View ${p.title}`}>
+            <PhotoPlaceholder fill src={p.image} alt={p.title} tint={p.tint} rounded={0} label={localizeCountryName(p.country, 'en')} />
             <div class="projects__small-body">
-              <div class="projects__small-tag">{p.country}{p.year ? ` · ${p.year}` : ''}</div>
+              <div class="projects__small-tag">{localizeCountryName(p.country, 'en')}{p.year ? ` · ${p.year}` : ''}</div>
               <h3 class="projects__small-title">{p.title}</h3>
               <p class="projects__small-desc">{p.client}</p>
             </div>
@@ -242,14 +231,15 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     <div class="story__grid container">
       <div class="reveal">
         <div class="story__head">
-          <span class="side-tag" style="color:var(--kimsa-peach)">Nuestra historia</span>
+          <span class="side-tag" style="color:var(--kimsa-peach)">Our story</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            Desde 2017, uniendo <em class="em-peach">naturaleza, personas y sistemas.</em>
+            Since 2017, connecting <em class="em-peach">nature, people, and systems.</em>
           </h2>
         </div>
         <p class="story__text">
-          Creemos en el desarrollo consciente. Diseñamos soluciones útiles, replicables
-          y alineadas con los Objetivos de Desarrollo Sostenible — sin hacer enciclopedias.
+          We believe in conscious development. We design solutions that are
+          useful, replicable, and aligned with the Sustainable Development
+          Goals — no encyclopedias.
         </p>
       </div>
       <div class="reveal">
@@ -271,20 +261,20 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     <div class="team__grid container">
       <div class="reveal">
         <div class="team__head">
-          <span class="side-tag">Las personas</span>
-          <h2 class="h2">Un equipo joven, mayormente <em class="em-forest">de mujeres.</em></h2>
+          <span class="side-tag">The people</span>
+          <h2 class="h2">A young team, mostly <em class="em-forest">women.</em></h2>
         </div>
         <p class="team__text">
-          Trabajamos desde casa, desde el campo, desde donde la vida nos encuentre.
-          Confiamos en la autonomía y celebramos las distintas formas de trabajar.
+          We work from home, from the field, from wherever life finds us. We
+          trust autonomy and celebrate different ways of working.
         </p>
         <div class="team__band">
           <div class="team__band-n">80%</div>
-          <div class="team__band-l">de nuestro equipo está conformado por mujeres</div>
+          <div class="team__band-l">of our team is made up of women</div>
         </div>
       </div>
       <div class="team__people reveal">
-        {TEAM.map((m) => (
+        {team.map((m) => (
           <div class="team__person">
             <div class="team__photo" style={`background:linear-gradient(165deg, ${m.color} 0%, color-mix(in srgb, ${m.color} 70%, transparent) 60%, var(--kimsa-peach) 130%)`}>
               <img src={m.img} alt={m.name} />
@@ -298,8 +288,8 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
             <span class="team__more-n">+30</span>
             <MountainMark size={40} mono="rgba(255,255,255,0.9)" />
           </div>
-          <div class="team__name">+30 profesionales</div>
-          <div class="team__role">HUB latinoamericano</div>
+          <div class="team__name">+30 professionals</div>
+          <div class="team__role">Latin American HUB</div>
         </div>
       </div>
     </div>
@@ -321,17 +311,12 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
 </Base>
 
 <style>
-  /* ---------- HERO: una sola banda, degradado continuo ----------
-     Todo el hero (titular + cifras) pinta UN solo fondo que fluye de
-     bosque profundo a coral; no hay límite de sección que "cortar". */
   .hero {
     position: relative;
     color: var(--kimsa-bone);
     padding-bottom: 64px;
     overflow: hidden;
   }
-  /* Video de fondo: cubre toda la sección, detrás del degradado y el
-     contenido. Se silencia y hace loop para poder autorreproducirse. */
   .hero__video {
     position: absolute;
     inset: 0;
@@ -341,11 +326,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     object-fit: cover;
     pointer-events: none;
   }
-  /* Mismo degradado que antes (bosque profundo → bosque → terracota →
-     coral), ahora como capa translúcida sobre el video para conservar el
-     contraste del texto sin taparlo por completo. El verde domina más
-     tiempo antes de virar a naranja, y el naranja/coral final está más
-     diluido; opacidad más baja para que el video se note más. */
   .hero__overlay {
     position: absolute;
     inset: 0;
@@ -380,7 +360,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .hero-band__lead { font-size: 17px; line-height: 1.6; color: rgba(251, 248, 241, 0.88); margin: 0; }
   .hero-band__cta { align-self: flex-start; }
 
-  /* ---------- HERO: cifras tipo odómetro (misma banda, mitad inferior) ---------- */
   .hero-stats__row {
     position: relative;
     z-index: 1;
@@ -392,40 +371,32 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
     border-top: 1px solid rgba(251, 248, 241, 0.18);
   }
 
-  /* ---------- CLIENTES ---------- */
   .clients { background: var(--kimsa-cream); padding-top: 88px; padding-bottom: 88px; }
   .clients__head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 44px; }
   .clients__statement { font-size: 20px; font-weight: 500; color: var(--kimsa-ink); text-align: center; }
-  .clients__marquee { margin: 0 calc(-1 * var(--kimsa-section-x)); } /* a sangre para el bucle */
+  .clients__marquee { margin: 0 calc(-1 * var(--kimsa-section-x)); }
   .clients__cta { display: flex; justify-content: flex-end; margin-top: 32px; }
-  /* HomeSectionNav (la guía de puntos) es fixed a la derecha desde 1240px;
-     se le deja el mismo margen para que no se solape con su etiqueta al
-     pasar el mouse. */
   @media (min-width: 1240px) {
     .clients__cta { padding-right: 120px; }
   }
 
-  /* ---------- Blobs (decoración) ---------- */
   .blob { position: absolute; width: 400px; height: 400px; border-radius: 50%; filter: blur(40px); pointer-events: none; }
   .blob--peach { background: radial-gradient(circle, rgba(245,176,131,0.53) 0%, transparent 70%); }
   .blob--sage { background: radial-gradient(circle, rgba(111,141,107,0.53) 0%, transparent 70%); }
   .blob--terracotta { background: radial-gradient(circle, rgba(217,108,60,0.4) 0%, transparent 70%); filter: blur(60px); }
 
-  /* ---------- MANIFIESTO ---------- */
   .manifesto { background: linear-gradient(180deg, var(--kimsa-bone) 0%, var(--kimsa-blush) 100%); }
   .manifesto__mark { position: absolute; top: 40px; right: 80px; opacity: 0.15; pointer-events: none; }
   .manifesto__grid { display: grid; grid-template-columns: 0.8fr 1.6fr; gap: 80px; position: relative; }
   .manifesto__label { display: flex; align-items: center; gap: 20px; height: fit-content; }
   .manifesto__values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
 
-  /* ---------- SERVICIOS ---------- */
   .services { background: var(--kimsa-bone); }
   .services__head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; margin-bottom: 64px; align-items: end; }
   .services__head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .services__head .lead { max-width: 580px; }
   .services__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
 
-  /* ---------- IMPACTO ---------- */
   .impact { background: var(--kimsa-cream); }
   .impact__grid { max-width: 720px; margin: 0 auto; text-align: center; position: relative; }
   .impact__head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 24px; }
@@ -447,7 +418,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .impact__badge-title { font-weight: 600; font-size: 18px; }
   .impact__badge-sub { font-size: 14px; color: var(--kimsa-ink-soft); margin-top: 2px; }
 
-  /* ---------- CEIBA ---------- */
   .ceiba { background: linear-gradient(135deg, var(--kimsa-forest) 0%, var(--kimsa-forest-deep) 60%, #2d1e3d 100%); color: var(--kimsa-bone); }
   .ceiba__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; position: relative; }
   .ceiba__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 32px; }
@@ -455,7 +425,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .ceiba__link { text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--kimsa-peach) 55%, transparent); transition: border-color var(--kimsa-dur) var(--kimsa-ease); }
   .ceiba__link:hover { border-color: var(--kimsa-peach); }
 
-  /* ---------- PROYECTOS ---------- */
   .projects { background: var(--kimsa-cream-deep); }
   .projects__head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; }
   .projects__head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -476,7 +445,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .projects__small-title { font-weight: 500; font-size: 17px; margin: 0 0 6px; line-height: 1.25; }
   .projects__small-desc { font-size: 13px; color: var(--kimsa-ink-soft); margin: 0; }
 
-  /* ---------- HISTORIA ---------- */
   .story { background: var(--kimsa-forest); color: var(--kimsa-bone); }
   .story__mark { position: absolute; top: -60px; left: -60px; opacity: 0.12; pointer-events: none; }
   .story__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; position: relative; }
@@ -496,7 +464,6 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .story__item-title { font-weight: 600; font-size: 18px; margin-bottom: 4px; }
   .story__item-desc { font-size: 14px; color: rgba(251,248,241,0.72); line-height: 1.5; }
 
-  /* ---------- EQUIPO ---------- */
   .team { background: var(--kimsa-bone); }
   .team__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
   .team__head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
@@ -512,10 +479,8 @@ const secondary = ['mrv-ecuador', 'sostenibilidad-dnp-colombia', 'cluster-solnat
   .team__name { margin-top: 16px; font-weight: 500; font-size: 16px; }
   .team__role { margin-top: 2px; font-size: 13px; color: var(--kimsa-ink-soft); }
 
-  /* ---------- MAPA ---------- */
   .map { background: linear-gradient(180deg, var(--kimsa-cream-deep) 0%, rgba(245,176,131,0.33) 100%); }
 
-  /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px) {
     .hero-band__grid { grid-template-columns: 1fr; gap: 32px; padding-left: 0; padding-top: 116px; }
     .hero-band__edge { display: none; }

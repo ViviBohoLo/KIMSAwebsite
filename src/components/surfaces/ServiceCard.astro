@@ -8,6 +8,7 @@
  */
 import PhotoPlaceholder from './PhotoPlaceholder.astro';
 import Tag from '../core/Tag.astro';
+import { getLangFromUrl } from '../../i18n/utils';
 
 interface Props {
   name: string;
@@ -23,6 +24,7 @@ interface Props {
   linkLabel?: string;
   href?: string;
 }
+const lang = getLangFromUrl(Astro.url);
 const {
   name,
   description,
@@ -31,7 +33,7 @@ const {
   accent = 'var(--kimsa-peach)',
   photo,
   logo,
-  linkLabel = 'Conocer más →',
+  linkLabel = lang === 'en' ? 'Learn more →' : 'Conocer más →',
   href = '#',
 } = Astro.props;
 ---

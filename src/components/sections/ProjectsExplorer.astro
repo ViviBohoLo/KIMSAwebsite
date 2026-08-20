@@ -4,7 +4,13 @@
  * Cada tarjeta abre el ProjectModal (incluir <ProjectModal/> en la página).
  */
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
-import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../../data/site';
+import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_COLOR, areaLabel, localizeCountryName, localizeProject } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
+const projects = PROJECTS.map((proj) => localizeProject(proj, lang));
 ---
 <div class="px">
   <div class="px__search reveal">
@@ -16,62 +22,62 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
       type="search"
       id="px-search"
       class="px__search-input"
-      placeholder="Buscar proyectos por título, cliente o palabra clave…"
-      aria-label="Buscar proyectos"
+      placeholder={t('projects.searchPlaceholder')}
+      aria-label={t('projects.searchLabel')}
     />
   </div>
 
   <div class="px__filters reveal">
-    <div class="px__group" role="group" aria-label="Filtrar por área">
-      <span class="px__glabel">Área</span>
-      <button class="px__chip is-active" data-filter="area" data-value="all">Todos</button>
+    <div class="px__group" role="group" aria-label={t('projects.filterAreaLabel')}>
+      <span class="px__glabel">{t('projects.filterArea')}</span>
+      <button class="px__chip is-active" data-filter="area" data-value="all">{t('projects.all')}</button>
       {AREAS.map((a) => (
-        <button class="px__chip" data-filter="area" data-value={a.key}>{a.label}</button>
+        <button class="px__chip" data-filter="area" data-value={a.key}>{areaLabel(a.key, lang)}</button>
       ))}
     </div>
-    <div class="px__group" role="group" aria-label="Filtrar por país">
-      <span class="px__glabel">País</span>
-      <button class="px__chip is-active" data-filter="country" data-value="all">Todos</button>
+    <div class="px__group" role="group" aria-label={t('projects.filterCountryLabel')}>
+      <span class="px__glabel">{t('projects.filterCountry')}</span>
+      <button class="px__chip is-active" data-filter="country" data-value="all">{t('projects.all')}</button>
       {PROJECT_COUNTRIES.map((c) => (
-        <button class="px__chip" data-filter="country" data-value={c}>{c}</button>
+        <button class="px__chip" data-filter="country" data-value={c}>{localizeCountryName(c, lang)}</button>
       ))}
     </div>
   </div>
 
   <p class="px__client-filter" id="px-client-filter" hidden>
-    Mostrando proyectos relacionados con <strong id="px-client-name"></strong> ·
-    <a href="/proyectos">Ver todos los proyectos</a>
+    {t('projects.showingFor')} <strong id="px-client-name"></strong> ·
+    <a href={p('/proyectos')}>{t('projects.viewAll')}</a>
   </p>
 
   <div class="px__grid reveal" id="px-grid">
-    {PROJECTS.map((p) => (
+    {projects.map((proj) => (
       <article
         class="px__card"
-        data-project={p.slug}
-        data-area={p.area}
-        data-country={p.country}
-        data-search={`${p.title} ${p.client} ${p.summary} ${p.tags.join(' ')}`.toLowerCase()}
+        data-project={proj.slug}
+        data-area={proj.area}
+        data-country={proj.country}
+        data-search={`${proj.title} ${proj.client} ${proj.summary} ${proj.tags.join(' ')}`.toLowerCase()}
         tabindex="0"
         role="button"
-        aria-label={`Ver ${p.title}`}
+        aria-label={`${lang === 'en' ? 'View' : 'Ver'} ${proj.title}`}
       >
         <div class="px__media">
-          {p.image
-            ? <img src={p.image} alt={p.title} />
-            : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${p.country} · foto de proyecto`} />}
+          {proj.image
+            ? <img src={proj.image} alt={proj.title} />
+            : <PhotoPlaceholder ratio="4/3" tint={proj.tint} rounded={0} label={`${localizeCountryName(proj.country, lang)} · ${lang === 'en' ? 'project photo' : 'foto de proyecto'}`} />}
         </div>
         <div class="px__body">
-          <span class="px__area" style={`color:${AREA_COLOR[p.area]}; background:color-mix(in srgb, ${AREA_COLOR[p.area]} 12%, transparent)`}>
-            {AREA_LABEL[p.area]}
+          <span class="px__area" style={`color:${AREA_COLOR[proj.area]}; background:color-mix(in srgb, ${AREA_COLOR[proj.area]} 12%, transparent)`}>
+            {areaLabel(proj.area, lang)}
           </span>
-          <h3 class="px__title">{p.title}</h3>
-          {p.client && <p class="px__client">{p.client}</p>}
-          <p class="px__summary">{p.summary}</p>
+          <h3 class="px__title">{proj.title}</h3>
+          {proj.client && <p class="px__client">{proj.client}</p>}
+          <p class="px__summary">{proj.summary}</p>
           <div class="px__footer">
-            <span class="px__more">Ver proyecto →</span>
-            {p.publicationUrl && (
-              <a class="px__pub" href={p.publicationUrl} target="_blank" rel="noopener noreferrer">
-                Ver publicación →
+            <span class="px__more">{t('projects.viewMore')}</span>
+            {proj.publicationUrl && (
+              <a class="px__pub" href={proj.publicationUrl} target="_blank" rel="noopener noreferrer">
+                {t('projects.viewPublication')}
               </a>
             )}
           </div>
@@ -79,7 +85,7 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
       </article>
     ))}
   </div>
-  <p class="px__empty" id="px-empty" hidden>No hay proyectos con estos filtros.</p>
+  <p class="px__empty" id="px-empty" hidden>{t('projects.empty')}</p>
 </div>
 
 <script>
@@ -88,9 +94,13 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
     // ?slugs=a,b,c (+ ?client=Nombre para el aviso) — llega desde /clientes al
     // hacer clic en una organización: reutiliza esta misma grilla/filtros en
     // vez de duplicar la info del proyecto en otra parte.
+    // ?country=Nombre — llega desde el mapa de presencia (PresenceMap) al
+    // hacer clic en un país (mapa o etiqueta del panel): preselecciona el
+    // chip de país correspondiente, reutilizando el filtro ya existente.
     const params = new URLSearchParams(location.search);
     const slugsParam = params.get('slugs');
     const clientLabel = params.get('client');
+    const countryParam = params.get('country');
     const state = {
       area: 'all',
       country: 'all',
@@ -104,8 +114,21 @@ import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_LABEL, AREA_COLOR } from '../.
     const clientFilterName = document.getElementById('px-client-name');
 
     if (state.slugs && clientFilterBanner && clientFilterName) {
-      clientFilterName.textContent = clientLabel || 'esta organización';
+      const fallback = location.pathname.startsWith('/en') ? 'this organization' : 'esta organización';
+      clientFilterName.textContent = clientLabel || fallback;
       clientFilterBanner.hidden = false;
+    }
+
+    if (countryParam) {
+      const countryChip = document.querySelector(
+        '.px__chip[data-filter="country"][data-value="' + CSS.escape(countryParam) + '"]',
+      );
+      if (countryChip) {
+        state.country = countryParam;
+        document
+          .querySelectorAll('.px__chip[data-filter="country"]')
+          .forEach((c) => c.classList.toggle('is-active', c === countryChip));
+      }
     }
 
     function apply() {

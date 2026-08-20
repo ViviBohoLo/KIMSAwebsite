@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Button from '../../components/core/Button.astro';
+import ProjectsExplorer from '../../components/sections/ProjectsExplorer.astro';
+import ProjectModal from '../../components/sections/ProjectModal.astro';
+---
+<Base title="Projects · KIMSA" description="KIMSA projects in climate management, environmental psychology, and technology for nature across Latin America.">
+  <section class="proj-hero">
+    <Nav />
+    <div class="container proj-hero__inner reveal">
+      <nav class="proj-hero__crumb" aria-label="Path"><a href="/en">Home</a> / <span class="current">Projects</span></nav>
+      <h1 class="proj-hero__title">Projects that leave a <em class="em-forest">mark.</em></h1>
+      <p class="proj-hero__lead">
+        We work alongside governments, companies, and communities across Latin
+        America. Explore our projects by area or by country — we'll soon add
+        more, with photos and results.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--kimsa-cream-deep)">
+    <div class="container">
+      <ProjectsExplorer />
+    </div>
+  </section>
+
+  <!-- CTA contacto -->
+  <section class="section" style="background:var(--kimsa-forest); color:var(--kimsa-bone)">
+    <div class="container proj-cta reveal">
+      <h2 class="h2" style="color:var(--kimsa-bone); margin-bottom:20px">
+        Have a climate challenge <em class="em-peach">in mind?</em>
+      </h2>
+      <p style="font-size:18px; color:rgba(251,248,241,0.85); max-width:560px; margin-bottom:32px">
+        Let's talk about how we can support your organization.
+      </p>
+      <Button variant="primary" size="lg" href="/en/contacto">Let's talk →</Button>
+    </div>
+  </section>
+
+  <Footer />
+  <ProjectModal />
+</Base>
+
+<style>
+  .proj-hero { position: relative; background: linear-gradient(180deg, var(--kimsa-bone) 0%, rgba(246,208,194,0.5) 100%); padding-bottom: 96px; }
+  .proj-hero__inner { padding-top: 8px; }
+  .proj-hero__crumb { font-size: 13px; color: var(--kimsa-ink-soft); margin: 108px 0 48px; }
+  .proj-hero__crumb a:hover { color: var(--kimsa-terracotta); }
+  .proj-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
+  .proj-hero__title { font-weight: 300; font-size: 72px; line-height: 1.05; letter-spacing: -0.025em; margin: 20px 0 28px; max-width: 900px; }
+  .proj-hero__lead { font-size: 20px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 640px; }
+  .proj-cta { text-align: center; display: flex; flex-direction: column; align-items: center; }
+  @media (max-width: 900px) {
+    .proj-hero__title { font-size: 44px; }
+  }
+</style>

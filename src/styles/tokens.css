@@ -1,9 +1,10 @@
 /* KIMSA · Design tokens — dirección "Cordillera"
    Tierra cálida + verde bosque + crema. El gradiente del logo se reserva
    solo para momentos de marca (nunca como fondo de sección).
-   Fuente única: Quicksand. JetBrains Mono solo para micro-etiquetas/datos. */
+   Fuente única: Quicksand en todo el sitio (incluidas micro-etiquetas/datos,
+   que antes usaban JetBrains Mono — se retiró para no mezclar tipografías). */
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* ---- Neutros / base ---- */
@@ -62,7 +63,9 @@
 
   /* ---- Tipografía ---- */
   --kimsa-font-sans: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --kimsa-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  /* Alias histórico: micro-etiquetas y datos usaban JetBrains Mono; ahora
+     apuntan también a Quicksand para que todo el sitio use una sola fuente. */
+  --kimsa-font-mono: var(--kimsa-font-sans);
 
   --kimsa-w-light: 300;
   --kimsa-w-regular: 400;

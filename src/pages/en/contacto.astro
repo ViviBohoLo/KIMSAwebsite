@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
+import ContactForm from '../../components/sections/ContactForm.astro';
+---
+<Base title="Contact · KIMSA" description="Write to us: tell us about your organization and the climate challenge you're facing. We reply in less than 48 hours.">
+  <section class="contacto-hero">
+    <Nav />
+    <div class="container contacto-hero__inner reveal">
+      <nav class="contacto-hero__crumb" aria-label="Path"><a href="/en">Home</a> / <span class="current">Contact</span></nav>
+      <h1 class="contacto-hero__title">Let's talk about your <em class="em-forest">next step.</em></h1>
+      <p class="contacto-hero__lead">
+        Tell us about your organization and the climate challenge you're facing.
+        Whether it's a proposal, a partnership, or just a question — we want to hear it.
+      </p>
+    </div>
+  </section>
+
+  <ContactForm variant="contacto" />
+
+  <Footer />
+</Base>
+
+<style>
+  .contacto-hero { position: relative; background: linear-gradient(180deg, var(--kimsa-bone) 0%, rgba(246,208,194,0.5) 100%); padding-bottom: 72px; }
+  .contacto-hero__inner { padding-top: 8px; }
+  .contacto-hero__crumb { font-size: 13px; color: var(--kimsa-ink-soft); margin: 108px 0 48px; }
+  .contacto-hero__crumb a:hover { color: var(--kimsa-terracotta); }
+  .contacto-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
+  .contacto-hero__title { font-weight: 300; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; margin: 20px 0 24px; max-width: 760px; }
+  .contacto-hero__lead { font-size: 19px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 600px; }
+  @media (max-width: 900px) {
+    .contacto-hero__title { font-size: 38px; }
+  }
+</style>

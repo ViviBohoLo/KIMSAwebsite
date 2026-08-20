@@ -15,19 +15,30 @@
  * punto pasen a blanco (tanto en reposo como al pasar el puntero) y sigan
  * siendo legibles.
  */
+import { getLangFromUrl } from '../../i18n/utils';
+
 interface Item {
   id: string;
   label: string;
 }
-const items: Item[] = [
-  { id: 'inicio', label: 'Inicio' },
-  { id: 'servicios', label: 'Servicios' },
-  { id: 'proyectos-home', label: 'Proyectos' },
-  { id: 'equipo', label: 'Equipo' },
-  { id: 'contacto', label: 'Contacto' },
-];
+const lang = getLangFromUrl(Astro.url);
+const items: Item[] = lang === 'en'
+  ? [
+      { id: 'inicio', label: 'Home' },
+      { id: 'servicios', label: 'Services' },
+      { id: 'proyectos-home', label: 'Projects' },
+      { id: 'equipo', label: 'Team' },
+      { id: 'contacto', label: 'Contact' },
+    ]
+  : [
+      { id: 'inicio', label: 'Inicio' },
+      { id: 'servicios', label: 'Servicios' },
+      { id: 'proyectos-home', label: 'Proyectos' },
+      { id: 'equipo', label: 'Equipo' },
+      { id: 'contacto', label: 'Contacto' },
+    ];
 ---
-<nav class="home-nav" aria-label="Navegación de la página">
+<nav class="home-nav" aria-label={lang === 'en' ? 'Page navigation' : 'Navegación de la página'}>
   <div class="home-nav__track" aria-hidden="true"></div>
   <ul class="home-nav__list">
     {items.map((item) => (

@@ -1,38 +1,40 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/layout/Nav.astro';
-import Footer from '../components/layout/Footer.astro';
-import Button from '../components/core/Button.astro';
-import MountainMark from '../components/brand/MountainMark.astro';
-import PhotoPlaceholder from '../components/surfaces/PhotoPlaceholder.astro';
-import ValueCard from '../components/surfaces/ValueCard.astro';
-import PresenceMap from '../components/sections/PresenceMap.astro';
-import { TEAM, CONTACT } from '../data/site';
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Button from '../../components/core/Button.astro';
+import MountainMark from '../../components/brand/MountainMark.astro';
+import PhotoPlaceholder from '../../components/surfaces/PhotoPlaceholder.astro';
+import ValueCard from '../../components/surfaces/ValueCard.astro';
+import PresenceMap from '../../components/sections/PresenceMap.astro';
+import { TEAM, CONTACT, localizeMember } from '../../data/site';
 
 const values = [
-  { t: 'Menos es más', d: 'Hacemos simples los problemas más complejos. Nuestros resultados son breves, entendibles y útiles.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Gente creativa', d: 'Un enfoque fresco, neutral e innovador para encontrar soluciones de desarrollo consciente.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Sus procesos, nuestro objetivo', d: 'Trabajamos de la mano con los clientes para asegurar la aplicabilidad y la continuidad.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Less is more', d: 'We simplify the most complex problems. Our results are brief, understandable, and useful.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'Creative people', d: 'A fresh, neutral, and innovative approach to finding conscious development solutions.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Your processes, our goal', d: 'We work hand in hand with clients to ensure applicability and continuity.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
 ];
 
 const story = [
-  { y: '2017', t: 'Nace KIMSA', d: 'Fundada en Bogotá con vocación latinoamericana.' },
-  { y: '2020', t: 'Expansión LATAM', d: 'Expansión y apoyo a proyectos en varios países de América Latina.' },
-  { y: '2020', t: 'Alianza con la Fundación InnNature', d: 'El 1% de nuestras utilidades apoya la conservación de la Reserva Ceiba Bruja.' },
-  { y: '2022', t: 'Lanzamiento de CarbonBox', d: 'Nuestra plataforma para medir y gestionar huellas.' },
-  { y: '2024', t: 'Empresa del Año', d: 'Reconocidas por la Cámara de Comercio de Bogotá.' },
+  { y: '2017', t: 'KIMSA is born', d: 'Founded in Bogotá with a Latin American vocation.' },
+  { y: '2020', t: 'LATAM expansion', d: 'Expansion and support for projects in several Latin American countries.' },
+  { y: '2020', t: 'Alliance with the InnNature Foundation', d: '1% of our profits support the conservation of the Ceiba Bruja Reserve.' },
+  { y: '2022', t: 'CarbonBox launch', d: 'Our platform to measure and manage footprints.' },
+  { y: '2024', t: 'Company of the Year', d: 'Recognized by the Bogotá Chamber of Commerce.' },
 ];
+
+const team = TEAM.map((m) => localizeMember(m, 'en'));
 ---
-<Base title="Nosotros · KIMSA" description="KIMSA es una consultora climática latinoamericana con una estructura horizontal y colaborativa. Conozca nuestro propósito, equipo e historia.">
+<Base title="About us · KIMSA" description="KIMSA is a Latin American climate consultancy with a horizontal, collaborative structure. Learn about our purpose, team, and history.">
   <section class="nos-hero">
     <Nav />
     <div class="container nos-hero__inner reveal">
-      <nav class="nos-hero__crumb" aria-label="Ruta"><a href="/">Inicio</a> / <span class="current">Nosotros</span></nav>
-      <h1 class="nos-hero__title">Transformamos el compromiso ambiental en <em class="em-forest">acción climática.</em></h1>
+      <nav class="nos-hero__crumb" aria-label="Path"><a href="/en">Home</a> / <span class="current">About us</span></nav>
+      <h1 class="nos-hero__title">We turn environmental commitment into <em class="em-forest">climate action.</em></h1>
       <p class="nos-hero__lead">
-        Somos una consultora climática latinoamericana. Trabajamos con gobiernos, empresas
-        y organizaciones para desarrollar estrategias sostenibles con impacto real, uniendo
-        las dimensiones técnica, social y territorial.
+        We are a Latin American climate consultancy. We work with governments, companies,
+        and organizations to develop sustainable strategies with real impact, bringing
+        together the technical, social, and territorial dimensions.
       </p>
     </div>
   </section>
@@ -43,12 +45,12 @@ const story = [
       <div class="nos-purpose reveal">
         <div class="nos-purpose__label">
           <MountainMark size={64} />
-          <span class="side-tag">Nuestro propósito</span>
+          <span class="side-tag">Our purpose</span>
         </div>
         <h2 class="h2-lg">
-          Buscamos que <em class="em-forest">la naturaleza y las personas</em> vuelvan a hablarse — y
-          aspiramos a liderar en América Latina las soluciones climáticas con impacto
-          <em class="em-terracotta">ecológico, tecnológico y social.</em>
+          We want <em class="em-forest">nature and people</em> to talk to each other again — and
+          we aspire to lead climate solutions in Latin America with
+          <em class="em-terracotta">ecological, technological, and social impact.</em>
         </h2>
       </div>
       <div class="nos-values reveal">
@@ -61,13 +63,13 @@ const story = [
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="container nos-how reveal">
       <div class="nos-how__head">
-        <span class="side-tag">Cómo trabajamos</span>
-        <h2 class="h2">Horizontales por <em class="em-forest">convicción.</em></h2>
+        <span class="side-tag">How we work</span>
+        <h2 class="h2">Horizontal by <em class="em-forest">conviction.</em></h2>
       </div>
       <p class="lead">
-        Nos diferencia una estructura horizontal y colaborativa que fomenta la creatividad,
-        la autonomía y la mejora continua. Trabajamos con equipos interdisciplinarios y
-        metodologías participativas, con la justicia ambiental como base.
+        We're set apart by a horizontal, collaborative structure that fosters creativity,
+        autonomy, and continuous improvement. We work with interdisciplinary teams and
+        participatory methodologies, with environmental justice as our foundation.
       </p>
     </div>
   </section>
@@ -78,14 +80,14 @@ const story = [
     <div class="container nos-story__grid">
       <div class="reveal">
         <div class="nos-story__head">
-          <span class="side-tag" style="color:var(--kimsa-peach)">Nuestra historia</span>
+          <span class="side-tag" style="color:var(--kimsa-peach)">Our story</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            Desde 2017, uniendo <em class="em-peach">naturaleza, personas y sistemas.</em>
+            Since 2017, connecting <em class="em-peach">nature, people, and systems.</em>
           </h2>
         </div>
         <p class="nos-story__text">
-          Creemos en el desarrollo consciente. Diseñamos soluciones útiles, replicables y
-          alineadas con los Objetivos de Desarrollo Sostenible — sin hacer enciclopedias.
+          We believe in conscious development. We design solutions that are useful,
+          replicable, and aligned with the Sustainable Development Goals — no encyclopedias.
         </p>
       </div>
       <div class="reveal">
@@ -107,16 +109,16 @@ const story = [
     <div class="container">
       <div class="nos-team-head reveal">
         <div class="nos-team-head__label">
-          <span class="side-tag">Las personas</span>
-          <h2 class="h2">Un equipo joven, mayormente <em class="em-forest">de mujeres.</em></h2>
+          <span class="side-tag">The people</span>
+          <h2 class="h2">A young team, mostly <em class="em-forest">women.</em></h2>
         </div>
         <div class="nos-band">
           <div class="nos-band__n">80%</div>
-          <div class="nos-band__l">de nuestro equipo está conformado por mujeres</div>
+          <div class="nos-band__l">of our team is made up of women</div>
         </div>
       </div>
       <div class="nos-team reveal">
-        {TEAM.map((m) => (
+        {team.map((m) => (
           <article class="nos-person">
             <div class="nos-person__photo" style={`background:linear-gradient(165deg, ${m.color} 0%, color-mix(in srgb, ${m.color} 70%, transparent) 60%, var(--kimsa-peach) 130%)`}>
               <img src={m.img} alt={m.name} />
@@ -134,9 +136,9 @@ const story = [
             <MountainMark size={40} mono="rgba(255,255,255,0.9)" />
           </div>
           <div class="nos-person__body">
-            <div class="nos-person__name">+30 profesionales</div>
-            <div class="nos-person__role">HUB latinoamericano</div>
-            <p class="nos-person__bio">Un equipo interdisciplinario distribuido por la región, que trabaja desde casa, desde el campo, desde donde la vida los encuentre.</p>
+            <div class="nos-person__name">+30 professionals</div>
+            <div class="nos-person__role">Latin American HUB</div>
+            <p class="nos-person__bio">An interdisciplinary team distributed across the region, working from home, from the field, from wherever life finds them.</p>
           </div>
         </article>
       </div>
@@ -147,19 +149,19 @@ const story = [
   <section class="section nos-ceiba" id="ceiba">
     <div class="blob-terracotta"></div>
     <div class="container nos-ceiba__grid">
-      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Reserva Ceiba Bruja" ratio="4/3" tint="earth" rounded={32} label="reserva ceiba bruja · bosque seco tropical · sierra nevada" />
+      <PhotoPlaceholder class="reveal" src="/assets/projects/ceiba.jpg" alt="Ceiba Bruja Reserve" ratio="4/3" tint="earth" rounded={32} label="ceiba bruja reserve · tropical dry forest · sierra nevada" />
       <div class="reveal">
         <div class="nos-ceiba__head">
-          <span class="side-tag" style="color:var(--kimsa-peach)">Nuestro aporte a la naturaleza</span>
+          <span class="side-tag" style="color:var(--kimsa-peach)">Our contribution to nature</span>
           <h2 class="h2" style="color:var(--kimsa-bone)">
-            El <em class="em-peach">1%</em> de nuestras utilidades va a la
-            <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Reserva Ceiba Bruja.</a>
+            <em class="em-peach">1%</em> of our profits go to the
+            <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Ceiba Bruja Reserve.</a>
           </h2>
         </div>
         <p class="nos-ceiba__text">
-          Desde 2020 generamos una alianza con la <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">Fundación InnNature</a>,
-          con quien trabajamos en la conservación del bosque seco tropical en la Sierra Nevada
-          de Santa Marta y apoyamos proyectos productivos sostenibles para las comunidades locales.
+          Since 2020 we've had an alliance with the <a class="em-peach nos-ceiba__link" href="https://www.innnature.org/" target="_blank" rel="noopener noreferrer">InnNature Foundation</a>,
+          working together on the conservation of tropical dry forest in the Sierra Nevada
+          de Santa Marta and supporting sustainable productive projects for local communities.
         </p>
       </div>
     </div>
@@ -173,9 +175,9 @@ const story = [
   <!-- CTA -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container nos-cta reveal">
-      <h2 class="h2" style="margin-bottom:20px">Conversemos sobre su <em class="em-terracotta">próximo paso.</em></h2>
+      <h2 class="h2" style="margin-bottom:20px">Let's talk about your <em class="em-terracotta">next step.</em></h2>
       <p class="lead" style="margin-bottom:32px">{CONTACT.email} · {CONTACT.phone}</p>
-      <Button variant="primary" size="lg" href="/contacto">Conversemos →</Button>
+      <Button variant="primary" size="lg" href="/en/contacto">Let's talk →</Button>
     </div>
   </section>
 

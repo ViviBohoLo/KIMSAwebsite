@@ -5,10 +5,13 @@
  * cursor. Respeta prefers-reduced-motion (queda estático y desplazable).
  */
 import { CLIENT_LOGOS } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 // Duplicamos la lista para un bucle sin cortes.
 const loop = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
-<div class="marquee" role="region" aria-label="Organizaciones que confían en KIMSA">
+<div class="marquee" role="region" aria-label={t('clients.ariaRegion')}>
   <div class="marquee__track">
     {loop.map((c, i) => (
       <div class:list={['marquee__item', { 'marquee__item--lg': c.size === 'lg' }]} aria-hidden={i >= CLIENT_LOGOS.length ? 'true' : 'false'}>

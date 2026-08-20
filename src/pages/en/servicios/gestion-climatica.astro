@@ -1,49 +1,51 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Footer from '../../components/layout/Footer.astro';
-import ServiceHero from '../../components/sections/ServiceHero.astro';
-import StatBand from '../../components/sections/StatBand.astro';
-import NumberedCard from '../../components/surfaces/NumberedCard.astro';
-import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
-import ProjectModal from '../../components/sections/ProjectModal.astro';
-import { projectsByArea } from '../../data/site';
+import Base from '../../../layouts/Base.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ServiceHero from '../../../components/sections/ServiceHero.astro';
+import StatBand from '../../../components/sections/StatBand.astro';
+import NumberedCard from '../../../components/surfaces/NumberedCard.astro';
+import ProjectsCarousel from '../../../components/sections/ProjectsCarousel.astro';
+import ProjectModal from '../../../components/sections/ProjectModal.astro';
+import { projectsByArea } from '../../../data/site';
 
 const stats = [
-  { n: '3', l: 'reportes para la Convención Marco de Naciones Unidas para el Cambio Climático' },
-  { n: '250+', l: 'actores fortalecidos en adaptación y mitigación' },
-  { n: '6', l: 'planes regionales de gestión climática' },
-  { n: '1', l: 'mecanismo de financiamiento climático' },
+  { n: '3', l: 'reports for the United Nations Framework Convention on Climate Change' },
+  { n: '250+', l: 'stakeholders strengthened in adaptation and mitigation' },
+  { n: '6', l: 'regional climate management plans' },
+  { n: '1', l: 'climate finance mechanism' },
 ];
 
 const oferta = [
-  { t: 'Sistemas de seguimiento climático', d: 'Diseño y fortalecimiento de sistemas de Monitoreo, Reporte y Verificación (MRV) para mitigación.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Inventarios GEI', d: 'Elaboración de inventarios de emisiones y rutas de descarbonización sectorial y territorial.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Análisis de riesgos', d: 'Evaluaciones de vulnerabilidad climática para decisiones informadas frente a eventos extremos.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
-  { t: 'Proyectos y reportes climáticos', d: 'Formulación de proyectos para fondos climáticos nacionales e internacionales.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Políticas y estrategias', d: 'Planes sectoriales, territoriales e institucionales para la acción climática.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Climate monitoring systems', d: 'Design and strengthening of Monitoring, Reporting, and Verification (MRV) systems for mitigation.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
+  { t: 'GHG inventories', d: 'Preparation of emissions inventories and sectoral and territorial decarbonization pathways.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Risk analysis', d: 'Climate vulnerability assessments for informed decisions in the face of extreme events.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
+  { t: 'Climate projects and reports', d: 'Formulation of projects for national and international climate funds.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Policies and strategies', d: 'Sectoral, territorial, and institutional plans for climate action.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
 ];
 
 const capacidades = [
-  { t: 'Asistencia técnica para el Marco de Transparencia Reforzado del Acuerdo de París', c: 'var(--kimsa-forest)' },
-  { t: 'Evaluaciones de riesgo climático y medidas de adaptación', c: 'var(--kimsa-terracotta)' },
-  { t: 'Fortalecimiento de capacidades institucionales', c: 'var(--kimsa-coral)' },
-  { t: 'Sistemas MRV y contabilidad de emisiones GEI', c: 'var(--kimsa-plum)' },
-  { t: 'Diseño de instrumentos financieros climáticos', c: 'var(--kimsa-gold)' },
+  { t: 'Technical assistance for the Paris Agreement Enhanced Transparency Framework', c: 'var(--kimsa-forest)' },
+  { t: 'Climate risk assessments and adaptation measures', c: 'var(--kimsa-terracotta)' },
+  { t: 'Institutional capacity strengthening', c: 'var(--kimsa-coral)' },
+  { t: 'MRV systems and GHG emissions accounting', c: 'var(--kimsa-plum)' },
+  { t: 'Design of climate finance instruments', c: 'var(--kimsa-gold)' },
 ];
 
-// Referencias: todos los proyectos de gestión climática
+// Referencias: todos los proyectos de gestión climática (ProjectsCarousel
+// los localiza internamente según la URL de la página).
 const refs = projectsByArea('gestion');
 ---
-<Base title="Gestión Climática · KIMSA" description="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática.">
+<Base title="Climate Management · KIMSA" description="Specialized consulting in mitigation, adaptation, finance, and climate planning.">
   <ServiceHero
-    crumb="Gestión Climática"
-    titleMain="Gestión"
-    titleEm="Climática"
+    crumb="Climate Management"
+    titleMain="Climate"
+    titleEm="Management"
     emColor="var(--kimsa-forest)"
-    lead="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática — con humanidad y rigor."
+    lead="Specialized consulting in mitigation, adaptation, finance, and climate planning — with humanity and rigor."
     photo="/assets/projects/taller-gestion-climatica-home.jpg"
     photoTint="forest"
-    photoLabel="taller de trabajo · gestión climática"
+    photoLabel="work session · climate management"
+    ctaHref="/en/contacto"
   />
 
   <StatBand stats={stats} bg="var(--kimsa-forest)" />
@@ -54,12 +56,12 @@ const refs = projectsByArea('gestion');
   <section class="section svc-oferta" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
-        <span class="side-tag">Qué hacemos</span>
-        <h2 class="h2">Nuestra <em class="em-forest">oferta.</em></h2>
+        <span class="side-tag">What we do</span>
+        <h2 class="h2">Our <em class="em-forest">offering.</em></h2>
       </div>
       <p class="lead reveal">
-        Cada servicio se adapta al sector, tamaño y madurez climática de su organización.
-        No hacemos enciclopedias.
+        Each service adapts to your organization's sector, size, and climate
+        maturity. No encyclopedias.
       </p>
     </div>
     <div class="svc-cards container reveal">
@@ -74,8 +76,8 @@ const refs = projectsByArea('gestion');
     <div class="glow" style="--glow-color: color-mix(in srgb, var(--kimsa-terracotta) 45%, white); --glow-size: 380px; --glow-top: -90px; --glow-right: -100px;"></div>
     <div class="container">
       <div class="reveal caps-head">
-        <span class="side-tag">Capacidades principales</span>
-        <h2 class="h2" style="margin:0">Cinco frentes, un mismo cuidado.</h2>
+        <span class="side-tag">Core capabilities</span>
+        <h2 class="h2" style="margin:0">Five fronts, one shared care.</h2>
       </div>
       <ul class="caps reveal">
         {capacidades.map((c, i) => (
@@ -92,10 +94,10 @@ const refs = projectsByArea('gestion');
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
-        <span class="side-tag">Referencias</span>
-        <h2 class="h2">Algunos <em class="em-forest">proyectos.</em></h2>
+        <span class="side-tag">References</span>
+        <h2 class="h2">Some <em class="em-forest">projects.</em></h2>
       </div>
-      <p class="lead reveal">Deslice o use las flechas para ver todos los proyectos. Haga clic en uno para ver el detalle.</p>
+      <p class="lead reveal">Swipe or use the arrows to see all projects. Click one to see the details.</p>
     </div>
     <div class="container reveal">
       <ProjectsCarousel projects={refs} id="pc-gestion" />

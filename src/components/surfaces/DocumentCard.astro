@@ -5,32 +5,36 @@
  * que enlaza directo al documento (nueva pestaña).
  */
 import Button from '../core/Button.astro';
-import { AREA_LABEL, AREA_COLOR } from '../../data/site';
+import { AREA_COLOR, areaLabel, localizeDocument } from '../../data/site';
 import type { KimsaDocument } from '../../data/site';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
   doc: KimsaDocument;
 }
-const { doc } = Astro.props;
+const { doc: rawDoc } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const doc = localizeDocument(rawDoc, lang);
 const accent = AREA_COLOR[doc.area];
 ---
 <article class="doc-card" id={doc.slug}>
   <div class="doc-card__body">
     <span class="doc-card__tag" style={`color:${accent}; background:color-mix(in srgb, ${accent} 12%, transparent)`}>
-      {AREA_LABEL[doc.area]}{doc.year ? ` · ${doc.year}` : ''}
+      {areaLabel(doc.area, lang)}{doc.year ? ` · ${doc.year}` : ''}
     </span>
     <h3 class="doc-card__title">{doc.title}</h3>
     {doc.client && <p class="doc-card__client">{doc.client}</p>}
     <p class="doc-card__text">{doc.contribution}</p>
     <div class="doc-card__tags">
-      {doc.tags.map((t) => <span class="doc-card__chip">{t}</span>)}
+      {doc.tags.map((tag) => <span class="doc-card__chip">{tag}</span>)}
     </div>
     <div class="doc-card__actions">
       <Button variant="primary" size="sm" href={doc.url} target="_blank" rel="noopener noreferrer">
-        Ver documento →
+        {t('doc.view')}
       </Button>
       <Button variant="secondary" size="sm" href={doc.url} target="_blank" rel="noopener noreferrer" download>
-        Descargar
+        {t('doc.download')}
       </Button>
     </div>
   </div>

@@ -4,29 +4,34 @@
  * sociales redondos terracota, columnas de links y fila legal.
  */
 import KimsaLogo from '../brand/KimsaLogo.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => (lang === 'en' ? `/en${path}` : path);
 
 const columns = [
   {
-    title: 'Explorar',
+    title: t('footer.explore'),
     items: [
-      { label: 'Gestión Climática', href: '/servicios/gestion-climatica' },
-      { label: 'Psicología Ambiental', href: '/servicios/psicologia-ambiental' },
-      { label: 'CarbonBox', href: '/servicios/carbonbox' },
-      { label: 'Proyectos', href: '/proyectos' },
-      { label: 'Publicaciones', href: '/publicaciones' },
-      { label: 'Clientes', href: '/clientes' },
-      { label: 'Nosotros', href: '/nosotros' },
+      { label: t('nav.gestion'), href: p('/servicios/gestion-climatica') },
+      { label: t('nav.psicologia'), href: p('/servicios/psicologia-ambiental') },
+      { label: t('nav.carbonbox'), href: p('/servicios/carbonbox') },
+      { label: t('nav.projects'), href: p('/proyectos') },
+      { label: t('nav.publications'), href: p('/publicaciones') },
+      { label: t('nav.clients'), href: p('/clientes') },
+      { label: t('nav.about'), href: p('/nosotros') },
     ],
   },
   {
-    title: 'Recursos',
+    title: t('footer.resources'),
     items: [
-      { label: 'Curso de Psicología Ambiental', href: '/curso-psicologia-ambiental' },
-      { label: 'Reserva Ceiba Bruja', href: '/nosotros#ceiba' },
+      { label: t('nav.course'), href: p('/curso-psicologia-ambiental') },
+      { label: t('footer.ceiba'), href: p('/nosotros#ceiba') },
     ],
   },
   {
-    title: 'Contacto',
+    title: t('footer.contact'),
     items: [
       { label: 'info@kimsa.co', href: 'mailto:info@kimsa.co' },
       { label: '+57 320 867 5567', href: 'https://wa.me/573208675567', target: '_blank' },
@@ -54,9 +59,7 @@ const year = new Date().getFullYear();
   <div class="footer__grid container">
     <div class="footer__brand">
       <KimsaLogo variant="blanco" height={34} />
-      <p class="footer__tagline">
-        Clima · Conservación · Desarrollo. Una consultora climática latinoamericana nacida en Bogotá en 2017.
-      </p>
+      <p class="footer__tagline">{t('footer.tagline')}</p>
       <div class="footer__socials">
         {socials.map((s) => (
           <a class="footer__social" href={s.href} title={s.title} aria-label={s.title} target="_blank" rel="noopener">
@@ -86,8 +89,8 @@ const year = new Date().getFullYear();
     ))}
   </div>
   <div class="footer__legal container">
-    <span>© {year} KIMSA S.A.S.</span>
-    <span>Hecho con cuidado por gente de Latinoamérica</span>
+    <span>© {year} {t('footer.rights')}</span>
+    <span>{t('footer.madeWith')}</span>
   </div>
 </footer>
 

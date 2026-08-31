@@ -6,7 +6,7 @@
  */
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
 import type { Project } from '../../data/site';
-import { AREA_COLOR, localizeCountryName, localizeProject } from '../../data/site';
+import { AREA_COLOR, localizeCountryName, localizeProject, isClientLogoImage } from '../../data/site';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 interface Props {
@@ -22,7 +22,7 @@ const items = projects.map((proj) => localizeProject(proj, lang));
   <div class="pc__track" id={`${id}-track`}>
     {items.map((p) => (
       <article class="pc__card" data-project={p.slug} tabindex="0" role="button" aria-label={`${lang === 'en' ? 'View' : 'Ver'} ${p.title}`}>
-        <div class="pc__media">
+        <div class:list={['pc__media', { 'pc__media--logo': isClientLogoImage(p.image) }]}>
           {p.image
             ? <img src={p.image} alt={p.title} />
             : <PhotoPlaceholder ratio="4/3" tint={p.tint} rounded={0} label={`${localizeCountryName(p.country, lang)} · ${lang === 'en' ? 'project photo' : 'foto de proyecto'}`} />}
@@ -103,6 +103,12 @@ const items = projects.map((proj) => localizeProject(proj, lang));
   .pc__card:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
   .pc__card:focus-visible { outline: 3px solid var(--kimsa-terracotta); outline-offset: 2px; }
   .pc__media :global(img) { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  /* Logo de cliente como imagen provisional (ver isClientLogoImage en
+     data/site.ts): se muestra completo y centrado en vez de recortado. */
+  .pc__media--logo { background: var(--kimsa-surface-card); }
+  .pc__media--logo :global(img) { object-fit: contain; padding: 24px; }
+  /* Portada EC-LEDS: muy horizontal, se ve pequeña con el padding estándar. */
+  .pc__media--logo :global(img[src$="ec-leds-alliance-ciat.jpg"]) { padding: 8px; }
   .pc__body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .pc__loc { font-size: 11px; font-weight: 600; color: var(--kimsa-ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
   .pc__title { font-weight: 500; font-size: 18px; line-height: 1.3; margin: 0; }

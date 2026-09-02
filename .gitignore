@@ -15,3 +15,7 @@ Thumbs.db
 desktop.ini
 
 .vercel
+
+# Claude Code: local-machine tool config/plugins, not project config
+.claude/settings.local.json
+.claude/skills/

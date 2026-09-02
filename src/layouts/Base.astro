@@ -76,7 +76,13 @@ const {
               }
             });
           },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+          // threshold 0: basta con que 1px del elemento entre en la ventana
+          // reducida (rootMargin) para revelarlo. Con un threshold en % del
+          // área total (ej. 0.05) un bloque muy alto —como la cuadrícula de
+          // /proyectos con 58+ tarjetas— nunca llega a cubrir ese porcentaje
+          // de su propia altura en pantalla y queda invisible para siempre
+          // (bug real detectado ago-2026: la grilla de proyectos no aparecía).
+          { rootMargin: '0px 0px -10% 0px', threshold: 0 }
         );
         els.forEach((el) => io.observe(el));
       }

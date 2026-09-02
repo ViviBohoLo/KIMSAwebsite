@@ -273,6 +273,19 @@ const enHref = getLocalizedPath(Astro.url.pathname, 'en');
       min-width: 0;
     }
     .nav__right { flex-direction: row; flex-wrap: wrap; margin-top: 12px; gap: 14px; }
+    /* El CTA "Conversemos" en Home usa btn--ghost.btn--on-dark (texto/borde
+       crema casi transparentes) porque flota sobre la foto oscura del hero.
+       Pero el panel del menú móvil siempre tiene fondo claro (.nav__menu de
+       arriba), así que ese mismo botón queda casi invisible ahí (texto crema
+       sobre fondo crema). Lo forzamos de vuelta al tratamiento sólido para
+       que se lea igual que en el resto del sitio mientras el menú está abierto. */
+    .nav__right :global(.btn--on-dark) {
+      background: var(--kimsa-action);
+      color: var(--kimsa-bone);
+      border-color: transparent;
+      backdrop-filter: none;
+    }
+    .nav__right :global(.btn--on-dark:hover) { border-color: transparent; }
     .nav.is-open .nav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav.is-open .nav__burger span:nth-child(2) { opacity: 0; }
     .nav.is-open .nav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }

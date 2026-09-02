@@ -5,7 +5,7 @@
  * Los datos de todos los proyectos se incrustan como JSON y el script los lee
  * por slug. Cierra con la X, clic en el fondo o Esc.
  */
-import { PROJECTS, areaLabel, AREA_COLOR, localizeCountryName, localizeProject } from '../../data/site';
+import { PROJECTS, areaLabel, AREA_COLOR, localizeCountryName, localizeProject, isClientLogoImage } from '../../data/site';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -25,6 +25,7 @@ const data = PROJECTS.map((raw) => {
     tags: p.tags,
     tint: p.tint,
     image: p.image ?? '',
+    isLogo: isClientLogoImage(p.image),
     publicationUrl: p.publicationUrl ?? '',
     areaLabel: areaLabel(p.area, lang),
     areaColor: AREA_COLOR[p.area],
@@ -94,8 +95,10 @@ const photoLabel = lang === 'en' ? 'project photo' : 'foto de proyecto';
       if (p.publicationUrl) pubEl.href = p.publicationUrl;
       if (p.image) {
         media.style.background = '';
+        media.classList.toggle('pm__media--logo', !!p.isLogo);
         media.innerHTML = '<img src="' + p.image + '" alt="' + p.title + '">';
       } else {
+        media.classList.remove('pm__media--logo');
         const [a, b] = tints[p.tint] || tints.warm;
         media.innerHTML = '<span class="pm__ph">↳ ' + p.country + ' · ' + photoLabel + '</span>';
         media.style.background =
@@ -178,6 +181,12 @@ const photoLabel = lang === 'en' ? 'project photo' : 'foto de proyecto';
     overflow: hidden;
   }
   .pm__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  /* Logo de cliente como imagen provisional (ver isClientLogoImage en
+     data/site.ts): se muestra completo y centrado en vez de recortado. */
+  .pm__media--logo { background: var(--kimsa-surface-card); align-items: center; }
+  .pm__media--logo :global(img) { object-fit: contain; padding: 24px; }
+  /* Portada EC-LEDS: muy horizontal, se ve pequeña con el padding estándar. */
+  .pm__media--logo :global(img[src$="ec-leds-alliance-ciat.jpg"]) { padding: 8px; }
   :global(.pm__ph) { font-family: var(--kimsa-font-mono); font-size: 11px; color: rgba(0, 0, 0, 0.55); }
   .pm__body { padding: 32px 36px 36px; }
   .pm__badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }

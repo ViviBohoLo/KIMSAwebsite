@@ -4,7 +4,7 @@
  * Cada tarjeta abre el ProjectModal (incluir <ProjectModal/> en la página).
  */
 import PhotoPlaceholder from '../surfaces/PhotoPlaceholder.astro';
-import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_COLOR, areaLabel, localizeCountryName, localizeProject } from '../../data/site';
+import { PROJECTS, AREAS, PROJECT_COUNTRIES, AREA_COLOR, areaLabel, localizeCountryName, localizeProject, isClientLogoImage } from '../../data/site';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -61,7 +61,7 @@ const projects = PROJECTS.map((proj) => localizeProject(proj, lang));
         role="button"
         aria-label={`${lang === 'en' ? 'View' : 'Ver'} ${proj.title}`}
       >
-        <div class="px__media">
+        <div class:list={['px__media', { 'px__media--logo': isClientLogoImage(proj.image) }]}>
           {proj.image
             ? <img src={proj.image} alt={proj.title} />
             : <PhotoPlaceholder ratio="4/3" tint={proj.tint} rounded={0} label={`${localizeCountryName(proj.country, lang)} · ${lang === 'en' ? 'project photo' : 'foto de proyecto'}`} />}
@@ -71,7 +71,7 @@ const projects = PROJECTS.map((proj) => localizeProject(proj, lang));
             {areaLabel(proj.area, lang)}
           </span>
           <h3 class="px__title">{proj.title}</h3>
-          {proj.client && <p class="px__client">{proj.client}</p>}
+          <p class="px__client">{proj.client}</p>
           <p class="px__summary">{proj.summary}</p>
           <div class="px__footer">
             <span class="px__more">{t('projects.viewMore')}</span>
@@ -237,11 +237,36 @@ const projects = PROJECTS.map((proj) => localizeProject(proj, lang));
   .px__card:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
   .px__card:focus-visible { outline: 3px solid var(--kimsa-terracotta); outline-offset: 2px; }
   .px__media :global(img) { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; }
+  /* Logo de cliente como imagen provisional (ver isClientLogoImage en
+     data/site.ts): en vez de recortarlo a cover (queda gigante/cortado),
+     se muestra completo, centrado y con aire sobre un fondo neutro. */
+  .px__media--logo { background: var(--kimsa-surface-card); }
+  .px__media--logo :global(img) { object-fit: contain; padding: 32px; }
+  /* La portada del info-note EC-LEDS es muy horizontal (2.15:1): con el
+     padding estándar queda pequeña dentro del marco 4/3. Menos aire para
+     que se vea más grande sin tocar el alto de la tarjeta. */
+  .px__media--logo :global(img[src$="ec-leds-alliance-ciat.jpg"]) { padding: 10px; }
   .px__body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
   .px__area { align-self: flex-start; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 5px 12px; letter-spacing: 0.04em; }
-  .px__title { font-weight: 500; font-size: 19px; line-height: 1.3; margin: 0; }
-  .px__client { font-size: 13px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0; }
-  .px__summary { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  /* Alto uniforme entre tarjetas: título, cliente y resumen reservan
+     siempre el mismo espacio (line-clamp + min-height), sin importar cuán
+     corto o largo sea el texto de cada proyecto — así todas las tarjetas de
+     la cuadrícula terminan a la misma altura en vez de "escalonarse". */
+  .px__title {
+    font-weight: 500; font-size: 19px; line-height: 1.3; margin: 0;
+    min-height: 2.6em;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .px__client {
+    font-size: 13px; font-weight: 600; color: var(--kimsa-terracotta); margin: 0;
+    line-height: 1.4; min-height: 1.4em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .px__summary {
+    font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0;
+    min-height: 4.65em;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
   .px__footer { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .px__more {
     display: inline-flex;

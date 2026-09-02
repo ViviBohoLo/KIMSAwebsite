@@ -1302,7 +1302,7 @@ export const PROJECTS: Project[] = [
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
-    image: '/assets/clients/fsfb.png',
+    image: '/assets/projects/santa-fe-bogota-huella-2025.png',
     title_en: '2025 corporate carbon footprint measurement and management',
     summary_en: "2025 corporate carbon footprint of Fundación Santa Fé de Bogotá.",
     description_en:

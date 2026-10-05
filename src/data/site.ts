@@ -123,7 +123,7 @@ export function localizeCountryStat(c: CountryStat, lang: 'es' | 'en') {
 }
 export const COUNTRY_STATS: CountryStat[] = [
   {
-    name: 'Colombia', code: 'CO', count: 44,
+    name: 'Colombia', code: 'CO', count: 45,
     highlights: [
       'Huella de carbono corporativa con CarbonBox (Biomax, Agrosavia, Ecopetrol y más)',
       'Plan Integral de Cambio Climático Territorial de Nariño',
@@ -787,7 +787,7 @@ export const PROJECTS: Project[] = [
       'Desarrollamos un estudio con metodologías propias para sondear la salud mental de los profesionales del sector ambiental colombiano, generando evidencia sobre el bienestar de quienes trabajan por el planeta.',
     tags: ['Salud mental', 'Investigación', 'Sector ambiental'],
     tint: 'dusk',
-    image: '/assets/projects/psicologia-ambiental-home.jpg',
+    image: '/assets/projects/psicologia-ambiental-proyecto.jpg',
     title_en: "Mental health of Colombia's environmental sector",
     summary_en: 'Own-methodology study surveying the mental health of environmental sector professionals.',
     description_en:
@@ -891,7 +891,7 @@ export const PROJECTS: Project[] = [
       'Calculamos y reportamos la huella de carbono y la huella hídrica de los equipos G-Trap (en sus diversos modelos) de tratamiento de aguas residuales industriales, y compilamos una matriz de impacto ambiental que integra indicadores de toxicidad, consumo de agua, emisiones de GEI y biodiversidad.',
     tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
     tint: 'river',
-    image: '/assets/projects/gtrap-huella-matriz-ambiental.png',
+    image: '/assets/projects/gtrap-fondo-accion-zhana.jpg',
     title_en: 'Carbon and water footprint of G-Trap equipment and environmental impact matrix',
     summary_en: 'Calculation of the carbon and water footprint of G-Trap equipment and an integrated environmental impact matrix.',
     description_en:
@@ -967,7 +967,7 @@ export const PROJECTS: Project[] = [
       'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de Hacienda Café Misiones, conforme al GHG Protocol y la norma ISO 14064-1, con acompañamiento continuo y recomendaciones de reducción.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'warm',
-    image: '/assets/clients/cafe-misiones.jpg',
+    image: '/assets/projects/hacienda-cafe-misiones-huella-2023.jpg',
     title_en: '2023 corporate carbon footprint measurement and management',
     summary_en: "Hacienda Café Misiones's 2023 corporate carbon footprint, with follow-up through 2026.",
     description_en:
@@ -986,11 +986,30 @@ export const PROJECTS: Project[] = [
       'Implementamos la medición de la huella de carbono organizacional de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, conforme al GHG Protocol y la norma ISO 14064-1.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'forest',
-    image: '/assets/clients/colegio-anglo.png',
+    image: '/assets/projects/colegio-anglo-colombiano-huella-2024.jpg',
     title_en: 'Organizational carbon footprint of Colegio Anglo Colombiano',
     summary_en: "2023 corporate carbon footprint of all Colegio Anglo Colombiano's operations in Bogotá.",
     description_en:
       "We implemented the measurement of the organizational carbon footprint of all operations at the Bogotá campus of Colegio Anglo Colombiano, in line with the GHG Protocol and ISO 14064-1.",
+    tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
+  },
+  {
+    slug: 'colegio-anglo-colombiano-huella-2025',
+    title: 'Huella de carbono organizacional 2025 del Colegio Anglo Colombiano',
+    area: 'carbonbox',
+    client: 'Fundación Colegio Anglo Colombiano',
+    country: 'Colombia',
+    year: '2026',
+    summary: 'Huella de carbono corporativa 2025 de todas las operaciones del Colegio Anglo Colombiano en Bogotá, medida en 2026.',
+    description:
+      'Implementamos la medición de la huella de carbono organizacional 2025 de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, ejecutada en 2026 conforme al GHG Protocol y la norma ISO 14064-1.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
+    tint: 'forest',
+    image: '/assets/projects/colegio-anglo-colombiano-huella-2026.jpg',
+    title_en: "2025 organizational carbon footprint of Colegio Anglo Colombiano",
+    summary_en: "2025 corporate carbon footprint of all Colegio Anglo Colombiano's operations in Bogotá, measured in 2026.",
+    description_en:
+      "We implemented the measurement of the 2025 organizational carbon footprint of all operations at the Bogotá campus of Colegio Anglo Colombiano, carried out in 2026 in line with the GHG Protocol and ISO 14064-1.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
@@ -1005,7 +1024,7 @@ export const PROJECTS: Project[] = [
       'Implementamos la medición de la huella de carbono organizacional del edificio administrativo y de 7 zonas de la Empresa de Energía de Boyacá, conforme al GHG Protocol y la norma ISO 14064-1.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
-    image: '/assets/clients/ebsa.png',
+    image: '/assets/projects/eeb-boyaca-huella-2023.jpg',
     title_en: 'Organizational carbon footprint of the administrative building and 7 zones in Boyacá',
     summary_en: 'Organizational carbon footprint of the administrative building and 7 operational zones in Boyacá.',
     description_en:
@@ -1081,7 +1100,7 @@ export const PROJECTS: Project[] = [
       'Desarrollamos las huellas de carbono de la producción de eventos como el Festival Estéreo Picnic (2023-2026), la Feria Vassar (2023-2024), Corona Sunset (2023-2024), BAUM (2024) y el Festival Cordillera (2024-2025), conforme al GHG Protocol y la norma ISO 14064-1.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'blush',
-    image: '/assets/clients/paramo-presenta.png',
+    image: '/assets/projects/fep-2023.jpg',
     title_en: "Carbon footprint of festivals: Estéreo Picnic, Cordillera, Vassar, BAUM, and Corona Sunset",
     summary_en: "Carbon footprint of the production of Colombia's leading festivals, edition after edition.",
     description_en:
@@ -1119,7 +1138,7 @@ export const PROJECTS: Project[] = [
       'Implementamos el análisis de ciclo de vida de una tecnología de compostaje con aireación para la gestión de residuos orgánicos de Control Ambiental de Colombia, comparando este escenario solución frente al manejo tradicional en rellenos sanitarios, bajo las normas ISO 14044 e ISO 14067.',
     tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
     tint: 'warm',
-    image: '/assets/clients/control-ambiental-colombia.jpg',
+    image: '/assets/projects/control-ambiental-compost-acv.jpg',
     title_en: 'Life cycle assessment of aerated composting',
     summary_en: 'Comparison of aerated composting against traditional landfill management.',
     description_en:
@@ -1194,7 +1213,7 @@ export const PROJECTS: Project[] = [
       'Estimamos la huella de carbono de los eventos Deeper Learning 2024 y 2025 de Comfama en Medellín, mediante la plataforma CarbonBox.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'river',
-    image: '/assets/clients/comfama.webp',
+    image: '/assets/projects/comfama-deeper-learning.jpg',
     title_en: 'Carbon footprint of the Deeper Learning 2024 and 2025 events',
     summary_en: "Carbon footprint estimation of the two editions of the Deeper Learning event.",
     description_en:

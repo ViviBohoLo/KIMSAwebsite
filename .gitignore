@@ -19,3 +19,6 @@ desktop.ini
 # Claude Code: local-machine tool config/plugins, not project config
 .claude/settings.local.json
 .claude/skills/
+
+# Documentos internos de soporte (matriz de experiencia con montos y contactos)
+Soportes/

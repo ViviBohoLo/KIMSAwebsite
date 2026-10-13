@@ -3,44 +3,118 @@ import Base from '../../layouts/Base.astro';
 import Footer from '../../components/layout/Footer.astro';
 import ServiceHero from '../../components/sections/ServiceHero.astro';
 import StatBand from '../../components/sections/StatBand.astro';
-import NumberedCard from '../../components/surfaces/NumberedCard.astro';
-import ProjectsCarousel from '../../components/sections/ProjectsCarousel.astro';
 import ProjectModal from '../../components/sections/ProjectModal.astro';
-import { projectsByArea } from '../../data/site';
+import Button from '../../components/core/Button.astro';
+import { PROJECTS, CLIENT_LOGOS, CONTACT } from '../../data/site';
 
+// Cifras recalculadas con la matriz de experiencia 2026 (ver documento
+// "Gestión Climática – Mejoras de marketing", oct-2026).
 const stats = [
-  { n: '3', l: 'reportes para la Convención Marco de Naciones Unidas para el Cambio Climático' },
-  { n: '250+', l: 'actores fortalecidos en adaptación y mitigación' },
-  { n: '6', l: 'planes regionales de gestión climática' },
-  { n: '1', l: 'mecanismo de financiamiento climático' },
+  { n: '5', l: 'países donde hemos acompañado a sus gobiernos: Colombia, Costa Rica, Ecuador, El Salvador y Honduras' },
+  { n: '3', l: 'NDC nacionales actualizadas o diseñadas' },
+  { n: '6', l: 'documentos oficiales para reportes ante la CMNUCC' },
+  { n: '12', l: 'planes y estrategias climáticas territoriales' },
+  { n: '4', l: 'estructuras y propuestas de financiamiento climático' },
 ];
 
+// Franja "Hemos trabajado con": solo los logos que ya tenemos en
+// /assets/clients (faltan Expertise France, DEval, FVC, Fundecooperación,
+// OET y DNP).
+const LOGO_NAMES = ['PNUD', 'BID', 'GIZ', 'The Nature Conservancy', 'Bancóldex', 'Alliance Bioversity-CIAT', 'ICRAF', 'ANLA — Autoridad Nacional de Licencias Ambientales'];
+const logos = LOGO_NAMES.map((n) => CLIENT_LOGOS.find((l) => l.alt === n)).filter((l) => !!l);
+
+const paraQuien = [
+  { t: 'Gobiernos nacionales y ministerios de ambiente', d: 'NDC, BTR, inventarios nacionales y sistemas MRV.', c: 'var(--kimsa-forest)' },
+  { t: 'Gobernaciones, alcaldías y autoridades ambientales', d: 'Planes climáticos territoriales y fortalecimiento de capacidades.', c: 'var(--kimsa-terracotta)' },
+  { t: 'Cooperación internacional y agencias de Naciones Unidas', d: 'Asistencia técnica experta para los países que acompañan.', c: 'var(--kimsa-plum)' },
+  { t: 'Banca de desarrollo y fondos climáticos', d: 'Estudios técnicos, metodologías e instrumentos para movilizar financiamiento.', c: 'var(--kimsa-gold)' },
+];
+
+// Oferta: cada servicio con la prueba ("Lo hicimos para…") que abre la
+// ficha del proyecto en el modal.
 const oferta = [
-  { t: 'Sistemas de seguimiento climático', d: 'Diseño y fortalecimiento de sistemas de Monitoreo, Reporte y Verificación (MRV) para mitigación.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Inventarios GEI', d: 'Elaboración de inventarios de emisiones y rutas de descarbonización sectorial y territorial.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Análisis de riesgos', d: 'Evaluaciones de vulnerabilidad climática para decisiones informadas frente a eventos extremos.', fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)' },
-  { t: 'Proyectos y reportes climáticos', d: 'Formulación de proyectos para fondos climáticos nacionales e internacionales.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Políticas y estrategias', d: 'Planes sectoriales, territoriales e institucionales para la acción climática.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  {
+    t: 'NDC y transparencia climática',
+    d: 'Actualizamos NDC y preparamos los reportes del Marco de Transparencia Reforzado (BTR, BUR, Comunicaciones Nacionales), incluida la defensa ante los expertos de la CMNUCC.',
+    fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)',
+    pruebas: [
+      { l: 'El Salvador (NDC 3.0)', slug: 'ndc-3-el-salvador' },
+      { l: 'Honduras (BUR2 y revisión ICA)', slug: 'honduras-gei-bur' },
+      { l: 'Costa Rica (seguimiento de la NDC en el BTR2)', slug: 'ndc-progreso-costa-rica' },
+    ],
+  },
+  {
+    t: 'Inventarios de GEI y sistemas MRV',
+    d: 'Estimamos emisiones y absorciones con las Directrices del IPCC y diseñamos o revisamos sistemas de Monitoreo, Reporte y Verificación para mitigación y adaptación.',
+    fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)',
+    pruebas: [
+      { l: 'Honduras (inventario 2016–2020)', slug: 'honduras-gei-bur' },
+      { l: 'Ecuador (MRV agrícola de la NDC)', slug: 'mrv-ecuador' },
+      { l: 'Colombia (NAMA forestal)', slug: 'nama-forestal-arboles-fincas' },
+      { l: 'Colombia (seguimiento climático de la ANLA)', slug: 'licenciamiento-cc' },
+    ],
+  },
+  {
+    t: 'Planes climáticos territoriales y sectoriales',
+    d: 'Formulamos planes departamentales, urbanos y municipales con su línea base de emisiones, portafolio de medidas, financiamiento y hoja de ruta.',
+    fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)',
+    pruebas: [
+      { l: 'Nariño (plan 2019–2035)', slug: 'picct-narino' },
+      { l: 'San Juan de Pasto', slug: 'gestion-urbana-pasto' },
+      { l: 'La Guajira', slug: 'picc-la-guajira-hidrocaribe' },
+      { l: '9 municipios del Meta', slug: 'estrategias-meta' },
+    ],
+  },
+  {
+    t: 'Riesgo climático y adaptación',
+    d: 'Evaluamos vulnerabilidad y riesgo para priorizar medidas de adaptación con criterios técnicos, económicos y de género.',
+    fg: 'var(--kimsa-coral)', bg: 'var(--kimsa-tint-coral)',
+    pruebas: [
+      { l: 'Bancóldex (vulnerabilidad de productores rurales)', slug: 'genero-bancoldex' },
+      { l: 'El Salvador (adaptación en la NDC)', slug: 'ndc-el-salvador-2022-cuantificacion' },
+      { l: 'The Nature Conservancy (clima y compensaciones)', slug: 'tnc-compensaciones-biodiversidad' },
+    ],
+  },
+  {
+    t: 'Financiamiento climático',
+    d: 'Diseñamos estructuras de financiamiento, estudios para fondos internacionales y metodologías para medir la contribución climática de las inversiones.',
+    fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)',
+    pruebas: [
+      { l: 'El Salvador (financiamiento de la NDC 3.0)', slug: 'ndc-3-el-salvador' },
+      { l: 'Bancóldex (5 estudios para el Fondo Verde del Clima)', slug: 'genero-bancoldex' },
+      { l: 'CAF vía Transforma (aporte a las NDC y los ODS)', slug: 'transforma-caf-ndc-ods' },
+    ],
+  },
 ];
 
-const capacidades = [
-  { t: 'Asistencia técnica para el Marco de Transparencia Reforzado del Acuerdo de París', c: 'var(--kimsa-forest)' },
-  { t: 'Evaluaciones de riesgo climático y medidas de adaptación', c: 'var(--kimsa-terracotta)' },
-  { t: 'Fortalecimiento de capacidades institucionales', c: 'var(--kimsa-coral)' },
-  { t: 'Sistemas MRV y contabilidad de emisiones GEI', c: 'var(--kimsa-plum)' },
-  { t: 'Diseño de instrumentos financieros climáticos', c: 'var(--kimsa-gold)' },
+const comoTrabajamos = [
+  { t: 'Entendemos el contexto institucional.', d: 'Mapeamos actores, normas y capacidades antes de proponer.' },
+  { t: 'Construimos con los equipos técnicos.', d: 'Mesas de trabajo, talleres y consultas para que el resultado sea de ellos.' },
+  { t: 'Entregamos documentos listos para usar.', d: 'Breves, claros y en el formato que exige quien los recibe: la CMNUCC, un fondo o un concejo municipal.' },
+  { t: 'Dejamos capacidad instalada.', d: 'Memorias de cálculo, bases de datos y capacitación para que el cliente siga solo.' },
 ];
 
-// Referencias: todos los proyectos de gestión climática
-const refs = projectsByArea('gestion');
+// Proyectos destacados (6). Honduras y Costa Rica reúnen dos fichas cada
+// uno: la tarjeta abre la principal y el segundo botón abre la otra.
+const bySlug = (s: string) => PROJECTS.find((p) => p.slug === s)!;
+const destacados = [
+  { title: 'El Salvador presentó su NDC 3.0 ante la CMNUCC', meta: 'El Salvador · 2025–2026 · PNUD', oficial: true, slugs: ['ndc-3-el-salvador'] },
+  { title: 'Honduras: inventario nacional de GEI, BUR2 y revisión internacional', meta: 'Honduras · 2023–2024 · PNUD', oficial: true, slugs: ['honduras-gei-bur', 'honduras-ica-bur'], labels: ['Inventario y BUR2', 'Revisión ICA'] },
+  { title: 'Costa Rica: de la hoja de ruta de la NDC 3.0 al seguimiento en el BTR2', meta: 'Costa Rica · 2024 y 2026 · Fundecooperación y OET', oficial: true, slugs: ['ndc-3-costa-rica', 'ndc-progreso-costa-rica'], labels: ['Hoja de ruta NDC 3.0', 'Seguimiento BTR2'] },
+  { title: 'Cinco estudios para la propuesta de Bancóldex al Fondo Verde del Clima', meta: 'Colombia · 2021 · Bancóldex', oficial: false, slugs: ['genero-bancoldex'] },
+  { title: 'Cambio climático en los proyectos licenciados por la ANLA', meta: 'Colombia · 2022–2023 · BID', oficial: false, slugs: ['licenciamiento-cc'] },
+  { title: 'Plan climático "Nariño actúa por el clima 2019–2035"', meta: 'Colombia · 2018–2019 · Gobernación de Nariño', oficial: true, slugs: ['picct-narino'] },
+].map((d) => ({ ...d, image: bySlug(d.slugs[0]).image, summary: bySlug(d.slugs[0]).summary }));
+
+const whatsapp = CONTACT.hqs[0].whatsapp;
 ---
-<Base title="Gestión Climática · KIMSA" description="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática.">
+<Base title="Consultoría en NDC, MRV e inventarios GEI | KIMSA" description="Consultora climática latinoamericana. NDC, reportes de transparencia (BTR, BUR), inventarios GEI, MRV y planes climáticos para gobiernos y cooperación internacional.">
   <ServiceHero
     crumb="Gestión Climática"
     titleMain="Gestión"
     titleEm="Climática"
     emColor="var(--kimsa-forest)"
-    lead="Consultoría especializada en mitigación, adaptación, financiamiento y planificación climática — con humanidad y rigor."
+    lead="Ayudamos a gobiernos y a la cooperación internacional a convertir los compromisos del Acuerdo de París en NDC, reportes y planes que se aprueban, se presentan y se implementan. Lo hemos hecho en cinco países de América Latina, sin enciclopedias."
     photo="/assets/projects/taller-gestion-climatica-home.jpg"
     photoTint="forest"
     photoLabel="taller de trabajo · gestión climática"
@@ -48,9 +122,37 @@ const refs = projectsByArea('gestion');
 
   <StatBand stats={stats} bg="var(--kimsa-forest)" />
 
-  <!-- Nuestra oferta: fondo claro (igual que en los demás servicios) —
-       el verde del StatBand de arriba ya cubre el acento oscuro de la
-       página, así que esta sección usa crema en vez de otro bloque forest. -->
+  <!-- Hemos trabajado con -->
+  <section class="gc-logos" aria-label="Hemos trabajado con">
+    <div class="container">
+      <p class="gc-logos__title">Hemos trabajado con</p>
+      <ul class="gc-logos__list">
+        {logos.map((l) => (
+          <li class="gc-logos__item"><img src={l!.src} alt={l!.alt} loading="lazy" /></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Para quién trabajamos -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
+        <span class="side-tag">Para quién trabajamos</span>
+        <h2 class="h2" style="margin:0">Socios de quienes <em class="em-forest">deciden.</em></h2>
+      </div>
+      <div class="gc-who reveal">
+        {paraQuien.map((w) => (
+          <div class="gc-who__card" style={`--accent:${w.c}`}>
+            <h3 class="gc-who__title">{w.t}</h3>
+            <p class="gc-who__desc">{w.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Nuestra oferta (fusiona la antigua oferta + "Cinco frentes") -->
   <section class="section svc-oferta" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
@@ -59,46 +161,90 @@ const refs = projectsByArea('gestion');
       </div>
       <p class="lead reveal">
         Cada servicio se adapta al sector, tamaño y madurez climática de su organización.
-        No hacemos enciclopedias.
+        Y todos terminan en algo que se puede usar: no hacemos enciclopedias.
       </p>
     </div>
-    <div class="svc-cards container reveal">
+    <div class="gc-offer container reveal">
       {oferta.map((o) => (
-        <NumberedCard title={o.t} accent={o.fg} tint={o.bg}>{o.d}</NumberedCard>
+        <div class="gc-offer__card" style={`background:linear-gradient(160deg, ${o.bg} 0%, color-mix(in srgb, ${o.bg} 55%, white) 100%);`}>
+          <h3 class="gc-offer__title" style={`color:${o.fg}`}><span class="dot" style={`background:${o.fg}`}></span>{o.t}</h3>
+          <p class="gc-offer__desc">{o.d}</p>
+          <p class="gc-offer__proof-label">Lo hicimos para:</p>
+          <ul class="gc-offer__proofs">
+            {o.pruebas.map((pr) => (
+              <li><button type="button" class="gc-offer__proof" data-project={pr.slug} style={`--accent:${o.fg}`}>{pr.l} →</button></li>
+            ))}
+          </ul>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- Capacidades -->
+  <!-- Cómo trabajamos (reemplaza "Cinco frentes") -->
   <section class="section caps-section" style="background:var(--kimsa-bone)">
     <div class="glow" style="--glow-color: color-mix(in srgb, var(--kimsa-terracotta) 45%, white); --glow-size: 380px; --glow-top: -90px; --glow-right: -100px;"></div>
     <div class="container">
       <div class="reveal caps-head">
-        <span class="side-tag">Capacidades principales</span>
-        <h2 class="h2" style="margin:0">Cinco frentes, un mismo cuidado.</h2>
+        <span class="side-tag">Cómo trabajamos</span>
+        <h2 class="h2" style="margin:0">Rigor técnico, <em class="em-forest">trabajo con personas.</em></h2>
       </div>
-      <ul class="caps reveal">
-        {capacidades.map((c, i) => (
-          <li class="caps__item" style={`--caps-accent:${c.c}`}>
-            <span class="caps__num">{String(i + 1).padStart(2, '0')}</span>
-            <span class="caps__text">{c.t}</span>
+      <ol class="gc-how reveal">
+        {comoTrabajamos.map((c, i) => (
+          <li class="gc-how__item">
+            <span class="gc-how__num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="gc-how__title">{c.t}</h3>
+              <p class="gc-how__desc">{c.d}</p>
+            </div>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
-  <!-- Referencias / casos -->
+  <!-- Proyectos destacados (reemplaza el carrusel de 21) -->
   <section class="section" id="casos" style="background:var(--kimsa-cream-deep)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
         <span class="side-tag">Referencias</span>
         <h2 class="h2">Algunos <em class="em-forest">proyectos.</em></h2>
       </div>
-      <p class="lead reveal">Deslice o use las flechas para ver todos los proyectos. Haga clic en uno para ver el detalle.</p>
+      <p class="lead reveal">Haga clic en un proyecto para ver el detalle completo.</p>
     </div>
-    <div class="container reveal">
-      <ProjectsCarousel projects={refs} id="pc-gestion" />
+    <div class="gc-featured container reveal">
+      {destacados.map((d) => (
+        <article class="gc-feat" data-project={d.slugs[0]} tabindex="0" role="button" aria-label={`Ver ${d.title}`}>
+          <div class="gc-feat__media">{d.image && <img src={d.image} alt="" loading="lazy" />}</div>
+          <div class="gc-feat__body">
+            <div class="gc-feat__top">
+              <span class="gc-feat__meta">{d.meta}</span>
+              {d.oficial && <span class="gc-feat__badge">Documento oficial</span>}
+            </div>
+            <h3 class="gc-feat__title">{d.title}</h3>
+            <p class="gc-feat__summary">{d.summary}</p>
+            <div class="gc-feat__actions">
+              {d.labels ? d.labels.map((lab, i) => (
+                <button type="button" class="gc-feat__btn" data-project={d.slugs[i]}>{lab} →</button>
+              )) : <span class="gc-feat__btn">Ver proyecto →</span>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="container gc-more reveal">
+      <Button variant="secondary" size="lg" href="/proyectos?area=gestion">Ver todos los proyectos de Gestión Climática →</Button>
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section class="section gc-close">
+    <div class="container gc-close__inner reveal">
+      <h2 class="h2 gc-close__title">¿Su país o territorio prepara su próxima NDC, BTR o plan climático?</h2>
+      <p class="gc-close__lead">Cuéntenos en qué etapa está y le proponemos cómo acompañarle.</p>
+      <div class="gc-close__actions">
+        <Button variant="cream" size="lg" href="/contacto">Solicitar propuesta →</Button>
+        <Button variant="ghost" size="lg" onDark href={whatsapp} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</Button>
+      </div>
     </div>
   </section>
 
@@ -112,27 +258,74 @@ const refs = projectsByArea('gestion');
   .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .caps-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 48px; position: relative; z-index: 1; }
   .svc-oferta { position: relative; overflow: hidden; }
-  .svc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
-  .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .caps-section { position: relative; overflow: hidden; }
-  .caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 48px; max-width: 980px; position: relative; z-index: 1; }
-  .caps__item {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    padding: 20px 14px;
-    border-top: 1px solid var(--kimsa-rule);
-    font-size: 17px;
-    line-height: 1.5;
-    border-radius: var(--kimsa-radius-md);
-    transition: background var(--kimsa-dur) var(--kimsa-ease), transform var(--kimsa-dur) var(--kimsa-ease);
+
+  /* Hemos trabajado con */
+  .gc-logos { background: var(--kimsa-bone); padding: 40px 0 8px; }
+  .gc-logos__title { text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-ink-soft); margin: 0 0 20px; }
+  .gc-logos__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px; }
+  .gc-logos__item { background: #fff; border-radius: var(--kimsa-radius-md); box-shadow: var(--kimsa-shadow-chip); height: 84px; display: flex; align-items: center; justify-content: center; padding: 14px 16px; }
+  .gc-logos__item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  /* Para quién */
+  .gc-who { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .gc-who__card { padding: 26px; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-surface-card); box-shadow: var(--kimsa-shadow-card); }
+  .gc-who__card::before { content: ''; display: block; width: 36px; height: 4px; border-radius: 999px; background: var(--accent); margin-bottom: 16px; }
+  .gc-who__title { font-weight: 600; font-size: 18px; line-height: 1.3; margin: 0 0 10px; color: var(--accent); }
+  .gc-who__desc { font-size: 15px; line-height: 1.55; color: var(--kimsa-ink-soft); margin: 0; }
+
+  /* Oferta con pruebas */
+  .gc-offer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
+  .gc-offer__card { border-radius: var(--kimsa-radius-xl); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .gc-offer__title { font-weight: 600; font-size: 21px; margin: 0; line-height: 1.25; display: flex; align-items: baseline; gap: 10px; }
+  .gc-offer__title .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; transform: translateY(-3px); }
+  .gc-offer__desc { font-size: 14px; color: var(--kimsa-ink); opacity: 0.8; line-height: 1.55; margin: 0; }
+  .gc-offer__proof-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--kimsa-ink-soft); margin: 6px 0 0; }
+  .gc-offer__proofs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .gc-offer__proof { background: none; border: 0; padding: 0; font: inherit; font-size: 14px; font-weight: 600; color: var(--accent); cursor: pointer; text-align: left; }
+  .gc-offer__proof:hover { text-decoration: underline; }
+
+  /* Cómo trabajamos */
+  .gc-how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 48px; max-width: 1040px; position: relative; z-index: 1; }
+  .gc-how__item { display: flex; gap: 18px; padding: 22px 14px; border-top: 1px solid var(--kimsa-rule); }
+  .gc-how__num { font-family: var(--kimsa-font-mono); font-weight: 700; font-size: 13px; color: var(--kimsa-forest); margin-top: 5px; flex-shrink: 0; }
+  .gc-how__title { font-size: 18px; font-weight: 600; margin: 0 0 6px; line-height: 1.35; }
+  .gc-how__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+
+  /* Proyectos destacados */
+  .gc-featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .gc-feat { background: var(--kimsa-surface-card); border-radius: var(--kimsa-radius-xl); box-shadow: var(--kimsa-shadow-card); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform var(--kimsa-dur) var(--kimsa-ease), box-shadow var(--kimsa-dur) var(--kimsa-ease); }
+  .gc-feat:hover { transform: translateY(-4px); box-shadow: var(--kimsa-shadow-lift); }
+  .gc-feat__media { aspect-ratio: 16/10; background: var(--kimsa-tint-forest); overflow: hidden; }
+  .gc-feat__media img { width: 100%; height: 100%; object-fit: cover; }
+  .gc-feat__body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .gc-feat__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .gc-feat__meta { font-size: 12.5px; font-weight: 600; color: var(--kimsa-terracotta); }
+  .gc-feat__badge { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--kimsa-forest); background: var(--kimsa-tint-forest); border-radius: 999px; padding: 4px 10px; }
+  .gc-feat__title { font-weight: 500; font-size: 20px; line-height: 1.3; margin: 0; }
+  .gc-feat__summary { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .gc-feat__actions { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .gc-feat__btn { display: inline-flex; align-items: center; font: inherit; font-size: 13px; font-weight: 600; color: var(--kimsa-forest); background: none; border: 1.5px solid var(--kimsa-forest); border-radius: var(--kimsa-radius-pill); padding: 7px 15px; cursor: pointer; }
+  .gc-feat__btn:hover { background: var(--kimsa-forest); color: var(--kimsa-bone); }
+  .gc-more { display: flex; justify-content: center; margin-top: 40px; }
+
+  /* Cierre */
+  .gc-close { background: linear-gradient(135deg, var(--kimsa-forest) 0%, var(--kimsa-forest-deep) 100%); color: var(--kimsa-bone); }
+  .gc-close__inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .gc-close__title { margin: 0; color: var(--kimsa-bone); max-width: 820px; }
+  .gc-close__lead { font-size: 19px; line-height: 1.55; margin: 0 0 8px; max-width: 560px; opacity: 0.9; }
+  .gc-close__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+
+  @media (max-width: 1100px) {
+    .gc-logos__list { grid-template-columns: repeat(4, 1fr); }
+    .gc-who { grid-template-columns: repeat(2, 1fr); }
+    .gc-offer, .gc-featured { grid-template-columns: repeat(2, 1fr); }
   }
-  .caps__item:hover { background: color-mix(in srgb, var(--caps-accent) 10%, transparent); transform: translateX(6px); }
-  .caps__num { font-family: var(--kimsa-font-mono); font-weight: 700; font-size: 13px; color: var(--caps-accent); margin-top: 4px; flex-shrink: 0; }
   @media (max-width: 900px) {
     .svc-head { grid-template-columns: 1fr; gap: 24px; }
-    .svc-cards { grid-template-columns: 1fr; }
-    .svc-refs { grid-template-columns: 1fr; }
-    .caps { grid-template-columns: 1fr; }
+    .gc-who, .gc-offer, .gc-featured, .gc-how { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .gc-logos__list { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

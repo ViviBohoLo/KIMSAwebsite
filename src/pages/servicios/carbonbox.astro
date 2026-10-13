@@ -18,16 +18,39 @@ const stats = [
 ];
 
 const areas = [
-  { t: 'Estimación de huella de carbono', d: 'Calcula las emisiones de tu empresa o evento siguiendo los estándares internacionales reconocidos.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Reducción y descarbonización', d: 'Automatiza tu plan de reducción de emisiones y haz seguimiento a tus metas.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Huella de carbono de producto', d: 'Mide el impacto en carbono de toda tu cadena de valor.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Capacitación y autogestión', d: 'A través de CarbonBox Academy ofrecemos formación para gestionar tu huella de forma autónoma.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Huella organizacional', d: 'Inventario de GEI de alcances 1, 2 y 3 bajo ISO 14064-1 y GHG Protocol, de una sede o de varias.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Huella de eventos', d: 'Congresos, festivales y eventos masivos, con análisis de ciclo de vida.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Huella de producto', d: 'Estimamos las emisiones con análisis de ciclo de vida (ACV) bajo ISO 14067 y 14040/44.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Reducción y descarbonización', d: 'Escenarios de mitigación, proyecciones, metas y ruta a la carbono neutralidad. La capacitación de su equipo va incluida en los planes.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
 ];
 
-const pasos = [
-  { n: '01', t: 'Suscripción anual', d: 'Accede a la plataforma para gestionar la huella de carbono durante todo el año.', c: 'var(--kimsa-plum)' },
-  { n: '02', t: 'Capacitación y acompañamiento', d: 'Formación y soporte de expertos durante todo el proceso.', c: 'var(--kimsa-terracotta)' },
-  { n: '03', t: 'Estándares internacionales', d: 'Alineados con ISO 14064-1 y el GHG Protocol.', c: 'var(--kimsa-forest)' },
+// Elementos del servicio: no son pasos en secuencia sino las piezas que
+// incluye la suscripción, por eso van sin numeración.
+const elementos = [
+  { t: 'Diagnóstico y propuesta', d: 'Suscripción anual con precios estandarizados según sector, tamaño y plan.', c: 'var(--kimsa-plum)' },
+  { t: 'Captura de datos y cálculo', d: 'Automatizamos la recopilación y la carga de datos, con factores de emisión locales.', c: 'var(--kimsa-terracotta)' },
+  { t: 'Reporte y tablero de datos', d: 'Analice sus resultados y genere un reporte automático.', c: 'var(--kimsa-gold)' },
+  { t: 'Plan de reducción', d: 'Plan de reducción o de descarbonización y preparación de auditorías con terceros.', c: 'var(--kimsa-forest)' },
+];
+
+const planes = [
+  { t: 'Esencial', d: 'Autogestión en la plataforma.' },
+  { t: 'Pro', d: 'Experto dedicado y revisión de datos.' },
+  { t: 'Experto', d: 'Preparación para la verificación externa.' },
+];
+
+const perfiles = [
+  { t: 'Le exigen la huella', d: 'Empresas a las que un cliente o una licitación les pide su huella de carbono.' },
+  { t: 'Reportan a su casa matriz', d: 'Filiales que deben entregar su inventario de emisiones a la compañía matriz, como Parker.' },
+  { t: 'Organizan eventos', d: 'Organizadores de eventos y recintos, como BTC Americas o el Hotel Waya.' },
+];
+const sectores = ['Salud', 'Alimentos', 'Energía', 'Educación', 'Sector público', 'Eventos'];
+
+const diferenciales = [
+  { t: 'Software y experto en una sola suscripción', c: 'var(--kimsa-plum)' },
+  { t: 'Factores de emisión locales, no genéricos del IPCC', c: 'var(--kimsa-terracotta)' },
+  { t: 'En español y pensado para Latinoamérica', c: 'var(--kimsa-gold)' },
+  { t: 'Respaldo técnico de KIMSA desde 2017', c: 'var(--kimsa-forest)' },
 ];
 
 const refs = projectsByArea('carbonbox');
@@ -45,7 +68,8 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     titleEm="Box"
     joined
     emColor="#1620a4"
-    lead="Digitalizamos la gestión ambiental para empresas y organizaciones. Tecnología para la naturaleza que mide, reduce y gestiona tu huella de carbono."
+    logo="/assets/carbonbox-logo-t.png"
+    lead="Plataforma de huella de carbono para empresas en Latinoamérica que buscan descarbonizar sus cadenas productivas."
     photo="/assets/projects/carbonbox-platform.jpg"
     photoTint="dusk"
     photoLabel="plataforma CarbonBox · panel de medición de huella"
@@ -54,16 +78,16 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
 
   <StatBand stats={stats} bg="var(--kimsa-plum)" />
 
-  <!-- Áreas de servicio -->
+  <!-- Lo que medimos -->
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
         <span class="side-tag">Qué hacemos</span>
-        <h2 class="h2">Gestión ambiental, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitalizada.</em></h2>
+        <h2 class="h2">Lo que medimos y <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">cómo lo reducimos.</em></h2>
       </div>
       <p class="lead reveal">
-        CarbonBox reúne en un solo lugar la medición, la reducción y el reporte de tu
-        impacto ambiental — con acompañamiento experto.
+        CarbonBox reúne en un solo lugar la medición, la reducción y el reporte de su
+        impacto ambiental, con acompañamiento experto.
       </p>
     </div>
     <div class="svc-cards container reveal">
@@ -73,20 +97,77 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     </div>
   </section>
 
-  <!-- Cómo funciona: numeración real (son 3 pasos en orden, no ofertas
-       paralelas), por eso se conserva el disco 01/02/03. -->
+  <!-- Cómo funciona: elementos de la suscripción + planes -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
-      <div class="svc-head-left reveal" style="margin-bottom:48px">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
         <span class="side-tag">Cómo funciona</span>
-        <h2 class="h2" style="margin:0">Tres pasos, cero enredos.</h2>
+        <h2 class="h2" style="margin:0">Todo en una sola <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">suscripción.</em></h2>
       </div>
-      <div class="steps reveal">
-        {pasos.map((s) => (
-          <div class="step" style={`border-color:color-mix(in srgb, ${s.c} 33%, transparent)`}>
-            <div class="step__disc" style={`background:${s.c}`}>{s.n}</div>
-            <h3 class="step__title" style={`color:${s.c}`}>{s.t}</h3>
-            <p class="step__desc">{s.d}</p>
+      <div class="elems reveal">
+        {elementos.map((e) => (
+          <div class="elem" style={`border-color:color-mix(in srgb, ${e.c} 33%, transparent)`}>
+            <h3 class="elem__title" style={`color:${e.c}`}><span class="dot" style={`background:${e.c}`}></span>{e.t}</h3>
+            <p class="elem__desc">{e.d}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="plans reveal">
+        <span class="plans__label">Planes</span>
+        <div class="plans__grid">
+          {planes.map((pl) => (
+            <div class="plan">
+              <h3 class="plan__name">{pl.t}</h3>
+              <p class="plan__desc">{pl.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="cb-note reveal">
+        <strong>CarbonBox no certifica:</strong> preparamos su inventario y a su equipo para la
+        verificación por un organismo acreditado.
+      </p>
+    </div>
+  </section>
+
+  <!-- Para quién -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
+        <span class="side-tag">Para quién</span>
+        <h2 class="h2" style="margin:0">¿Es CarbonBox <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">para usted?</em></h2>
+      </div>
+      <div class="profiles reveal">
+        {perfiles.map((pf) => (
+          <div class="profile">
+            <h3 class="profile__title">{pf.t}</h3>
+            <p class="profile__desc">{pf.d}</p>
+          </div>
+        ))}
+      </div>
+      <div class="sectors reveal">
+        <span class="sectors__label">Sectores atendidos</span>
+        <ul class="sectors__list">
+          {sectores.map((sc) => <li>{sc}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué CarbonBox -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
+        <span class="side-tag">Por qué CarbonBox</span>
+        <h2 class="h2" style="margin:0">Ni solo consultoría, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">ni solo software.</em></h2>
+      </div>
+      <div class="diffs reveal">
+        {diferenciales.map((df) => (
+          <div class="diff" style={`background:linear-gradient(160deg, color-mix(in srgb, ${df.c} 16%, var(--kimsa-bone)) 0%, var(--kimsa-bone) 100%)`}>
+            <span class="diff__bar" style={`background:${df.c}`}></span>
+            <p class="diff__text">{df.t}</p>
           </div>
         ))}
       </div>
@@ -147,6 +228,16 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     </div>
   </section>
 
+  <!-- Cierre: última invitación a contactar -->
+  <section class="section cb-close">
+    <div class="container cb-close__inner reveal">
+      <h2 class="h2 cb-close__title">¿Le pidieron su huella de carbono?</h2>
+      <p class="cb-close__lead">Le decimos en una llamada qué alcance necesita y cuánto cuesta.</p>
+      <Button variant="cream" size="lg" href="/contacto">Agendar con un experto →</Button>
+      <p class="cb-close__note">Respuesta en menos de 24 horas hábiles.</p>
+    </div>
+  </section>
+
   <Footer />
   <ProjectModal />
 </Base>
@@ -156,11 +247,41 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   .svc-head .lead { max-width: 540px; }
   .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .svc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .step { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); position: relative; margin-top: 20px; background: var(--kimsa-bone); }
-  .step__disc { position: absolute; top: -20px; left: 28px; width: 56px; height: 56px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--kimsa-bone); }
-  .step__title { font-weight: 600; font-size: 22px; margin: 28px 0 12px; }
-  .step__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .elems { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .elem { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-bone); }
+  .elem__title { font-weight: 600; font-size: 20px; line-height: 1.25; margin: 0 0 12px; display: flex; align-items: baseline; gap: 10px; }
+  .elem__title .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; transform: translateY(-2px); }
+  .elem__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+
+  .plans { margin-top: 40px; padding: 28px 32px; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-tint-plum); display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; }
+  .plans__label { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-plum); }
+  .plans__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .plan { background: var(--kimsa-bone); border-radius: 20px; padding: 18px 22px; }
+  .plan__name { font-weight: 600; font-size: 19px; color: var(--kimsa-plum); margin: 0 0 4px; }
+  .plan__desc { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.5; margin: 0; }
+
+  .cb-note { margin: 24px 0 0; padding: 18px 22px; border-left: 4px solid var(--kimsa-plum); background: var(--kimsa-cream); border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.55; color: var(--kimsa-ink); max-width: 760px; }
+  .cb-note strong { color: var(--kimsa-plum); }
+
+  .profiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .profile { padding: 28px; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-surface-card); box-shadow: var(--kimsa-shadow-card); }
+  .profile__title { font-weight: 600; font-size: 20px; margin: 0 0 10px; color: var(--kimsa-plum); }
+  .profile__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .sectors { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .sectors__label { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-ink-soft); }
+  .sectors__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sectors__list li { font-size: 14px; font-weight: 500; padding: 6px 14px; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--kimsa-plum) 35%, transparent); color: var(--kimsa-plum); }
+
+  .diffs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .diff { padding: 28px; border-radius: var(--kimsa-radius-xl); display: flex; flex-direction: column; gap: 18px; min-height: 160px; }
+  .diff__bar { width: 36px; height: 4px; border-radius: 999px; }
+  .diff__text { font-size: 19px; font-weight: 500; line-height: 1.35; margin: 0; color: var(--kimsa-ink); }
+
+  .cb-close { background: linear-gradient(135deg, var(--kimsa-plum) 0%, #7d3553 100%); color: var(--kimsa-bone); }
+  .cb-close__inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .cb-close__title { margin: 0; color: var(--kimsa-bone); }
+  .cb-close__lead { font-size: 19px; line-height: 1.55; margin: 0 0 8px; max-width: 560px; opacity: 0.9; }
+  .cb-close__note { font-size: 14px; margin: 0; opacity: 0.75; }
   .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 820px; }
 
   .cb-blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
@@ -200,8 +321,12 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   }
   .cb-academy__text p { margin: 8px 0 0; font-size: 15px; color: var(--kimsa-ink-soft); max-width: 480px; }
 
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .svc-cards, .elems, .diffs { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 900px) {
     .svc-head { grid-template-columns: 1fr; gap: 24px; }
-    .svc-cards, .steps, .svc-refs, .cb-blog-grid { grid-template-columns: 1fr; }
+    .svc-cards, .elems, .svc-refs, .cb-blog-grid, .profiles, .diffs, .plans, .plans__grid { grid-template-columns: 1fr; }
+    .plans { gap: 16px; }
   }
 </style>

@@ -18,6 +18,9 @@ interface Props {
    * cursiva) — para nombres de marca compuestos como "CarbonBox", en vez de
    * títulos de dos palabras como "Gestión Climática". */
   joined?: boolean;
+  /** Logo de marca en lugar del título en texto (p.ej. CarbonBox). El
+   * titleMain + titleEm se usan entonces como texto alternativo. */
+  logo?: string;
   lead: string;
   photoTint?: string;
   photoLabel?: string;
@@ -34,6 +37,7 @@ const {
   titleEm,
   emColor = 'var(--kimsa-forest)',
   joined = false,
+  logo,
   lead,
   photoTint = 'forest',
   photoLabel = lang === 'en' ? 'field work' : 'trabajo de campo',
@@ -53,8 +57,10 @@ const ctaExternal = /^https?:\/\//.test(ctaHref);
     </nav>
     <div class="svc-hero__grid">
       <div>
-        <h1 class="svc-hero__title">
-          {joined ? (
+        <h1 class:list={['svc-hero__title', { 'svc-hero__title--logo': logo }]}>
+          {logo ? (
+            <img class="svc-hero__logo" src={logo} alt={`${titleMain}${joined ? '' : ' '}${titleEm}`} />
+          ) : joined ? (
             <Fragment><em style="font-style:italic; font-weight:400;">{titleMain}</em><span style={`font-style:italic; font-weight:400; font-family:var(--kimsa-font-sans); color:${emColor}`}>{titleEm}</span></Fragment>
           ) : (
             <Fragment>{titleMain}<br /><em style={`font-style:italic; font-weight:400; color:${emColor}`}>{titleEm}</em></Fragment>
@@ -85,6 +91,8 @@ const ctaExternal = /^https?:\/\//.test(ctaHref);
   .svc-hero__crumb .current { color: var(--kimsa-terracotta); font-weight: 600; }
   .svc-hero__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: center; }
   .svc-hero__title { font-weight: 300; font-size: 96px; line-height: 1; letter-spacing: -0.03em; margin: 0; }
+  .svc-hero__title--logo { line-height: 0; }
+  .svc-hero__logo { width: 240px; height: auto; display: block; }
   .svc-hero__lead { margin-top: 36px; font-size: 20px; line-height: 1.55; color: var(--kimsa-ink-soft); max-width: 560px; }
   .svc-hero__actions { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
   @media (max-width: 900px) {
@@ -92,6 +100,7 @@ const ctaExternal = /^https?:\/\//.test(ctaHref);
     .svc-hero__inner { padding-left: 24px; padding-right: 24px; }
     .svc-hero__grid { grid-template-columns: 1fr; gap: 36px; }
     .svc-hero__title { font-size: 52px; }
+    .svc-hero__logo { width: 170px; }
     .svc-hero__lead { font-size: 17px; }
   }
 </style>

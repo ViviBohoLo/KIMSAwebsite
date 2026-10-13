@@ -18,9 +18,9 @@ const stats = [
 ];
 
 // Franja "Hemos trabajado con": solo los logos que ya tenemos en
-// /assets/clients (faltan Expertise France, DEval, FVC, Fundecooperación,
-// OET y DNP).
-const LOGO_NAMES = ['PNUD', 'BID', 'GIZ', 'The Nature Conservancy', 'Bancóldex', 'Alliance Bioversity-CIAT', 'ICRAF', 'ANLA — Autoridad Nacional de Licencias Ambientales'];
+// /assets/clients (faltan Expertise France, Fondo Verde del Clima y
+// Fundecooperación).
+const LOGO_NAMES = ['PNUD', 'BID', 'GIZ', 'The Nature Conservancy', 'Bancóldex', 'Alliance Bioversity-CIAT', 'ICRAF', 'ANLA — Autoridad Nacional de Licencias Ambientales', 'Departamento Nacional de Planeación (DNP)', 'DEval — EvalConnect', 'Organización para Estudios Tropicales (OET)'];
 const logos = LOGO_NAMES.map((n) => CLIENT_LOGOS.find((l) => l.alt === n)).filter((l) => !!l);
 
 const paraQuien = [
@@ -263,7 +263,8 @@ const whatsapp = CONTACT.hqs[0].whatsapp;
   /* Hemos trabajado con */
   .gc-logos { background: var(--kimsa-bone); padding: 40px 0 8px; }
   .gc-logos__title { text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-ink-soft); margin: 0 0 20px; }
-  .gc-logos__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px; }
+  .gc-logos__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .gc-logos__item { flex: 0 0 calc((100% - 5 * 14px) / 6); }
   .gc-logos__item { background: #fff; border-radius: var(--kimsa-radius-md); box-shadow: var(--kimsa-shadow-chip); height: 84px; display: flex; align-items: center; justify-content: center; padding: 14px 16px; }
   .gc-logos__item img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
@@ -317,7 +318,7 @@ const whatsapp = CONTACT.hqs[0].whatsapp;
   .gc-close__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
 
   @media (max-width: 1100px) {
-    .gc-logos__list { grid-template-columns: repeat(4, 1fr); }
+    .gc-logos__item { flex-basis: calc((100% - 3 * 14px) / 4); }
     .gc-who { grid-template-columns: repeat(2, 1fr); }
     .gc-offer, .gc-featured { grid-template-columns: repeat(2, 1fr); }
   }
@@ -326,6 +327,6 @@ const whatsapp = CONTACT.hqs[0].whatsapp;
     .gc-who, .gc-offer, .gc-featured, .gc-how { grid-template-columns: 1fr; }
   }
   @media (max-width: 480px) {
-    .gc-logos__list { grid-template-columns: repeat(2, 1fr); }
+    .gc-logos__item { flex-basis: calc((100% - 14px) / 2); }
   }
 </style>

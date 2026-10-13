@@ -68,6 +68,9 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/marn-el-salvador.png', alt: 'Gobierno de El Salvador — MARN', aliases: ['Ministerio de Medio Ambiente y Recursos Naturales', 'Gobierno de El Salvador'] },
   { src: '/assets/clients/min-amb-ecuador-v2.png', alt: 'Ministerio del Ambiente de Ecuador', aliases: ['Ministerio del Ambiente, Agua y Transición Ecológica'] },
   { src: '/assets/clients/serna-honduras.png', alt: 'Gobierno de Honduras — SERNA', aliases: ['Secretaría de Recursos Naturales y Ambiente (SERNA)', 'Gobierno de Honduras'] },
+  { src: '/assets/clients/dnp.png', alt: 'Departamento Nacional de Planeación (DNP)', aliases: ['DNP'] },
+  { src: '/assets/clients/deval-evalconnect.png', alt: 'DEval — EvalConnect', aliases: ['DEval'] },
+  { src: '/assets/clients/oet.png', alt: 'Organización para Estudios Tropicales (OET)', aliases: ['Organización para Estudios Tropicales'] },
 
   // Clientes de CarbonBox (logos aportados por el equipo, agosto 2026) —
   // ver los proyectos correspondientes en PROJECTS, área 'carbonbox'.

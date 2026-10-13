@@ -118,6 +118,9 @@ const photoLabel = lang === 'en' ? 'project photo' : 'foto de proyecto';
 
     document.querySelectorAll('[data-project]').forEach((el) => {
       el.addEventListener('click', (e) => {
+        // Si hay [data-project] anidados (p.ej. botones dentro de una tarjeta
+        // que abre otra ficha), solo responde el más cercano al clic.
+        if (e.target instanceof Element && e.target.closest('[data-project]') !== el) return;
         e.preventDefault();
         open(el.getAttribute('data-project'));
       });

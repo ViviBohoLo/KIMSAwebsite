@@ -18,16 +18,39 @@ const stats = [
 ];
 
 const areas = [
-  { t: 'Carbon footprint estimation', d: 'Calculate your company or event emissions following recognized international standards.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
-  { t: 'Reduction and decarbonization', d: 'Automate your emission reduction plan and track your goals.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
-  { t: 'Product carbon footprint', d: 'Measure the carbon impact of your entire value chain.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
-  { t: 'Training and self-management', d: 'Through CarbonBox Academy we offer training to manage your footprint on your own.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Organizational footprint', d: 'GHG inventory for scopes 1, 2, and 3 under ISO 14064-1 and the GHG Protocol, for one site or several.', fg: 'var(--kimsa-plum)', bg: 'var(--kimsa-tint-plum)' },
+  { t: 'Event footprint', d: 'Conferences, festivals, and mass events, with life cycle assessment.', fg: 'var(--kimsa-terracotta)', bg: 'var(--kimsa-tint-terracotta)' },
+  { t: 'Product footprint', d: 'We estimate emissions through life cycle assessment (LCA) under ISO 14067 and 14040/44.', fg: 'var(--kimsa-gold)', bg: 'var(--kimsa-tint-gold)' },
+  { t: 'Reduction and decarbonization', d: 'Mitigation scenarios, projections, targets, and a roadmap to carbon neutrality. Training for your team is included in the plans.', fg: 'var(--kimsa-forest)', bg: 'var(--kimsa-tint-forest)' },
 ];
 
-const pasos = [
-  { n: '01', t: 'Annual subscription', d: 'Access the platform to manage your carbon footprint all year round.', c: 'var(--kimsa-plum)' },
-  { n: '02', t: 'Training and support', d: 'Expert training and support throughout the process.', c: 'var(--kimsa-terracotta)' },
-  { n: '03', t: 'International standards', d: 'Aligned with ISO 14064-1 and the GHG Protocol.', c: 'var(--kimsa-forest)' },
+// Elementos del servicio: no son pasos en secuencia sino las piezas que
+// incluye la suscripción, por eso van sin numeración.
+const elementos = [
+  { t: 'Assessment and proposal', d: 'Annual subscription with standardized pricing by sector, size, and plan.', c: 'var(--kimsa-plum)' },
+  { t: 'Data capture and calculation', d: 'We automate data collection and upload, using local emission factors.', c: 'var(--kimsa-terracotta)' },
+  { t: 'Report and data dashboard', d: 'Analyze your results and generate an automatic report.', c: 'var(--kimsa-gold)' },
+  { t: 'Reduction plan', d: 'Reduction or decarbonization plan and preparation for third-party audits.', c: 'var(--kimsa-forest)' },
+];
+
+const planes = [
+  { t: 'Essential', d: 'Self-service on the platform.' },
+  { t: 'Pro', d: 'Dedicated expert and data review.' },
+  { t: 'Expert', d: 'Preparation for external verification.' },
+];
+
+const perfiles = [
+  { t: 'Your footprint is required', d: 'Companies whose clients or tenders ask for their carbon footprint.' },
+  { t: 'You report to headquarters', d: 'Subsidiaries that must deliver their emissions inventory to their parent company, like Parker.' },
+  { t: 'You run events', d: 'Event organizers and venues, like BTC Americas or Hotel Waya.' },
+];
+const sectores = ['Health', 'Food', 'Energy', 'Education', 'Public sector', 'Events'];
+
+const diferenciales = [
+  { t: 'Software and expert in a single subscription', c: 'var(--kimsa-plum)' },
+  { t: 'Local emission factors, not generic IPCC ones', c: 'var(--kimsa-terracotta)' },
+  { t: 'In Spanish and built for Latin America', c: 'var(--kimsa-gold)' },
+  { t: 'Backed by KIMSA technical expertise since 2017', c: 'var(--kimsa-forest)' },
 ];
 
 const refs = projectsByArea('carbonbox');
@@ -44,7 +67,8 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     titleEm="Box"
     joined
     emColor="#1620a4"
-    lead="We digitize environmental management for companies and organizations. Technology for nature that measures, reduces, and manages your carbon footprint."
+    logo="/assets/carbonbox-logo-t.png"
+    lead="A carbon footprint platform for companies in Latin America looking to decarbonize their value chains."
     photo="/assets/projects/carbonbox-platform.jpg"
     photoTint="dusk"
     photoLabel="CarbonBox platform · footprint measurement dashboard"
@@ -53,16 +77,16 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
 
   <StatBand stats={stats} bg="var(--kimsa-plum)" />
 
-  <!-- Áreas de servicio -->
+  <!-- Lo que medimos -->
   <section class="section" style="background:var(--kimsa-cream)">
     <div class="svc-head container">
       <div class="reveal svc-head-left">
         <span class="side-tag">What we do</span>
-        <h2 class="h2">Environmental management, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">digitized.</em></h2>
+        <h2 class="h2">What we measure and <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">how we reduce it.</em></h2>
       </div>
       <p class="lead reveal">
         CarbonBox brings together the measurement, reduction, and reporting of your
-        environmental impact in one place — with expert support.
+        environmental impact in one place, with expert support.
       </p>
     </div>
     <div class="svc-cards container reveal">
@@ -72,19 +96,77 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     </div>
   </section>
 
-  <!-- Cómo funciona -->
+  <!-- Cómo funciona: elementos de la suscripción + planes -->
   <section class="section" style="background:var(--kimsa-bone)">
     <div class="container">
-      <div class="svc-head-left reveal" style="margin-bottom:48px">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
         <span class="side-tag">How it works</span>
-        <h2 class="h2" style="margin:0">Three steps, zero hassle.</h2>
+        <h2 class="h2" style="margin:0">All in a single <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">subscription.</em></h2>
       </div>
-      <div class="steps reveal">
-        {pasos.map((s) => (
-          <div class="step" style={`border-color:color-mix(in srgb, ${s.c} 33%, transparent)`}>
-            <div class="step__disc" style={`background:${s.c}`}>{s.n}</div>
-            <h3 class="step__title" style={`color:${s.c}`}>{s.t}</h3>
-            <p class="step__desc">{s.d}</p>
+      <div class="elems reveal">
+        {elementos.map((e) => (
+          <div class="elem" style={`border-color:color-mix(in srgb, ${e.c} 33%, transparent)`}>
+            <h3 class="elem__title" style={`color:${e.c}`}><span class="dot" style={`background:${e.c}`}></span>{e.t}</h3>
+            <p class="elem__desc">{e.d}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="plans reveal">
+        <span class="plans__label">Plans</span>
+        <div class="plans__grid">
+          {planes.map((pl) => (
+            <div class="plan">
+              <h3 class="plan__name">{pl.t}</h3>
+              <p class="plan__desc">{pl.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="cb-note reveal">
+        <strong>CarbonBox does not certify:</strong> we prepare your inventory and your team
+        for verification by an accredited body.
+      </p>
+    </div>
+  </section>
+
+  <!-- Para quién -->
+  <section class="section" style="background:var(--kimsa-cream)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
+        <span class="side-tag">Who it's for</span>
+        <h2 class="h2" style="margin:0">Is CarbonBox <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">for you?</em></h2>
+      </div>
+      <div class="profiles reveal">
+        {perfiles.map((pf) => (
+          <div class="profile">
+            <h3 class="profile__title">{pf.t}</h3>
+            <p class="profile__desc">{pf.d}</p>
+          </div>
+        ))}
+      </div>
+      <div class="sectors reveal">
+        <span class="sectors__label">Sectors served</span>
+        <ul class="sectors__list">
+          {sectores.map((sc) => <li>{sc}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué CarbonBox -->
+  <section class="section" style="background:var(--kimsa-bone)">
+    <div class="container">
+      <div class="svc-head-left reveal" style="margin-bottom:40px">
+        <span class="side-tag">Why CarbonBox</span>
+        <h2 class="h2" style="margin:0">Not just consulting, <em style="font-style:italic;font-weight:400;color:var(--kimsa-plum)">not just software.</em></h2>
+      </div>
+      <div class="diffs reveal">
+        {diferenciales.map((df) => (
+          <div class="diff" style={`background:linear-gradient(160deg, color-mix(in srgb, ${df.c} 16%, var(--kimsa-bone)) 0%, var(--kimsa-bone) 100%)`}>
+            <span class="diff__bar" style={`background:${df.c}`}></span>
+            <p class="diff__text">{df.t}</p>
           </div>
         ))}
       </div>
@@ -144,6 +226,16 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
     </div>
   </section>
 
+  <!-- Cierre: última invitación a contactar -->
+  <section class="section cb-close">
+    <div class="container cb-close__inner reveal">
+      <h2 class="h2 cb-close__title">Were you asked for your carbon footprint?</h2>
+      <p class="cb-close__lead">In one call, we'll tell you what scope you need and how much it costs.</p>
+      <Button variant="cream" size="lg" href="/en/contacto">Book a call with an expert →</Button>
+      <p class="cb-close__note">We reply within 24 business hours.</p>
+    </div>
+  </section>
+
   <Footer />
   <ProjectModal />
 </Base>
@@ -153,11 +245,41 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   .svc-head .lead { max-width: 540px; }
   .svc-head-left { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .svc-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .step { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); position: relative; margin-top: 20px; background: var(--kimsa-bone); }
-  .step__disc { position: absolute; top: -20px; left: 28px; width: 56px; height: 56px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--kimsa-bone); }
-  .step__title { font-weight: 600; font-size: 22px; margin: 28px 0 12px; }
-  .step__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .elems { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .elem { padding: 28px; border: 2px solid; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-bone); }
+  .elem__title { font-weight: 600; font-size: 20px; line-height: 1.25; margin: 0 0 12px; display: flex; align-items: baseline; gap: 10px; }
+  .elem__title .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; transform: translateY(-2px); }
+  .elem__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+
+  .plans { margin-top: 40px; padding: 28px 32px; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-tint-plum); display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; }
+  .plans__label { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-plum); }
+  .plans__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .plan { background: var(--kimsa-bone); border-radius: 20px; padding: 18px 22px; }
+  .plan__name { font-weight: 600; font-size: 19px; color: var(--kimsa-plum); margin: 0 0 4px; }
+  .plan__desc { font-size: 14px; color: var(--kimsa-ink-soft); line-height: 1.5; margin: 0; }
+
+  .cb-note { margin: 24px 0 0; padding: 18px 22px; border-left: 4px solid var(--kimsa-plum); background: var(--kimsa-cream); border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.55; color: var(--kimsa-ink); max-width: 760px; }
+  .cb-note strong { color: var(--kimsa-plum); }
+
+  .profiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .profile { padding: 28px; border-radius: var(--kimsa-radius-xl); background: var(--kimsa-surface-card); box-shadow: var(--kimsa-shadow-card); }
+  .profile__title { font-weight: 600; font-size: 20px; margin: 0 0 10px; color: var(--kimsa-plum); }
+  .profile__desc { font-size: 15px; color: var(--kimsa-ink-soft); line-height: 1.55; margin: 0; }
+  .sectors { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .sectors__label { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kimsa-ink-soft); }
+  .sectors__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sectors__list li { font-size: 14px; font-weight: 500; padding: 6px 14px; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--kimsa-plum) 35%, transparent); color: var(--kimsa-plum); }
+
+  .diffs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .diff { padding: 28px; border-radius: var(--kimsa-radius-xl); display: flex; flex-direction: column; gap: 18px; min-height: 160px; }
+  .diff__bar { width: 36px; height: 4px; border-radius: 999px; }
+  .diff__text { font-size: 19px; font-weight: 500; line-height: 1.35; margin: 0; color: var(--kimsa-ink); }
+
+  .cb-close { background: linear-gradient(135deg, var(--kimsa-plum) 0%, #7d3553 100%); color: var(--kimsa-bone); }
+  .cb-close__inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .cb-close__title { margin: 0; color: var(--kimsa-bone); }
+  .cb-close__lead { font-size: 19px; line-height: 1.55; margin: 0 0 8px; max-width: 560px; opacity: 0.9; }
+  .cb-close__note { font-size: 14px; margin: 0; opacity: 0.75; }
   .svc-refs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 820px; }
 
   .cb-blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
@@ -197,8 +319,12 @@ const carbonboxPosts = await getCarbonBoxPosts(3);
   }
   .cb-academy__text p { margin: 8px 0 0; font-size: 15px; color: var(--kimsa-ink-soft); max-width: 480px; }
 
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .svc-cards, .elems, .diffs { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 900px) {
     .svc-head { grid-template-columns: 1fr; gap: 24px; }
-    .svc-cards, .steps, .svc-refs, .cb-blog-grid { grid-template-columns: 1fr; }
+    .svc-cards, .elems, .svc-refs, .cb-blog-grid, .profiles, .diffs, .plans, .plans__grid { grid-template-columns: 1fr; }
+    .plans { gap: 16px; }
   }
 </style>

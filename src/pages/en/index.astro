@@ -25,7 +25,7 @@ const values = [
 
 const services = [
   { name: 'Climate Management', description: 'We measure, plan, and transform processes to reduce emissions and adapt to climate change.', bullets: ['GHG inventories', 'MRV systems', 'Adaptation', 'NDC'], bg: 'var(--kimsa-forest)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/taller-gestion-climatica-home.jpg', tint: 'forest', label: 'work session · climate management' }, href: '/en/servicios/gestion-climatica' },
-  { name: 'Environmental Psychology', description: 'We integrate social, cultural, and emotional approaches to co-create climate solutions with communities.', bullets: ['Behavior change', 'Participation', 'Gender and inclusion'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-proyecto.jpg', tint: 'sunset', label: 'community gathering · environmental psychology' }, href: '/en/servicios/psicologia-ambiental' },
+  { name: 'Environmental Psychology', description: 'We integrate social, cultural, and emotional approaches to co-create climate solutions with communities.', bullets: ['Behavior change', 'Participation', 'Gender and inclusion'], bg: 'var(--kimsa-terracotta)', accent: '#ffd9b8', photo: { src: '/assets/projects/psicologia-ambiental-home.jpg', tint: 'sunset', label: 'community gathering · environmental psychology' }, href: '/en/servicios/psicologia-ambiental' },
   { name: 'CarbonBox', description: 'Technology for nature: we measure, manage, and decarbonize the environmental footprints of companies and organizations.', bullets: ['Carbon footprint', 'ISO 14064', 'ISO 14067', 'GHG Protocol', 'Reduction management', 'Carbon neutrality'], bg: 'var(--kimsa-plum)', accent: 'var(--kimsa-peach)', photo: { src: '/assets/projects/carbonbox-platform.jpg', tint: 'dusk', label: 'CarbonBox team' }, href: '/en/servicios/carbonbox' },
 ];
 
@@ -45,7 +45,6 @@ const heroStats = stats.map((s) => {
 const story = [
   { y: '2017', t: 'KIMSA is born', d: 'Founded in Bogotá with a Latin American vocation.' },
   { y: '2020', t: 'LATAM expansion', d: 'Expansion and support for projects in several Latin American countries.' },
-  { y: '2020', t: 'Alliance with the InnNature Foundation', d: '1% of our profits support the conservation of the Ceiba Bruja Reserve.' },
   { y: '2022', t: 'CarbonBox launch', d: 'Our platform to measure and manage footprints.' },
   { y: '2024', t: 'Company of the Year', d: 'Recognized by the Bogotá Chamber of Commerce.' },
 ];
@@ -403,7 +402,7 @@ const team = TEAM.map((m) => localizeMember(m, 'en'));
   .impact__text { font-size: 18px; line-height: 1.6; color: var(--kimsa-ink-soft); max-width: 520px; margin: 0 auto; }
   .impact__badge {
     margin: 40px auto 0;
-    max-width: 480px;
+    max-width: 580px;
     padding: 28px 32px;
     background: var(--kimsa-bone);
     border-radius: var(--kimsa-radius-xl);
@@ -414,7 +413,7 @@ const team = TEAM.map((m) => localizeMember(m, 'en'));
     gap: 24px;
     text-align: left;
   }
-  .impact__badge img { height: 68px; object-fit: contain; flex-shrink: 0; }
+  .impact__badge img { width: 210px; height: auto; flex-shrink: 0; }
   .impact__badge-title { font-weight: 600; font-size: 18px; }
   .impact__badge-sub { font-size: 14px; color: var(--kimsa-ink-soft); margin-top: 2px; }
 

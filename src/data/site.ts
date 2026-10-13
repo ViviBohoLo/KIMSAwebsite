@@ -39,32 +39,35 @@ export interface ClientLogo {
   // (ej. wordmarks muy horizontales) — se les da más espacio, sin tocar el
   // tamaño de la caja del resto.
   size?: 'lg';
+  // Otros nombres con los que la organización aparece en el campo `client`
+  // de los proyectos (p.ej. el logo dice "MiAmbiente" y el proyecto
+  // "Ministerio de Ambiente y Desarrollo Sostenible").
+  aliases?: string[];
 }
 export const CLIENT_LOGOS: ClientLogo[] = [
   { src: '/assets/clients/pnud.png', alt: 'PNUD' },
   { src: '/assets/clients/giz.png', alt: 'GIZ' },
   { src: '/assets/clients/bid.jpg', alt: 'BID' },
   { src: '/assets/clients/caf.png', alt: 'CAF' },
-  { src: '/assets/clients/unep.png', alt: 'ONU Medio Ambiente' },
   { src: '/assets/clients/tnc.jpg', alt: 'The Nature Conservancy' },
   { src: '/assets/clients/euroclima.jpg', alt: 'EUROCLIMA+', size: 'lg' },
   { src: '/assets/clients/bancoldex.png', alt: 'Bancóldex' },
-  { src: '/assets/clients/minagricultura.webp', alt: 'Ministerio de Agricultura' },
-  { src: '/assets/clients/miambiente.webp', alt: 'MiAmbiente' },
+  { src: '/assets/clients/minagricultura.webp', alt: 'Ministerio de Agricultura y Desarrollo Rural' },
+  { src: '/assets/clients/miambiente.webp', alt: 'MiAmbiente', aliases: ['Ministerio de Ambiente y Desarrollo Sostenible'] },
   { src: '/assets/clients/ciat.jpg', alt: 'Alliance Bioversity-CIAT' },
   { src: '/assets/clients/icraf.png', alt: 'ICRAF' },
-  { src: '/assets/clients/idrc.jpg', alt: 'IDRC' },
+  { src: '/assets/clients/idrc.jpg', alt: 'IDRC', aliases: ['IDRC Canadá'] },
   { src: '/assets/clients/flacso.jpg', alt: 'FLACSO' },
   { src: '/assets/clients/climate-group.png', alt: 'Climate Group', size: 'lg' },
   { src: '/assets/clients/transforma.png', alt: 'Transforma' },
   { src: '/assets/clients/camara-verde.png', alt: 'Cámara Verde' },
-  { src: '/assets/clients/anla.png', alt: 'ANLA — Autoridad Nacional de Licencias Ambientales', size: 'lg' },
+  { src: '/assets/clients/anla.png', alt: 'ANLA — Autoridad Nacional de Licencias Ambientales', size: 'lg', aliases: ['Autoridad Nacional de Licencias Ambientales (ANLA)'] },
   { src: '/assets/clients/cormacarena.png', alt: 'Cormacarena' },
   { src: '/assets/clients/corpoguajira.png', alt: 'Corpoguajira' },
   { src: '/assets/clients/gov-narino.jpg', alt: 'Gobernación de Nariño' },
-  { src: '/assets/clients/marn-el-salvador.png', alt: 'Gobierno de El Salvador — MARN' },
-  { src: '/assets/clients/min-amb-ecuador.png', alt: 'Ministerio del Ambiente de Ecuador' },
-  { src: '/assets/clients/serna-honduras.png', alt: 'Gobierno de Honduras — SERNA' },
+  { src: '/assets/clients/marn-el-salvador.png', alt: 'Gobierno de El Salvador — MARN', aliases: ['Ministerio de Medio Ambiente y Recursos Naturales', 'Gobierno de El Salvador'] },
+  { src: '/assets/clients/min-amb-ecuador.png', alt: 'Ministerio del Ambiente de Ecuador', aliases: ['Ministerio del Ambiente, Agua y Transición Ecológica'] },
+  { src: '/assets/clients/serna-honduras.png', alt: 'Gobierno de Honduras — SERNA', aliases: ['Secretaría de Recursos Naturales y Ambiente (SERNA)', 'Gobierno de Honduras'] },
 
   // Clientes de CarbonBox (logos aportados por el equipo, agosto 2026) —
   // ver los proyectos correspondientes en PROJECTS, área 'carbonbox'.
@@ -174,9 +177,15 @@ export const COUNTRY_STATS: CountryStat[] = [
     ],
   },
   {
-    name: 'México', code: 'MX', count: 1,
-    highlights: ['Estimación de impacto en carbono de 22 emprendimientos (CarbonBox)'],
-    highlights_en: ['Carbon impact estimation for 22 startups (CarbonBox)'],
+    name: 'México', code: 'MX', count: 2,
+    highlights: [
+      'Huella de carbono corporativa 2025 con CarbonBox (Business Travel Consulting)',
+      'Estimación de impacto en carbono de 22 emprendimientos (CarbonBox)',
+    ],
+    highlights_en: [
+      '2025 corporate carbon footprint with CarbonBox (Business Travel Consulting)',
+      'Carbon impact estimation for 22 startups (CarbonBox)',
+    ],
   },
   {
     name: 'Perú', code: 'PE', count: 3,
@@ -247,6 +256,8 @@ const COUNTRY_NAME_EN: Record<string, string> = {
   Argentina: 'Argentina',
   México: 'Mexico',
   Multirregional: 'Multi-regional',
+  'América Latina': 'Latin America',
+  'América Latina y el Caribe': 'Latin America and the Caribbean',
 };
 export function localizeCountryName(country: string, lang: 'es' | 'en'): string {
   return lang === 'en' ? (COUNTRY_NAME_EN[country] ?? country) : country;
@@ -320,211 +331,193 @@ export const PROJECTS: Project[] = [
     slug: 'ndc-3-el-salvador',
     title: 'Actualización de la NDC 3.0 y estructura de financiamiento climático en El Salvador',
     area: 'gestion',
-    client: 'Ministerio de Medio Ambiente y Recursos Naturales de El Salvador · PNUD',
+    client: 'PNUD El Salvador · Ministerio de Medio Ambiente y Recursos Naturales (MARN)',
     country: 'El Salvador',
-    year: '2024',
-    summary: 'Diseño de la NDC 3.0 y una estructura de financiamiento para movilizar recursos climáticos.',
+    year: '2025–2026',
+    summary:
+      'Evaluamos la NDC 2.0, redactamos la NDC 3.0 presentada ante la CMNUCC y diseñamos su estructura de financiamiento climático.',
     description:
-      'Evaluamos el cumplimiento de la NDC 2.0, diseñamos una estrategia metodológica integrada y desarrollamos el capítulo de implementación de la NDC 3.0. Redactamos el documento final para su presentación oficial ante la CMNUCC y construimos una estructura de financiamiento climático para movilizar recursos públicos, privados e internacionales, identificando programas nacionales de alto impacto para la nueva NDC.',
+      'El Salvador necesitaba una NDC 3.0 más ambiciosa y, sobre todo, financiable. Evaluamos el progreso, las barreras y las lecciones de la NDC 2.0 (2021) y analizamos la eficiencia del financiamiento que recibió. Con esa base desarrollamos los medios de implementación de la nueva NDC (financiamiento, tecnología y capacidades), identificamos Programas Nacionales de Alto Impacto Climático (PNAIC) y redactamos y consolidamos el documento final presentado oficialmente ante la CMNUCC. Cerramos con una estructura de financiamiento climático para movilizar recursos públicos, privados e internacionales hacia su implementación.',
     tags: ['NDC 3.0', 'Financiamiento climático', 'CMNUCC', 'Enfoque multisectorial'],
     tint: 'forest',
     image: '/assets/projects/ndc-3-el-salvador.jpg',
     publicationUrl: 'https://unfccc.int/sites/default/files/2025-12/NDC%20EL%20SALVADOR%202025-%20VF.pdf',
-    title_en: "Update of the NDC 3.0 and climate finance structure in El Salvador",
-    summary_en: 'Design of the NDC 3.0 and a financing structure to mobilize climate resources.',
+    title_en: "Update of El Salvador's NDC 3.0 and climate finance structure",
+    summary_en:
+      'We assessed the NDC 2.0, drafted the NDC 3.0 submitted to the UNFCCC, and designed its climate finance structure.',
     description_en:
-      "We assessed compliance with the NDC 2.0, designed an integrated methodological strategy, and developed the implementation chapter of the NDC 3.0. We drafted the final document for its official submission to the UNFCCC and built a climate finance structure to mobilize public, private, and international resources, identifying high-impact national programs for the new NDC.",
+      "El Salvador needed a more ambitious NDC 3.0 and, above all, one that could be financed. We assessed the progress, barriers, and lessons of the NDC 2.0 (2021) and analyzed the efficiency of the finance it received. On that basis we developed the new NDC's means of implementation (finance, technology, and capacity), identified High-Impact National Climate Programs (PNAIC), and drafted and consolidated the final document officially submitted to the UNFCCC. We closed with a climate finance structure to mobilize public, private, and international resources for its implementation.",
     tags_en: ['NDC 3.0', 'Climate finance', 'UNFCCC', 'Multisector approach'],
   },
   {
     slug: 'ndc-3-costa-rica',
-    title: 'Diseño de hoja de ruta y propuesta de NDC 3.0 en Costa Rica',
+    title: 'Diseño de hoja de ruta y propuesta metodológica para la NDC 3.0 de Costa Rica',
     area: 'gestion',
-    client: 'Fundecooperación Costa Rica · Ministerio de Ambiente y Energía (MINAE)',
+    client: 'Fundecooperación · Ministerio de Ambiente y Energía (MINAE)',
     country: 'Costa Rica',
     year: '2024',
-    summary: 'Hoja de ruta y propuesta de actualización de la NDC 3.0 de Costa Rica.',
+    summary:
+      'Diseñamos la hoja de ruta, la gobernanza y la metodología participativa con la que Costa Rica construyó su NDC 2025–2035.',
     description:
-      'Acompañamos el diseño de la hoja de ruta y la formulación de la propuesta de tercera Contribución Determinada a Nivel Nacional (NDC 3.0) de Costa Rica, articulando metas de mitigación y adaptación con las prioridades de desarrollo del país.',
+      'Antes de escribir una NDC hay que acordar cómo se va a construir. Mapeamos a los actores de gobierno, sector privado, sociedad civil y academia, y diseñamos la propuesta metodológica y el cronograma para la NDC 3.0, coherente con el Plan Nacional de Desarrollo, el Plan Nacional de Descarbonización, el Plan Nacional de Adaptación y el primer Informe Bienal de Transparencia (BTR). Validamos objetivos, metodologías y gobernanza en consultas virtuales y presenciales con expertos, validadas con Fundecooperación, el PNUMA y la Dirección de Cambio Climático. Sistematizamos el avance de la NDC 2020 y produjimos una nota técnica para explicar el proceso a públicos no especializados.',
     tags: ['NDC 3.0', 'Hoja de ruta', 'Mitigación', 'Adaptación'],
     tint: 'forest',
     image: '/assets/projects/ndc-3-costa-rica.jpg',
     publicationUrl: 'https://cambioclimatico.minae.go.cr/wp-content/uploads/2026/01/CND-2025-2035-ULT-VERs.pdf',
-    title_en: 'Roadmap design and NDC 3.0 proposal in Costa Rica',
-    summary_en: "Roadmap and update proposal for Costa Rica's NDC 3.0.",
+    title_en: "Roadmap and methodological proposal for Costa Rica's NDC 3.0",
+    summary_en:
+      'We designed the roadmap, governance, and participatory methodology Costa Rica used to build its 2025–2035 NDC.',
     description_en:
-      "We supported the design of the roadmap and the formulation of the proposal for Costa Rica's third Nationally Determined Contribution (NDC 3.0), aligning mitigation and adaptation goals with the country's development priorities.",
+      'Before writing an NDC, you have to agree on how it will be built. We mapped stakeholders from government, the private sector, civil society, and academia, and designed the methodological proposal and timeline for the NDC 3.0, consistent with the National Development Plan, the National Decarbonization Plan, the National Adaptation Plan, and the first Biennial Transparency Report (BTR). We validated objectives, methodologies, and governance in virtual and in-person expert consultations, with Fundecooperación, UNEP, and the Climate Change Directorate. We systematized the progress of the 2020 NDC and produced a technical note explaining the process to non-specialist audiences.',
     tags_en: ['NDC 3.0', 'Roadmap', 'Mitigation', 'Adaptation'],
   },
   {
     slug: 'mrv-ecuador',
-    title: 'Revisión y fortalecimiento del sistema MRV de adaptación y mitigación en Ecuador',
+    title: 'Revisión y fortalecimiento del sistema MRV agrícola de la NDC de Ecuador',
     area: 'gestion',
-    client: 'Expertise France · Gobierno del Ecuador',
+    client: 'Expertise France (EUROCLIMA) · Ministerio del Ambiente, Agua y Transición Ecológica · Ministerio de Agricultura y Ganadería',
     country: 'Ecuador',
     year: '2024',
-    summary: 'Revisión técnica del sistema MRV del sector agropecuario (AFOLU) bajo el programa EUROCLIMA.',
+    summary:
+      'Revisamos a fondo el sistema MRV agrícola de la NDC de Ecuador y entregamos recomendaciones para alinearlo con el Marco de Transparencia Reforzado.',
     description:
-      'Realizamos una revisión técnica integral del sistema de Monitoreo, Reporte y Verificación (MRV) del sector agropecuario (AFOLU) bajo el programa EUROCLIMA. El trabajo incluyó el análisis crítico de componentes metodológicos, operativos e institucionales, con recomendaciones para fortalecer la alineación con el Acuerdo de París y el Marco de Transparencia Reforzado: cuantificación de GEI, gobernanza institucional, diseño de indicadores e integración con el inventario nacional.',
+      'Ecuador había diseñado el módulo agrícola de su sistema de Monitoreo, Reporte y Verificación (MRV) y necesitaba una mirada experta independiente antes de operarlo. Revisamos y retroalimentamos cuatro frentes: la metodología de recolección y procesamiento de datos, el diseño operativo del sistema, los arreglos institucionales y normativos para su funcionamiento, y la herramienta de almacenamiento y análisis de información. Entregamos un informe de apreciaciones y otro de recomendaciones, puntos de mejora y alertas para ambos ministerios, orientados a la coherencia con el Acuerdo de París y la integración con el inventario nacional de GEI.',
     tags: ['Sistema MRV', 'AFOLU', 'EUROCLIMA', 'Marco de Transparencia'],
     tint: 'sunset',
     image: '/assets/projects/mrv-ecuador.jpg',
-    title_en: "Review and strengthening of Ecuador's adaptation and mitigation MRV system",
-    summary_en: 'Technical review of the agricultural sector (AFOLU) MRV system under the EUROCLIMA program.',
+    title_en: "Review and strengthening of the agricultural MRV system of Ecuador's NDC",
+    summary_en:
+      "We thoroughly reviewed the agricultural MRV system of Ecuador's NDC and delivered recommendations to align it with the Enhanced Transparency Framework.",
     description_en:
-      "We carried out a comprehensive technical review of the Monitoring, Reporting and Verification (MRV) system for the agricultural sector (AFOLU) under the EUROCLIMA program. The work included a critical analysis of methodological, operational, and institutional components, with recommendations to strengthen alignment with the Paris Agreement and the Enhanced Transparency Framework: GHG quantification, institutional governance, indicator design, and integration with the national inventory.",
+      'Ecuador had designed the agricultural module of its Monitoring, Reporting, and Verification (MRV) system and needed an independent expert review before operating it. We reviewed and gave feedback on four fronts: the data collection and processing methodology, the operational design of the system, the institutional and regulatory arrangements for its operation, and the information storage and analysis tool. We delivered an assessment report and a report of recommendations, areas for improvement, and warnings for both ministries, focused on consistency with the Paris Agreement and integration with the national GHG inventory.',
     tags_en: ['MRV system', 'AFOLU', 'EUROCLIMA', 'Transparency Framework'],
   },
   {
     slug: 'honduras-ica-bur',
-    title: 'Apoyo técnico para la revisión ICA y la actualización del Segundo BUR en Honduras',
+    title: 'Respuesta a la revisión internacional (ICA) del Segundo BUR de Honduras',
     area: 'gestion',
     client: 'PNUD Honduras · Secretaría de Recursos Naturales y Ambiente (SERNA)',
     country: 'Honduras',
     year: '2024',
-    summary: 'Revisión del Análisis Internacional (ICA) y actualización del Segundo Informe Bienal de Actualización.',
+    summary:
+      'Acompañamos a Honduras a responder y defender ante expertos de la CMNUCC la revisión internacional de su Segundo BUR.',
     description:
-      'Brindamos apoyo técnico para la revisión del proceso de Análisis y Consulta Internacional (ICA) y la actualización del Segundo Informe Bienal de Actualización (BUR) de Honduras, fortaleciendo la transparencia climática del país ante la CMNUCC.',
+      'Tras elaborar el BUR2 de Honduras, el PNUD volvió a contratarnos para el paso siguiente: la Consulta y Análisis Internacional (ICA). Revisamos el análisis técnico del equipo de expertos de la CMNUCC, coordinamos a los profesionales sectoriales que habían participado en el reporte y gestionamos la respuesta a más de 60 preguntas y observaciones. Apoyamos técnicamente su defensa ante los expertos y entregamos un informe final con todas las respuestas y recomendaciones para fortalecer las capacidades nacionales en inventarios, seguimiento de la mitigación y MRV.',
     tags: ['BUR', 'ICA', 'Transparencia', 'CMNUCC'],
     tint: 'river',
     image: '/assets/projects/honduras-ica-bur.jpg',
-    title_en: "Technical support for the ICA review and Honduras's Second BUR update",
-    summary_en: 'Review of the International Consultation and Analysis (ICA) and update of the Second Biennial Update Report.',
+    title_en: "Response to the international review (ICA) of Honduras's Second BUR",
+    summary_en:
+      'We supported Honduras in answering and defending the international review of its Second BUR before UNFCCC experts.',
     description_en:
-      "We provided technical support for the review of the International Consultation and Analysis (ICA) process and the update of Honduras's Second Biennial Update Report (BUR), strengthening the country's climate transparency before the UNFCCC.",
+      "After we prepared Honduras's BUR2, UNDP hired us again for the next step: the International Consultation and Analysis (ICA). We reviewed the technical analysis by the UNFCCC team of experts, coordinated the sector professionals who had worked on the report, and managed the response to more than 60 questions and comments. We provided technical support for its defense before the experts and delivered a final report with all the answers and recommendations to strengthen national capacities in inventories, mitigation tracking, and MRV.",
     tags_en: ['BUR', 'ICA', 'Transparency', 'UNFCCC'],
   },
   {
     slug: 'honduras-gei-bur',
-    title: 'Estimación de GEI y elaboración del Segundo BUR de Honduras',
+    title: 'Inventario Nacional de GEI 2016–2020 y Segundo BUR de Honduras',
     area: 'gestion',
     client: 'PNUD Honduras · Secretaría de Recursos Naturales y Ambiente (SERNA)',
     country: 'Honduras',
-    year: '2023',
-    summary: 'Inventario de emisiones y elaboración del Segundo Informe Bienal de Actualización (BUR).',
+    year: '2023–2024',
+    summary:
+      'Coordinamos el Inventario Nacional de GEI 2016–2020 de Honduras y redactamos su Segundo Informe Bienal de Actualización ante la CMNUCC.',
     description:
-      'Realizamos la estimación de emisiones de gases de efecto invernadero y la elaboración del Segundo Informe Bienal de Actualización (BUR) de Honduras, consolidando la información climática nacional para su reporte internacional.',
+      'Coordinamos técnicamente la estimación de emisiones y remociones de GEI de todos los sectores del país, siguiendo las Directrices del IPCC de 2006: AFOLU (con énfasis en el sector forestal), Energía, Procesos Industriales y Uso de Productos (IPPU) y Residuos. Entregamos el Informe del Inventario Nacional (NIR) para el periodo 2016–2020, el documento completo del BUR2 listo para diagramación y un plan de capacitación para la Dirección Nacional de Cambio Climático. El trabajo permitió a Honduras reportar oficialmente ante la CMNUCC con un inventario transparente, completo y comparable.',
     tags: ['Inventario GEI', 'BUR', 'Reportes', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/honduras-gei-bur.jpg',
     publicationUrl: 'https://unfccc.int/sites/default/files/resource/Document%20NIR%20Hn%202024.pdf',
-    title_en: "GHG estimation and Honduras's Second BUR",
-    summary_en: 'Emissions inventory and preparation of the Second Biennial Update Report (BUR).',
+    title_en: 'National GHG Inventory 2016–2020 and Second BUR of Honduras',
+    summary_en:
+      "We coordinated Honduras's 2016–2020 National GHG Inventory and drafted its Second Biennial Update Report to the UNFCCC.",
     description_en:
-      "We carried out the estimation of greenhouse gas emissions and the preparation of Honduras's Second Biennial Update Report (BUR), consolidating the country's climate information for its international reporting.",
+      "We provided technical coordination for estimating GHG emissions and removals across all of the country's sectors, following the 2006 IPCC Guidelines: AFOLU (with emphasis on forestry), Energy, Industrial Processes and Product Use (IPPU), and Waste. We delivered the National Inventory Report (NIR) for 2016–2020, the complete BUR2 document ready for layout, and a training plan for the National Climate Change Directorate. This work allowed Honduras to report officially to the UNFCCC with a transparent, complete, and comparable inventory.",
     tags_en: ['GHG inventory', 'BUR', 'Reports', 'Mitigation'],
   },
   {
-    slug: 'compensaciones-ambientales',
-    title: 'Compensaciones ambientales y vulnerabilidad en Colombia',
-    area: 'gestion',
-    client: '',
-    country: 'Colombia',
-    summary: 'Análisis de compensaciones ambientales y vulnerabilidad climática en el territorio.',
-    description:
-      'Analizamos las compensaciones ambientales y la vulnerabilidad climática en Colombia, aportando criterios técnicos para orientar decisiones de conservación, restauración y adaptación en el marco de la gestión ambiental del país.',
-    tags: ['Compensaciones', 'Vulnerabilidad', 'Adaptación'],
-    tint: 'earth',
-    image: '/assets/projects/compensaciones-ambientales.jpg',
-    title_en: 'Environmental compensation and vulnerability in Colombia',
-    summary_en: 'Analysis of environmental compensation and climate vulnerability in the territory.',
-    description_en:
-      "We analyzed environmental compensation and climate vulnerability in Colombia, providing technical criteria to guide decisions on conservation, restoration, and adaptation within the country's environmental management framework.",
-    tags_en: ['Compensation', 'Vulnerability', 'Adaptation'],
-  },
-  {
     slug: 'estrategias-meta',
-    title: 'Estrategias climáticas municipales en el Meta',
+    title: 'Estrategias de cambio climático para 9 municipios del Meta',
     area: 'gestion',
     client: 'Unión Temporal Biometa · Cormacarena',
     country: 'Colombia',
-    year: '2018',
-    summary: 'Formulación de estrategias climáticas para municipios del departamento del Meta.',
+    year: '2018–2019',
+    summary:
+      'Construimos estrategias de mitigación, adaptación y educación climática para nueve municipios del Meta.',
     description:
-      'Formulamos estrategias climáticas para municipios del departamento del Meta, integrando medidas de mitigación y adaptación con las capacidades y prioridades locales para una acción climática territorial.',
+      'Coordinamos el equipo y lideramos el componente de mitigación de las estrategias climáticas municipales de Villavicencio, Puerto López, Puerto Lleras, El Castillo, Lejanías, Cabuyaro, San Martín, San Juanito y El Calvario. Cada municipio quedó con una estrategia propia de mitigación, adaptación y educación al cambio climático, construida en territorio con las administraciones locales y en el marco de la gestión de Cormacarena.',
     tags: ['Estrategia municipal', 'Territorio', 'Adaptación', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/estrategias-meta.jpg',
-    title_en: 'Municipal climate strategies in Meta',
-    summary_en: 'Formulation of climate strategies for municipalities in the Meta department.',
+    title_en: 'Climate change strategies for 9 municipalities in Meta',
+    summary_en:
+      'We built climate mitigation, adaptation, and education strategies for nine municipalities in Meta.',
     description_en:
-      "We formulated climate strategies for municipalities in the Meta department, integrating mitigation and adaptation measures with local capacities and priorities for territorial climate action.",
+      "We coordinated the team and led the mitigation component of the municipal climate strategies for Villavicencio, Puerto López, Puerto Lleras, El Castillo, Lejanías, Cabuyaro, San Martín, San Juanito, and El Calvario. Each municipality now has its own climate change mitigation, adaptation, and education strategy, built on the ground with local governments and within Cormacarena's management framework.",
     tags_en: ['Municipal strategy', 'Territory', 'Adaptation', 'Mitigation'],
   },
   {
     slug: 'licenciamiento-cc',
-    title: 'Incorporación del cambio climático en los proyectos licenciados en Colombia',
+    title: 'Incorporación del cambio climático en los proyectos licenciados por la ANLA',
     area: 'gestion',
-    client: 'Banco Interamericano de Desarrollo (BID) · ANLA',
+    client: 'Banco Interamericano de Desarrollo (BID) · Autoridad Nacional de Licencias Ambientales (ANLA)',
     country: 'Colombia',
-    year: '2022',
-    summary: 'Fortalecimiento de la variable de cambio climático en proyectos con licencia ambiental.',
+    year: '2022–2023',
+    summary:
+      'Fortalecimos a la ANLA para exigir y hacer seguimiento a la mitigación y adaptación en los proyectos que licencia.',
     description:
-      'Fortalecimos la incorporación del cambio climático en los proyectos con licencia ambiental en Colombia, desarrollando criterios y lineamientos para integrar la mitigación y la adaptación en los procesos de licenciamiento.',
+      'La ANLA impone obligaciones de adaptación y mitigación a cientos de proyectos, pero esa información no se conectaba con los sistemas nacionales. Desarrollamos jornadas de fortalecimiento de capacidades en cambio climático para sus profesionales. Diseñamos una propuesta conceptual para articular la información climática de la ANLA con el SIAC y el SNICC del Ministerio de Ambiente y el IDEAM. También propusimos cómo conectar las compensaciones del medio biótico con el mercado de carbono, con criterios de adicionalidad y adaptación.',
     tags: ['Licenciamiento', 'Evaluación ambiental', 'Adaptación'],
     tint: 'river',
     image: '/assets/projects/licenciamiento-cc.jpg',
-    title_en: 'Integrating climate change into licensed projects in Colombia',
-    summary_en: 'Strengthening the climate change variable in environmentally licensed projects.',
+    title_en: 'Integrating climate change into projects licensed by ANLA',
+    summary_en:
+      'We strengthened ANLA to require and track mitigation and adaptation in the projects it licenses.',
     description_en:
-      "We strengthened the integration of climate change into environmentally licensed projects in Colombia, developing criteria and guidelines to integrate mitigation and adaptation into licensing processes.",
+      "ANLA imposes adaptation and mitigation obligations on hundreds of projects, but that information was not connected to national systems. We delivered climate change capacity-building sessions for its staff. We designed a conceptual proposal to link ANLA's climate information with the SIAC and SNICC of the Ministry of Environment and IDEAM. We also proposed how to connect biotic offsets with the carbon market, using additionality and adaptation criteria.",
     tags_en: ['Licensing', 'Environmental assessment', 'Adaptation'],
   },
   {
-    slug: 'desarrollo-bajo-carbono',
-    title: 'Fortalecimiento de políticas de desarrollo bajo en carbono en Colombia',
-    area: 'gestion',
-    client: '',
-    country: 'Colombia',
-    summary: 'Apoyo al diseño y fortalecimiento de políticas de desarrollo bajo en carbono.',
-    description:
-      'Apoyamos el fortalecimiento de políticas de desarrollo bajo en carbono en Colombia, aportando análisis técnico y recomendaciones para orientar la transición hacia una economía baja en emisiones.',
-    tags: ['Política pública', 'Bajo en carbono', 'Descarbonización'],
-    tint: 'sunset',
-    image: '/assets/projects/desarrollo-bajo-carbono.jpg',
-    title_en: 'Strengthening low-carbon development policies in Colombia',
-    summary_en: 'Support for the design and strengthening of low-carbon development policies.',
-    description_en:
-      "We supported the strengthening of low-carbon development policies in Colombia, providing technical analysis and recommendations to guide the transition toward a low-emissions economy.",
-    tags_en: ['Public policy', 'Low-carbon', 'Decarbonization'],
-  },
-  {
     slug: 'picct-narino',
-    title: 'Plan Integral de Cambio Climático Territorial de Nariño',
+    title: 'Plan Integral de Gestión del Cambio Climático Territorial de Nariño 2019–2035',
     area: 'gestion',
     client: 'Gobernación de Nariño',
     country: 'Colombia',
-    year: '2018',
-    summary: 'Formulación del Plan Integral de Cambio Climático Territorial (PICCT) de Nariño.',
+    year: '2018–2019',
+    summary:
+      'Formulamos con la Gobernación el plan "Nariño actúa por el clima 2019–2035", con su línea base de emisiones, financiamiento y MRV.',
     description:
-      'Formulamos el Plan Integral de Cambio Climático Territorial (PICCT) del departamento de Nariño, articulando el diagnóstico climático, las medidas de mitigación y adaptación y la participación de actores del territorio.',
+      'Durante dos años acompañamos a la Secretaría de Ambiente y Desarrollo Sostenible en la formulación del plan climático del departamento. Analizamos las emisiones de GEI de Nariño a partir del Inventario Nacional del IDEAM, junto con datos socioeconómicos y geoespaciales de sus actividades productivas. Mapeamos el financiamiento climático disponible y redactamos los capítulos de ejes estratégicos, financiamiento y MRV. También estructuramos el diplomado "Nariño actúa por el clima" para formar a los actores que implementarán el plan.',
     tags: ['PICCT', 'Territorio', 'Adaptación', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/picct-narino.jpg',
     publicationUrl: 'https://2020-2023.narino.gov.co/wp-content/uploads/Diagramacion_pigcct-Fondo-Accion-y-Gobernacion.pdf',
-    title_en: 'Territorial Comprehensive Climate Change Plan of Nariño',
-    summary_en: "Formulation of Nariño's Territorial Comprehensive Climate Change Plan (PICCT).",
+    title_en: "Nariño's Territorial Comprehensive Climate Change Management Plan 2019–2035",
+    summary_en:
+      'Together with the departmental government, we formulated the plan "Nariño acts for the climate 2019–2035", with its emissions baseline, finance, and MRV.',
     description_en:
-      "We formulated the Territorial Comprehensive Climate Change Plan (PICCT) for the department of Nariño, articulating the climate diagnosis, mitigation and adaptation measures, and the participation of territorial stakeholders.",
+      "For two years we supported the Secretariat of Environment and Sustainable Development in formulating the department's climate plan. We analyzed Nariño's GHG emissions based on IDEAM's National Inventory, together with socioeconomic and geospatial data on its productive activities. We mapped the available climate finance and drafted the chapters on strategic pillars, finance, and MRV. We also structured the \"Nariño acts for the climate\" diploma course to train the stakeholders who will implement the plan.",
     tags_en: ['PICCT', 'Territory', 'Adaptation', 'Mitigation'],
   },
   {
     slug: 'gestion-urbana-pasto',
-    title: 'Plan de gestión climática urbana en San Juan de Pasto',
+    title: 'Modelo y portafolio de gestión climática para San Juan de Pasto',
     area: 'gestion',
-    client: 'FLACSO Ecuador · Alcaldía de San Juan de Pasto',
+    client: 'FLACSO Ecuador · IDRC Canadá · Alcaldía de San Juan de Pasto',
     country: 'Colombia',
     year: '2020',
-    summary: 'Plan de gestión climática para el entorno urbano de San Juan de Pasto.',
+    summary:
+      'Diseñamos el modelo de gestión climática de Pasto, con su perfil de adaptación, portafolio de acciones y hoja de ruta de corto, mediano y largo plazo.',
     description:
-      'Desarrollamos un plan de gestión climática urbana para San Juan de Pasto, orientado a reducir emisiones y aumentar la resiliencia de la ciudad frente a los efectos del cambio climático.',
+      'En el marco del programa regional "Construyendo liderazgo climático en América Latina", ayudamos a Pasto a pasar de diagnósticos sueltos a un modelo de decisión. Construimos el perfil climático de la ciudad con los indicadores de adaptación de la Tercera Comunicación Nacional y del plan departamental. Elaboramos un portafolio de acciones de mitigación y adaptación aplicables al municipio. Diseñamos el modelo de gestión climática con visión, objetivos, metas y una hoja de ruta de corto, mediano y largo plazo.',
     tags: ['Gestión urbana', 'Ciudades', 'Resiliencia', 'Mitigación'],
     tint: 'river',
     image: '/assets/projects/gestion-urbana-pasto.jpg',
-    title_en: 'Urban climate management plan in San Juan de Pasto',
-    summary_en: 'Climate management plan for the urban environment of San Juan de Pasto.',
+    title_en: 'Climate management model and portfolio for San Juan de Pasto',
+    summary_en:
+      "We designed Pasto's climate management model, with its adaptation profile, portfolio of actions, and a short-, medium-, and long-term roadmap.",
     description_en:
-      "We developed an urban climate management plan for San Juan de Pasto, aimed at reducing emissions and increasing the city's resilience to the effects of climate change.",
+      "Under the regional program \"Building climate leadership in Latin America\", we helped Pasto move from scattered diagnoses to a decision-making model. We built the city's climate profile using the adaptation indicators of the Third National Communication and the departmental plan. We prepared a portfolio of mitigation and adaptation actions applicable to the municipality. We designed the climate management model with a vision, objectives, targets, and a short-, medium-, and long-term roadmap.",
     tags_en: ['Urban management', 'Cities', 'Resilience', 'Mitigation'],
   },
 
@@ -532,60 +525,66 @@ export const PROJECTS: Project[] = [
   // (hoja de cálculo del equipo, ago-2026) que no estaban cargados.
   {
     slug: 'dnp-footprint-deval',
-    title: 'Evaluación con enfoque Footprint (EvalConnect) para el DNP',
+    title: 'Evaluación de sostenibilidad ambiental con enfoque Footprint (EvalConnect)',
     area: 'gestion',
-    client: 'DEval (Instituto Alemán de Evaluación del Desarrollo) · Departamento Nacional de Planeación (DNP)',
+    client: 'DEval – Instituto Alemán de Evaluación del Desarrollo · Departamento Nacional de Planeación (DNP)',
     country: 'Colombia',
-    year: '2025',
-    summary: 'Apoyo a una evaluación con enfoque de Huella Ecológica (Footprint approach) en Colombia.',
+    year: '2025–2026',
+    summary:
+      'Incorporamos la sostenibilidad ambiental en una evaluación de política pública del DNP con el enfoque de Huella Ecológica de DEval.',
     description:
-      'Apoyamos la implementación de una evaluación utilizando el enfoque de Huella Ecológica (Footprint approach) en Colombia, en el marco de la iniciativa EvalConnect del Departamento Nacional de Planeación.',
+      'En el marco de EvalConnect, iniciativa que fortalece los sistemas nacionales de evaluación mediante alianzas Sur-Sur-Norte, integramos el componente ambiental en el diseño de una evaluación del DNP. Formulamos las hipótesis de evaluación y definimos escalas para agua, suelo y equidad. Diseñamos y validamos la matriz de evaluación y los instrumentos cualitativos, y dejamos insumos técnicos para los términos de referencia del operador de campo. El proyecto cierra con el informe final de la evaluación.',
     tags: ['Evaluación de políticas públicas', 'Huella ecológica'],
     tint: 'earth',
-    image: '/assets/projects/dnp-footprint-deval.png',
-    title_en: 'Footprint-approach evaluation (EvalConnect) for the DNP',
-    summary_en: 'Support for an Ecological Footprint-approach evaluation in Colombia.',
+    image: '/assets/projects/sostenibilidad-dnp-colombia.jpg',
+    title_en: 'Environmental sustainability evaluation with a Footprint approach (EvalConnect)',
+    summary_en:
+      "We integrated environmental sustainability into a DNP public policy evaluation using DEval's Ecological Footprint approach.",
     description_en:
-      "We supported the implementation of an evaluation using the Ecological Footprint approach in Colombia, as part of the EvalConnect initiative of the National Planning Department.",
+      "Under EvalConnect, an initiative that strengthens national evaluation systems through South-South-North partnerships, we integrated the environmental component into the design of a DNP evaluation. We formulated the evaluation hypotheses and defined scales for water, soil, and equity. We designed and validated the evaluation matrix and the qualitative instruments, and provided technical inputs for the field operator's terms of reference. The project closes with the final evaluation report.",
     tags_en: ['Public policy evaluation', 'Ecological footprint'],
   },
   {
     slug: 'ndc-el-salvador-2022-cuantificacion',
-    title: 'Cuantificación de la contribución de El Salvador al cambio climático',
+    title: 'Actualización de la NDC 2021 de El Salvador con enfoque multisectorial',
     area: 'gestion',
     client: 'PNUD El Salvador · Ministerio de Medio Ambiente y Recursos Naturales (MARN)',
     country: 'El Salvador',
     year: '2022',
-    summary: 'Actualización de la NDC de El Salvador integrando los sectores energía, AFOLU, residuos e IPPU.',
+    summary:
+      'Calculamos la meta nacional de mitigación de El Salvador y definimos medidas de adaptación para su NDC actualizada.',
     description:
-      'Elaboramos la actualización de la NDC de El Salvador integrando información de los sectores energía, AFOLU (agricultura), residuos sólidos e IPPU, identificando medidas de mitigación y metas, y definiendo medidas de adaptación para biodiversidad y ecosistemas, ciudades y recursos hídricos.',
+      'Calculamos la meta global de mitigación del país integrando Energía, AFOLU, Residuos Sólidos e IPPU, y definimos y cuantificamos medidas de mitigación sectoriales con escenarios de referencia. Identificamos medidas de adaptación para Biodiversidad y Ecosistemas, Ciudades y Recursos Hídricos, validadas en mesas de trabajo con entidades nacionales. Capacitamos a los equipos técnicos para el seguimiento de las metas y entregamos metodologías, memorias de cálculo y bases de datos. Los resultados quedaron integrados en el documento oficial "NDC Actualizada El Salvador 2021".',
     tags: ['NDC', 'Acuerdo de París', 'Política y gobernanza climática'],
     tint: 'sunset',
     image: '/assets/projects/ndc-el-salvador-2022-cuantificacion.png',
-    title_en: "Quantifying El Salvador's contribution to climate change",
-    summary_en: "Update of El Salvador's NDC integrating the energy, AFOLU, waste, and IPPU sectors.",
+    title_en: "Multisectoral update of El Salvador's 2021 NDC",
+    summary_en:
+      "We calculated El Salvador's national mitigation target and defined adaptation measures for its updated NDC.",
     description_en:
-      "We prepared the update of El Salvador's NDC, integrating information from the energy, AFOLU (agriculture), solid waste, and IPPU sectors, identifying mitigation measures and targets, and defining adaptation measures for biodiversity and ecosystems, cities, and water resources.",
+      "We calculated the country's overall mitigation target by integrating Energy, AFOLU, Solid Waste, and IPPU, and defined and quantified sectoral mitigation measures with reference scenarios. We identified adaptation measures for Biodiversity and Ecosystems, Cities, and Water Resources, validated in working groups with national entities. We trained technical teams to track the targets and delivered methodologies, calculation reports, and databases. The results were integrated into the official document \"Updated NDC El Salvador 2021\".",
     tags_en: ['NDC', 'Paris Agreement', 'Climate policy and governance'],
   },
   {
     slug: 'ec-leds-alliance-ciat',
-    title: 'Fortalecimiento del impacto de la investigación en desarrollo bajo en emisiones (EC-LEDS)',
+    title: 'Fortalecimiento de políticas de desarrollo bajo en carbono en el sector agropecuario (EC-LEDS)',
     area: 'gestion',
-    client: 'Alliance Bioversity-CIAT · Ministerio de Agricultura y Desarrollo Rural (MinAgricultura)',
+    client: 'Alliance Bioversity-CIAT · Ministerio de Agricultura y Desarrollo Rural',
     country: 'Colombia',
     year: '2020',
-    summary: 'Mejora del impacto de la investigación EC-LEDS para la política agrícola y climática de Colombia.',
+    summary:
+      'Llevamos los resultados de la investigación EC-LEDS a la política agropecuaria y creamos el módulo de mitigación del portal climático de MinAgricultura.',
     description:
-      'Trabajamos para mejorar el impacto de los resultados de la investigación "Enhancing Capacity for Low Emission Development Strategies" (EC-LEDS), apoyando al Gobierno colombiano en la implementación de sus políticas de desarrollo agrícola, su NDC y la Estrategia de Desarrollo Bajo en Carbono.',
+      'La investigación EC-LEDS había generado evidencia valiosa sobre mitigación agropecuaria que debía llegar a quienes deciden. Facilitamos el diálogo entre los líderes del proyecto y los formuladores de política, y co-construimos con ellos un plan de acción para escalar sus resultados. Produjimos un policy brief, infografías, blogs y reportes, y coorganizamos el evento de cierre con la Embajada de Estados Unidos. Además, desarrollamos el menú "Sector Agropecuario Bajo en Carbono" en el portal de cambio climático del Ministerio y migramos el portal a sus servidores.',
     tags: ['Política y gobernanza climática', 'Mitigación', 'Agricultura'],
     tint: 'earth',
     image: '/assets/projects/ec-leds-alliance-ciat.jpg',
     publicationUrl: 'https://cgspace.cgiar.org/server/api/core/bitstreams/8702f492-2bd0-4057-bf08-cdcc701d567c/content',
-    title_en: 'Strengthening the impact of low-emission development research (EC-LEDS)',
-    summary_en: "Improving the impact of EC-LEDS research for Colombia's agricultural and climate policy.",
+    title_en: 'Strengthening low-carbon development policies in the agricultural sector (EC-LEDS)',
+    summary_en:
+      "We brought the EC-LEDS research results into agricultural policy and built the mitigation module of the Ministry of Agriculture's climate portal.",
     description_en:
-      'We worked to improve the impact of the results of the "Enhancing Capacity for Low Emission Development Strategies" (EC-LEDS) research, supporting the Colombian Government in implementing its agricultural development policies, its NDC, and the Low Carbon Development Strategy.',
+      "The EC-LEDS research had produced valuable evidence on agricultural mitigation that needed to reach decision-makers. We facilitated dialogue between the project leaders and policymakers and co-built an action plan with them to scale up its results. We produced a policy brief, infographics, blogs, and reports, and co-organized the closing event with the U.S. Embassy. We also developed the \"Low-Carbon Agricultural Sector\" menu on the Ministry's climate change portal and migrated the portal to its servers.",
     tags_en: ['Climate policy and governance', 'Mitigation', 'Agriculture'],
   },
   {
@@ -593,18 +592,20 @@ export const PROJECTS: Project[] = [
     title: 'Mecanismo de diálogo país para EUROCLIMA+',
     area: 'gestion',
     client: 'GIZ · Programa EUROCLIMA+',
-    country: 'Colombia',
+    country: 'América Latina y el Caribe',
     year: '2018',
-    summary: 'Recomendaciones para hacer operacional un mecanismo de diálogo entre países del programa EUROCLIMA+.',
+    summary:
+      'Diseñamos la hoja de ruta del mecanismo de diálogo país de EUROCLIMA+, en articulación con el NDC Partnership.',
     description:
-      'Elaboramos una estrategia de mecanismos de diálogo nacional para los países del programa EUROCLIMA+ en relación con sus NDC, explorando oportunidades de colaboración con otros actores institucionales que apoyan a los países de América Latina y el Caribe.',
+      'Entrevistamos a instancias de coordinación política y técnica y a agencias implementadoras, y analizamos fortalezas y oportunidades frente a iniciativas como SPIPA y NDC Assist. Con eso diseñamos un mecanismo de diálogo fortalecido para el componente de Gobernanza Climática, con responsabilidades, criterios para países piloto, calendario y recursos. Agrupamos a los países en cuatro grupos según su avance en la implementación de las NDC. También recomendamos cómo involucrar a las delegaciones de la Unión Europea y colaborar con la Unidad de Apoyo del NDC Partnership.',
     tags: ['Política y gobernanza climática', 'EUROCLIMA+'],
     tint: 'forest',
     image: '/assets/projects/euroclima-dialogo-giz.png',
     title_en: 'Country dialogue mechanism for EUROCLIMA+',
-    summary_en: 'Recommendations to operationalize a dialogue mechanism between EUROCLIMA+ program countries.',
+    summary_en:
+      "We designed the roadmap for EUROCLIMA+'s country dialogue mechanism, in coordination with the NDC Partnership.",
     description_en:
-      "We prepared a national dialogue mechanisms strategy for EUROCLIMA+ program countries in relation to their NDCs, exploring collaboration opportunities with other institutional actors that support Latin American and Caribbean countries.",
+      'We interviewed political and technical coordination bodies and implementing agencies, and analyzed strengths and opportunities compared with initiatives such as SPIPA and NDC Assist. On that basis we designed a strengthened dialogue mechanism for the Climate Governance component, with responsibilities, criteria for pilot countries, a timeline, and resources. We grouped countries into four groups according to their progress in implementing their NDCs. We also recommended how to involve European Union delegations and collaborate with the NDC Partnership Support Unit.',
     tags_en: ['Climate policy and governance', 'EUROCLIMA+'],
   },
   {
@@ -614,16 +615,18 @@ export const PROJECTS: Project[] = [
     client: 'World Agroforestry (ICRAF) · Ministerio de Ambiente y Desarrollo Sostenible',
     country: 'Colombia',
     year: '2018',
-    summary: 'Elementos conceptuales para contabilizar los árboles en las fincas dentro de la NAMA forestal.',
+    summary:
+      'Definimos cómo contar los árboles fuera del bosque en la NAMA forestal de Colombia y en su sistema MRV.',
     description:
-      'Identificamos los elementos esenciales para la definición del marco conceptual de la NAMA forestal de Colombia, con énfasis en la contabilización de los árboles en las fincas fuera del bosque.',
+      'Los árboles en fincas y sistemas agroforestales capturan carbono, pero quedaban invisibles en el diseño de la NAMA forestal. Con un enfoque de paisaje, caracterizamos los Árboles Fuera del Bosque (TBS), el MRV AFOLU y la NAMA, y analizamos el límite entre las definiciones de bosque y TBS. Identificamos las barreras para incluirlos y propusimos elementos para armonizar las definiciones de cobertura entre el MRV de la NAMA y los inventarios nacionales e internacionales.',
     tags: ['NAMA forestal', 'Investigación', 'Mitigación'],
     tint: 'river',
     image: '/assets/projects/nama-forestal-arboles-fincas.png',
     title_en: "Trees on farms in Colombia's forestry NAMA",
-    summary_en: 'Conceptual elements to account for trees on farms within the forestry NAMA.',
+    summary_en:
+      "We defined how to account for trees outside forests in Colombia's forestry NAMA and its MRV system.",
     description_en:
-      "We identified the essential elements for defining the conceptual framework of Colombia's forestry NAMA, with an emphasis on accounting for trees on farms outside the forest.",
+      "Trees on farms and in agroforestry systems capture carbon, but they were invisible in the design of the forestry NAMA. With a landscape approach, we characterized Trees Outside Forests (TOF), the AFOLU MRV, and the NAMA, and analyzed the boundary between the definitions of forest and TOF. We identified the barriers to including them and proposed elements to harmonize land cover definitions between the NAMA's MRV and national and international inventories.",
     tags_en: ['Forestry NAMA', 'Research', 'Mitigation'],
   },
   {
@@ -631,37 +634,41 @@ export const PROJECTS: Project[] = [
     title: 'Metodología para vincular las operaciones de CAF con las NDC y los ODS',
     area: 'gestion',
     client: 'Transforma · EUROCLIMA',
-    country: 'Colombia',
+    country: 'América Latina',
     year: '2018',
-    summary: 'Metodología para definir la contribución de las operaciones de financiamiento de CAF a las NDC y los ODS.',
+    summary:
+      'Desarrollamos la metodología para medir cuánto aportan las operaciones de financiamiento de CAF a las NDC y los ODS.',
     description:
-      'Desarrollamos una metodología para definir cómo las operaciones de financiamiento y los objetivos de desarrollo sostenible de los países miembros de EUROCLIMA se vinculan con sus NDC.',
+      'Aseguramos la calidad técnica de la metodología con la que CAF puede valorar la contribución de sus operaciones de financiamiento a las NDC y a los Objetivos de Desarrollo Sostenible de los países de EUROCLIMA. Aportamos los conceptos técnicos que definieron el enfoque y los entregables, y desarrollamos los indicadores de seguimiento a los ODS.',
     tags: ['Finanzas climáticas', 'NDC', 'ODS'],
     tint: 'dusk',
     image: '/assets/projects/transforma-caf-ndc-ods.png',
     title_en: "Methodology to link CAF's operations with NDCs and SDGs",
-    summary_en: "Methodology to define the contribution of CAF's financing operations to NDCs and SDGs.",
+    summary_en:
+      "We developed the methodology to measure how much CAF's financing operations contribute to the NDCs and the SDGs.",
     description_en:
-      "We developed a methodology to define how the financing operations and sustainable development goals of EUROCLIMA member countries connect with their NDCs.",
+      'We ensured the technical quality of the methodology CAF can use to value the contribution of its financing operations to the NDCs and Sustainable Development Goals of EUROCLIMA countries. We provided the technical concepts that defined the approach and deliverables, and developed the SDG tracking indicators.',
     tags_en: ['Climate finance', 'NDC', 'SDGs'],
   },
   {
     slug: 'tnc-compensaciones-biodiversidad',
-    title: 'Cambio climático y la estrategia nacional de compensaciones por pérdida de biodiversidad',
+    title: 'Articulación del cambio climático con las compensaciones por pérdida de biodiversidad en Colombia',
     area: 'gestion',
-    client: 'The Nature Conservancy',
+    client: 'The Nature Conservancy (TNC)',
     country: 'Colombia',
     year: '2018',
-    summary: 'Recomendaciones para articular la gestión del cambio climático con las compensaciones por biodiversidad.',
+    summary:
+      'Analizamos cómo incluir criterios de cambio climático y vulnerabilidad en la estrategia nacional de compensaciones por pérdida de biodiversidad.',
     description:
-      'Generamos insumos para una propuesta de recomendaciones que articula la gestión del cambio climático con la estrategia nacional de compensaciones por pérdida de biodiversidad, analizando la vulnerabilidad y la pertinencia de incluir criterios climáticos.',
+      'Las compensaciones ambientales de Colombia se diseñaron sin mirar el clima futuro. Revisamos el marco normativo nacional y regional de la estrategia de compensaciones frente a la Política Nacional de Cambio Climático, analizamos la vulnerabilidad en territorios seleccionados y estudiamos un caso real de implementación. Con eso evaluamos la viabilidad de incorporar criterios climáticos en la evaluación de impactos sobre la biodiversidad de los proyectos licenciados y en la selección de áreas a compensar, y aportamos el marco conceptual y metodológico para las recomendaciones de TNC.',
     tags: ['Compensaciones', 'Biodiversidad', 'Vulnerabilidad'],
     tint: 'earth',
     image: '/assets/clients/tnc.jpg',
-    title_en: 'Climate change and the national biodiversity-loss compensation strategy',
-    summary_en: 'Recommendations to align climate change management with biodiversity compensation.',
+    title_en: 'Linking climate change with biodiversity loss offsets in Colombia',
+    summary_en:
+      "We analyzed how to include climate change and vulnerability criteria in Colombia's national strategy for biodiversity loss offsets.",
     description_en:
-      "We generated inputs for a recommendations proposal that links climate change management with the national strategy for compensating biodiversity loss, analyzing vulnerability and the relevance of including climate criteria.",
+      "Colombia's environmental offsets were designed without looking at the future climate. We reviewed the national and regional regulatory framework of the offsets strategy against the National Climate Change Policy, analyzed vulnerability in selected territories, and studied a real implementation case. With that, we assessed the feasibility of incorporating climate criteria into the assessment of biodiversity impacts of licensed projects and into the selection of areas to offset, and provided the conceptual and methodological framework for TNC's recommendations.",
     tags_en: ['Compensation', 'Biodiversity', 'Vulnerability'],
   },
   {
@@ -671,73 +678,103 @@ export const PROJECTS: Project[] = [
     client: 'The Nature Conservancy · IDEAM',
     country: 'Colombia',
     year: '2017',
-    summary: 'Memorias del Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal.',
+    summary:
+      'Sistematizamos las memorias, análisis y recomendaciones del Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal.',
     description:
-      'Elaboramos las memorias del Segundo Seminario Nacional de Monitoreo de la Cobertura Forestal, junto a The Nature Conservancy y el Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).',
+      'Documentamos las discusiones del seminario que reunió a los actores del monitoreo de bosques en Colombia. Entregamos las memorias con análisis y recomendaciones para fortalecer el sistema nacional de monitoreo de la cobertura forestal que lidera el IDEAM.',
     tags: ['Monitoreo forestal', 'Investigación'],
     tint: 'forest',
     image: '/assets/clients/tnc.jpg',
     title_en: 'Second National Forest Cover Monitoring Seminar',
-    summary_en: 'Proceedings of the Second National Forest Cover Monitoring Seminar.',
+    summary_en:
+      'We systematized the proceedings, analysis, and recommendations of the Second National Forest Cover Monitoring Seminar.',
     description_en:
-      "We prepared the proceedings of the Second National Forest Cover Monitoring Seminar, together with The Nature Conservancy and the Institute of Hydrology, Meteorology and Environmental Studies (IDEAM).",
+      "We documented the discussions of the seminar that brought together Colombia's forest monitoring stakeholders. We delivered the proceedings with analysis and recommendations to strengthen the national forest cover monitoring system led by IDEAM.",
     tags_en: ['Forest monitoring', 'Research'],
   },
   {
     slug: 'picc-la-guajira-hidrocaribe',
-    title: 'Plan Integral de Cambio Climático (PICC) de La Guajira',
+    title: 'Componente de mitigación del Plan Integral de Cambio Climático de La Guajira',
     area: 'gestion',
     client: 'Hidrocaribe Ltda · Corpoguajira',
     country: 'Colombia',
-    year: '2017',
-    summary: 'Componente de mitigación del Plan Integral de Cambio Climático del departamento de La Guajira.',
+    year: '2017–2018',
+    summary:
+      'Construimos la línea base de emisiones y el portafolio de medidas de mitigación del PICC de La Guajira.',
     description:
-      'Asesoramos la estructuración de planes climáticos territoriales y desarrollamos el componente de mitigación del Plan Integral de Cambio Climático (PICC) del departamento de La Guajira.',
+      'Asesoramos la estructuración del plan climático del departamento y lideramos su componente de mitigación. Elaboramos la línea base de emisiones de GEI de La Guajira y un portafolio de medidas alineado con los compromisos nacionales. Diseñamos también la matriz de seguimiento a los programas de mitigación, para que Corpoguajira pueda medir su avance.',
     tags: ['PICC', 'Territorio', 'Mitigación'],
     tint: 'sunset',
     image: '/assets/clients/corpoguajira.png',
-    title_en: 'La Guajira Comprehensive Climate Change Plan (PICC)',
-    summary_en: "Mitigation component of La Guajira department's Comprehensive Climate Change Plan.",
+    publicationUrl: 'https://wp.corpoguajira.gov.co/wp-content/uploads/2015/03/Plan-integral-de-cambio-climaticoPICC-La-Guajira.pdf',
+    title_en: "Mitigation component of La Guajira's Comprehensive Climate Change Plan",
+    summary_en:
+      "We built the emissions baseline and the portfolio of mitigation measures for La Guajira's PICC.",
     description_en:
-      "We advised on the structuring of territorial climate plans and developed the mitigation component of La Guajira department's Comprehensive Climate Change Plan (PICC).",
+      "We advised on structuring the department's climate plan and led its mitigation component. We prepared La Guajira's GHG emissions baseline and a portfolio of measures aligned with national commitments. We also designed the tracking matrix for the mitigation programs, so Corpoguajira can measure its progress.",
     tags_en: ['PICC', 'Territory', 'Mitigation'],
+  },
+  {
+    slug: 'innature-ceiba-bruja-financiamiento',
+    title: 'Estrategia de financiamiento para la restauración de la Reserva Natural Ceiba Bruja',
+    area: 'gestion',
+    client: 'Fundación InnNature',
+    country: 'Colombia',
+    year: '2021',
+    summary: 'Diseñamos la estrategia de financiamiento para la restauración activa y pasiva del bosque seco tropical de la Reserva Ceiba Bruja.',
+    description:
+      'Diseñamos e implementamos una estrategia para financiar medidas de adaptación basadas en la naturaleza (conservación y restauración) en la reserva, y apoyamos los análisis técnicos de restauración activa y pasiva. Es el inicio de la alianza con la Fundación InnNature, a la que hoy KIMSA destina el 1 % de sus utilidades.',
+    tags: ['Financiamiento climático', 'Restauración', 'Adaptación basada en ecosistemas'],
+    tint: 'forest',
+    image: '/assets/projects/ceiba.jpg',
+    title_en: 'Financing strategy for the restoration of the Ceiba Bruja Nature Reserve',
+    summary_en: 'We designed the financing strategy for the active and passive restoration of the tropical dry forest in the Ceiba Bruja Reserve.',
+    description_en:
+      "We designed and implemented a strategy to finance nature-based adaptation measures (conservation and restoration) in the reserve, and supported the technical analyses for active and passive restoration. It marked the start of the alliance with the InnNature Foundation, to which KIMSA now allocates 1% of its profits.",
+    tags_en: ['Climate finance', 'Restoration', 'Ecosystem-based adaptation'],
   },
 
   // ---------- Psicología Ambiental ----------
   {
     slug: 'genero-bancoldex',
-    title: 'Estrategia de género e involucramiento de actores',
+    title: 'Estudios técnicos para una propuesta al Fondo Verde del Clima: microfinanzas para la adaptación basada en ecosistemas',
     area: 'psicologia',
-    client: 'Bancóldex · Fondo Verde del Clima',
+    client: 'Bancóldex · Fondo Verde del Clima (FVC)',
     country: 'Colombia',
-    summary: 'Género e inclusión social para un programa de microfinanzas de adaptación basada en ecosistemas.',
+    year: '2021',
+    summary:
+      'Elaboramos los cinco estudios técnicos, incluida la evaluación de género, que sustentan la propuesta de Bancóldex ante el Fondo Verde del Clima.',
     description:
-      'Elaboramos un plan de acción en género e inclusión social y una estrategia de participación para un programa de microfinanzas orientado a la adaptación basada en ecosistemas, asegurando que el diseño del programa incorporara enfoques diferenciales y la voz de los actores involucrados.',
+      'Bancóldex buscaba financiamiento del FVC para el proyecto "Construyendo resiliencia climática para productores rurales y ecosistemas en Colombia a través de mecanismos financieros innovadores". Entregamos cinco estudios: línea base de vulnerabilidad y riesgo climático de pequeños productores con análisis costo-beneficio de la adaptación; análisis de mercado para que las instituciones microfinancieras ofrezcan créditos de adaptación; necesidades de extensionismo rural; plan de involucramiento de actores; y evaluación de género con su plan de acción. Realizamos talleres con productores y expertos, diseñamos un modelo de extensionismo rural e integramos indicadores sensibles al género en el marco lógico. Ajustamos todo a los anexos obligatorios del FVC.',
     tags: ['Género', 'Inclusión social', 'Microfinanzas', 'Adaptación basada en ecosistemas'],
     tint: 'sunset',
     image: '/assets/projects/genero-bancoldex.jpg',
-    title_en: 'Gender strategy and stakeholder involvement',
-    summary_en: 'Gender and social inclusion for an ecosystem-based adaptation microfinance program.',
+    title_en: 'Technical studies for a Green Climate Fund proposal: microfinance for ecosystem-based adaptation',
+    summary_en:
+      "We prepared the five technical studies, including the gender assessment, that support Bancóldex's proposal to the Green Climate Fund.",
     description_en:
-      "We developed a gender and social inclusion action plan and a participation strategy for a microfinance program focused on ecosystem-based adaptation, ensuring the program's design incorporated differentiated approaches and the voice of the stakeholders involved.",
+      "Bancóldex was seeking GCF funding for the project \"Building climate resilience for rural producers and ecosystems in Colombia through innovative financial mechanisms\". We delivered five studies: a climate vulnerability and risk baseline for smallholders with a cost-benefit analysis of adaptation; a market analysis so microfinance institutions can offer adaptation loans; rural extension needs; a stakeholder engagement plan; and a gender assessment with its action plan. We ran workshops with producers and experts, designed a rural extension model, and integrated gender-sensitive indicators into the logical framework. We aligned everything with the GCF's mandatory annexes.",
     tags_en: ['Gender', 'Social inclusion', 'Microfinance', 'Ecosystem-based adaptation'],
   },
   {
     slug: 'cluster-solnatura',
-    title: 'Clúster intersectorial de Soluciones basadas en la Naturaleza en Santander',
+    title: 'Clúster intersectorial de Soluciones basadas en la Naturaleza en Santander (SolNatura)',
     area: 'psicologia',
-    client: 'The Nature Conservancy · #SolNatura',
+    client: 'The Nature Conservancy · Proyecto IKI SolNatura (Fondo Acción, TNC y GIZ)',
     country: 'Colombia',
-    summary: 'Diseño y facilitación de un clúster de innovación en SbN para la adaptación en Santander.',
+    year: '2023–2024',
+    summary:
+      'Co-creamos con actores de Santander un clúster de innovación e investigación para diseñar y escalar Soluciones basadas en la Naturaleza.',
     description:
-      'Diseñamos y facilitamos un clúster de innovación e investigación en Soluciones basadas en la Naturaleza en Santander, conectando múltiples sectores para impulsar soluciones colaborativas de adaptación frente al cambio climático. Consultamos a más de 70 actores en su creación.',
+      'Durante un año trabajamos con el consorcio SolNatura para conectar a academia, gobierno, empresas y organizaciones de Santander alrededor de las SbN para la adaptación, la mitigación y la conservación de la biodiversidad. Mapeamos a los actores del ecosistema de investigación e innovación del departamento y diagnosticamos sus capacidades. También evaluamos las plataformas de participación existentes en el territorio, con sus lecciones y limitaciones. Con esa base diseñamos y facilitamos actividades de fortalecimiento de capacidades y la co-creación del clúster.',
     tags: ['Soluciones basadas en la Naturaleza', 'Clúster', 'Innovación', 'TNC'],
     tint: 'forest',
     image: '/assets/projects/cluster-solnatura.jpg',
-    title_en: 'Cross-sector Nature-based Solutions cluster in Santander',
-    summary_en: 'Design and facilitation of an NbS innovation cluster for adaptation in Santander.',
+    title_en: 'Cross-sector Nature-based Solutions cluster in Santander (SolNatura)',
+    summary_en:
+      'Together with stakeholders in Santander, we co-created an innovation and research cluster to design and scale up Nature-based Solutions.',
     description_en:
-      "We designed and facilitated a Nature-based Solutions innovation and research cluster in Santander, connecting multiple sectors to drive collaborative climate adaptation solutions. We consulted more than 70 stakeholders in its creation.",
+      "For a year we worked with the SolNatura consortium to connect academia, government, businesses, and organizations in Santander around NbS for adaptation, mitigation, and biodiversity conservation. We mapped the stakeholders in the department's research and innovation ecosystem and assessed their capacities. We also evaluated the existing participation platforms in the territory, with their lessons and limitations. On that basis we designed and facilitated capacity-building activities and the co-creation of the cluster.",
     tags_en: ['Nature-based Solutions', 'Cluster', 'Innovation', 'TNC'],
   },
   {
@@ -746,14 +783,16 @@ export const PROJECTS: Project[] = [
     area: 'psicologia',
     client: 'Boyapaz',
     country: 'Colombia',
-    summary: 'Trabajo sobre el bienestar emocional y su relación con el cuidado de la naturaleza.',
+    summary:
+      'Diseñamos con Boyapaz un proceso que conecta el bienestar emocional de las personas con el cuidado de la naturaleza.',
     description:
       'Acompañamos procesos que promueven la salud mental y el vínculo con la naturaleza como base para el cuidado ambiental, integrando herramientas de la psicología ambiental con las realidades del territorio.',
     tags: ['Salud mental', 'Bienestar', 'Naturaleza'],
     tint: 'river',
     image: '/assets/projects/salud-mental-boyapaz.jpg',
     title_en: 'Mental health and connection with nature in Boyapaz',
-    summary_en: 'Work on emotional wellbeing and its relationship with caring for nature.',
+    summary_en:
+      "Together with Boyapaz, we designed a process that connects people's emotional wellbeing with caring for nature.",
     description_en:
       "We accompanied processes that promote mental health and connection with nature as a basis for environmental care, integrating environmental psychology tools with the realities of the territory.",
     tags_en: ['Mental health', 'Wellbeing', 'Nature'],
@@ -762,16 +801,19 @@ export const PROJECTS: Project[] = [
     slug: 'inclusion-bahia-malaga',
     title: 'Inclusión social con el CCCN Chucheros en Bahía Málaga',
     area: 'psicologia',
-    client: 'CCCN Chucheros',
+    client: 'Consejo Comunitario de Comunidades Negras (CCCN) Chucheros',
     country: 'Colombia',
-    summary: 'Diagnóstico participativo con enfoque diferencial para el turismo comunitario del Pacífico.',
+    summary:
+      'Realizamos con el Consejo Comunitario Chucheros un diagnóstico participativo con enfoque diferencial para fortalecer su turismo comunitario en el Pacífico.',
     description:
       'Implementamos un diagnóstico participativo con enfoque diferencial para fortalecer la inclusión social y la equidad en procesos de turismo comunitario del Pacífico colombiano, junto al Consejo Comunitario de la comunidad negra de Chucheros en Bahía Málaga.',
     tags: ['Inclusión social', 'Enfoque diferencial', 'Pacífico', 'Turismo comunitario'],
     tint: 'earth',
     image: '/assets/projects/inclusion-bahia-malaga.jpg',
+    publicationUrl: 'https://drive.google.com/file/d/1QFfyYNz27yjBWaP29Am9W0IFcRYAvjOO/view',
     title_en: 'Social inclusion with the CCCN Chucheros community in Bahía Málaga',
-    summary_en: 'Participatory diagnosis with a differentiated approach for Pacific community-based tourism.',
+    summary_en:
+      'Together with the Chucheros Community Council, we carried out a participatory diagnosis with a differentiated approach to strengthen its community-based tourism on the Pacific coast.',
     description_en:
       "We implemented a participatory diagnosis with a differentiated approach to strengthen social inclusion and equity in community-based tourism processes on the Colombian Pacific coast, together with the Community Council of the Black community of Chucheros in Bahía Málaga.",
     tags_en: ['Social inclusion', 'Differentiated approach', 'Pacific', 'Community-based tourism'],
@@ -782,14 +824,16 @@ export const PROJECTS: Project[] = [
     area: 'psicologia',
     client: 'Estudio propio KIMSA',
     country: 'Colombia',
-    summary: 'Estudio con metodologías propias para sondear la salud mental de profesionales del sector ambiental.',
+    summary:
+      'Investigamos con metodologías propias cómo está la salud mental de quienes trabajan en el sector ambiental colombiano.',
     description:
       'Desarrollamos un estudio con metodologías propias para sondear la salud mental de los profesionales del sector ambiental colombiano, generando evidencia sobre el bienestar de quienes trabajan por el planeta.',
     tags: ['Salud mental', 'Investigación', 'Sector ambiental'],
     tint: 'dusk',
     image: '/assets/projects/psicologia-ambiental-proyecto.jpg',
     title_en: "Mental health of Colombia's environmental sector",
-    summary_en: 'Own-methodology study surveying the mental health of environmental sector professionals.',
+    summary_en:
+      "Using our own methodologies, we researched the mental health of people working in Colombia's environmental sector.",
     description_en:
       "We developed a study using our own methodologies to survey the mental health of professionals in Colombia's environmental sector, generating evidence on the wellbeing of those working for the planet.",
     tags_en: ['Mental health', 'Research', 'Environmental sector'],
@@ -798,24 +842,25 @@ export const PROJECTS: Project[] = [
   // ---------- CarbonBox ----------
   {
     slug: 'sostenibilidad-dnp-colombia',
-    title:
-      'Evaluación de sostenibilidad, huella ecológica y circularidad de los sistemas de información públicos de Colombia',
+    title: 'Evaluación de sostenibilidad, huella ecológica y circularidad de los sistemas de información públicos de Colombia',
     area: 'carbonbox',
-    client: 'Departamento Nacional de Planeación (DNP) · IPSOS',
+    client: 'IPSOS · Departamento Nacional de Planeación (DNP)',
     country: 'Colombia',
-    year: '2024',
-    summary: 'Primera evaluación nacional de sostenibilidad ambiental en sistemas de información del sector público.',
+    year: '2024–2025',
+    summary:
+      'Hicimos la primera evaluación nacional del impacto ambiental de los sistemas de información del Estado: 110 entidades y 3 sistemas del DNP.',
     description:
-      'Primera evaluación nacional sobre sostenibilidad ambiental en los sistemas de información del sector público. El enfoque evaluó 110 entidades en planeación ambiental, eficiencia energética, uso del agua y circularidad. Con CarbonBox calculamos la huella de carbono, la huella hídrica y métricas de circularidad para tres sistemas priorizados (PIIP, Gesproy 3.0 y Mapainversiones), marcando un hito regional en gestión ambiental digital.',
+      'Los servidores y el software públicos también emiten carbono y consumen agua. Con la metodología de Huella Ecológica de DEval evaluamos las prácticas de 110 entidades del Estado colombiano en energía, cambio climático, agua y residuos sólidos. Para tres sistemas priorizados del DNP (PIIP, Gesproy 3.0 y Mapainversiones) hicimos análisis de ciclo de vida del hardware y el software, desde su fabricación hasta su disposición final. Ese análisis incluyó vida útil, consumo y fuente de energía, agua de refrigeración, mantenimiento y residuos tecnológicos. Entregamos sus inventarios de GEI, huella hídrica, indicadores de circularidad y recomendaciones para reducir su impacto.',
     tags: ['Huella de carbono', 'Circularidad', 'CarbonBox', 'Sector público'],
     tint: 'river',
     image: '/assets/projects/sostenibilidad-dnp-colombia.jpg',
     publicationUrl:
       'https://colaboracion.dnp.gov.co/sites/CDDNP/Sinergia/2025/DSEPP_1564_Evaluacion_Sistemas_de_Informacion_Informe_Resultados.pdf',
     title_en: "Sustainability, ecological footprint, and circularity assessment of Colombia's public information systems",
-    summary_en: 'First national assessment of environmental sustainability in public-sector information systems.',
+    summary_en:
+      "We carried out the first national assessment of the environmental impact of the State's information systems: 110 entities and 3 DNP systems.",
     description_en:
-      "First national assessment of environmental sustainability in public-sector information systems. The approach evaluated 110 entities on environmental planning, energy efficiency, water use, and circularity. With CarbonBox we calculated the carbon footprint, water footprint, and circularity metrics for three priority systems (PIIP, Gesproy 3.0, and Mapainversiones), marking a regional milestone in digital environmental management.",
+      "Public servers and software also emit carbon and consume water. Using DEval's Ecological Footprint methodology, we assessed the practices of 110 Colombian State entities in energy, climate change, water, and solid waste. For three priority DNP systems (PIIP, Gesproy 3.0, and Mapainversiones) we carried out a life cycle assessment of the hardware and software, from manufacturing to final disposal. That analysis covered useful life, energy consumption and source, cooling water, maintenance, and e-waste. We delivered their GHG inventories, water footprint, circularity indicators, and recommendations to reduce their impact.",
     tags_en: ['Carbon footprint', 'Circularity', 'CarbonBox', 'Public sector'],
   },
 
@@ -824,59 +869,44 @@ export const PROJECTS: Project[] = [
   // como 'sostenibilidad-dnp-colombia', por lo que no se duplica aquí.
   {
     slug: 'biomax-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    title: 'Biomax: sistema de gestión de huella de carbono corporativa 2025',
     area: 'carbonbox',
     client: 'Biomax Biocombustibles S.A.',
     country: 'Colombia',
-    year: '2025',
-    summary: 'Medición y gestión de la huella de carbono corporativa 2025 de Biomax mediante CarbonBox.',
+    year: '2025–2026',
+    summary:
+      'Implementamos en CarbonBox el sistema de medición y gestión de la huella de carbono 2025 de Biomax, con capacitación a su equipo.',
     description:
-      'Implementamos la medición de emisiones de gases de efecto invernadero (GEI) organizacionales y la gestión de la huella de carbono corporativa 2025 de Biomax Biocombustibles conforme al GHG Protocol y la norma ISO 14064-1, incluyendo control de calidad de datos y recomendaciones de reducción.',
+      'Configuramos la organización en CarbonBox, definimos sus límites organizacionales y operacionales y consolidamos el inventario anual de alcances 1, 2 y 3 bajo GHG Protocol e ISO 14064-1. Dictamos un taller práctico sobre huella de carbono, carbono neutralidad, descarbonización y mercados de carbono. Acompañamos la recolección de datos con control de calidad y cerramos con el análisis de resultados y las oportunidades de reducción. Es el segundo proyecto con Biomax, tras la huella de su servicio a Ecopetrol.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/biomax-huella-2025.jpg',
-    title_en: '2025 corporate carbon footprint measurement and management',
-    summary_en: "Measurement and management of Biomax's 2025 corporate carbon footprint through CarbonBox.",
+    title_en: 'Biomax: 2025 corporate carbon footprint management system',
+    summary_en:
+      "We implemented Biomax's 2025 carbon footprint measurement and management system in CarbonBox, with training for its team.",
     description_en:
-      "We implemented the measurement of organizational greenhouse gas (GHG) emissions and managed Biomax Biocombustibles's 2025 corporate carbon footprint in line with the GHG Protocol and ISO 14064-1, including data quality control and reduction recommendations.",
+      'We set up the organization in CarbonBox, defined its organizational and operational boundaries, and consolidated the annual scope 1, 2, and 3 inventory under the GHG Protocol and ISO 14064-1. We delivered a hands-on workshop on carbon footprint, carbon neutrality, decarbonization, and carbon markets. We supported data collection with quality control and closed with the analysis of results and reduction opportunities. It is our second project with Biomax, after the footprint of its service to Ecopetrol.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'agrosavia-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025 — 25 centros de investigación',
+    title: 'AGROSAVIA: huella de carbono de 25 centros de investigación (2024 y 2025)',
     area: 'carbonbox',
     client: 'AGROSAVIA — Corporación Colombiana de Investigación Agropecuaria',
     country: 'Colombia',
-    year: '2025',
-    summary: 'Huella de carbono corporativa 2025 de los 25 centros, sedes y fincas experimentales de AGROSAVIA.',
+    year: '2024–2026',
+    summary:
+      'Medimos dos años seguidos la huella de carbono de los 25 centros, sedes y fincas experimentales de AGROSAVIA, incluidas sus capturas de carbono.',
     description:
-      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de AGROSAVIA para sus 25 centros de investigación, sedes y fincas experimentales, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+      'La corporación pública de investigación agropecuaria de Colombia emite y también captura carbono en sus fincas experimentales. Evaluamos la calidad e incertidumbre de los datos, identificamos fuentes de emisión y captura y desarrollamos la metodología de medición bajo GHG Protocol e ISO 14064-1. Medimos alcances 1, 2 y 3 en CarbonBox e integramos el acceso a la plataforma en los aplicativos corporativos de la entidad. Cada informe incluye inventario de GEI, factores y fórmulas, oportunidades de reducción y compensación, y alternativas de sumideros. AGROSAVIA renovó el servicio para la medición 2025.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
     image: '/assets/projects/agrosavia-huella-2025.jpg',
-    title_en: '2025 corporate carbon footprint measurement and management — 25 research centers',
-    summary_en: "2025 corporate carbon footprint of AGROSAVIA's 25 research centers, sites, and experimental farms.",
+    title_en: 'AGROSAVIA: carbon footprint of 25 research centers (2024 and 2025)',
+    summary_en:
+      "For two consecutive years we measured the carbon footprint of AGROSAVIA's 25 centers, sites, and experimental farms, including their carbon removals.",
     description_en:
-      "We implemented the measurement and management of AGROSAVIA's 2025 corporate carbon footprint for its 25 research centers, sites, and experimental farms, in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform as software as a service.",
-    tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
-  },
-  {
-    slug: 'agrosavia-huella-2024',
-    title: 'Medición y gestión de huella de carbono corporativa 2024 — 25 centros de investigación',
-    area: 'carbonbox',
-    client: 'AGROSAVIA — Corporación Colombiana de Investigación Agropecuaria',
-    country: 'Colombia',
-    year: '2024',
-    summary: 'Huella de carbono corporativa 2024 de los 25 centros, sedes y fincas experimentales de AGROSAVIA.',
-    description:
-      'Implementamos la medición y gestión de la huella de carbono corporativa 2024 de AGROSAVIA para sus 25 centros de investigación, sedes y fincas experimentales, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
-    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
-    tint: 'earth',
-    image: '/assets/projects/agrosavia-huella-2024.jpg',
-    title_en: '2024 corporate carbon footprint measurement and management — 25 research centers',
-    summary_en: "2024 corporate carbon footprint of AGROSAVIA's 25 research centers, sites, and experimental farms.",
-    description_en:
-      "We implemented the measurement and management of AGROSAVIA's 2024 corporate carbon footprint for its 25 research centers, sites, and experimental farms, in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform as software as a service.",
+      "Colombia's public agricultural research corporation both emits and captures carbon on its experimental farms. We assessed data quality and uncertainty, identified emission and removal sources, and developed the measurement methodology under the GHG Protocol and ISO 14064-1. We measured scopes 1, 2, and 3 in CarbonBox and integrated platform access into the organization's corporate applications. Each report includes the GHG inventory, factors and formulas, reduction and offset opportunities, and carbon sink alternatives. AGROSAVIA renewed the service for the 2025 measurement.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
@@ -885,188 +915,188 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Fondo Acción · Zhana Solutions Green Engineering',
     country: 'Colombia',
-    year: '2024',
-    summary: 'Cálculo de huella de carbono e hídrica de los equipos G-Trap y matriz de impacto ambiental integrada.',
+    year: '2024–2025',
+    summary:
+      'Calculamos la huella de carbono e hídrica de todos los modelos G-Trap y aportamos insumos para la política pública de grasas del sector HORECA.',
     description:
-      'Calculamos y reportamos la huella de carbono y la huella hídrica de los equipos G-Trap (en sus diversos modelos) de tratamiento de aguas residuales industriales, y compilamos una matriz de impacto ambiental que integra indicadores de toxicidad, consumo de agua, emisiones de GEI y biodiversidad.',
+      'Con un enfoque de análisis de ciclo de vida calculamos la huella de carbono y la huella hídrica de los equipos G-Trap de tratamiento de aguas residuales industriales, en todos sus modelos. Capacitamos al equipo de Zhana Solutions, levantamos la información y la cargamos en CarbonBox. Compilamos una matriz de impacto ambiental que integra toxicidad, consumo de agua, emisiones de GEI y biodiversidad. Los resultados alimentan la formulación de la política pública de gestión de grasas en hoteles, restaurantes y cafeterías de Colombia.',
     tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
     tint: 'river',
     image: '/assets/projects/gtrap-fondo-accion-zhana.jpg',
     title_en: 'Carbon and water footprint of G-Trap equipment and environmental impact matrix',
-    summary_en: 'Calculation of the carbon and water footprint of G-Trap equipment and an integrated environmental impact matrix.',
+    summary_en:
+      'We calculated the carbon and water footprint of every G-Trap model and provided inputs for the public policy on grease in the HORECA sector.',
     description_en:
-      "We calculated and reported the carbon footprint and water footprint of G-Trap equipment (across its various models) for industrial wastewater treatment, and compiled an environmental impact matrix integrating toxicity, water consumption, GHG emissions, and biodiversity indicators.",
+      "Using a life cycle assessment approach, we calculated the carbon footprint and water footprint of G-Trap industrial wastewater treatment units, across all their models. We trained the Zhana Solutions team, collected the information, and uploaded it to CarbonBox. We compiled an environmental impact matrix that integrates toxicity, water use, GHG emissions, and biodiversity. The results feed into the formulation of public policy on grease management in Colombia's hotels, restaurants, and cafés.",
     tags_en: ['Product carbon footprint', 'GHG Protocol · ISO 14067/14044', 'Life cycle assessment'],
   },
   {
     slug: 'zona-franca-bogota-huella-2023',
-    title: 'Medición y gestión de huella de carbono corporativa 2023',
+    title: 'Zona Franca de Bogotá: huella de carbono corporativa 2023',
     area: 'carbonbox',
     client: 'Co-propiedad Zona Franca de Bogotá PH',
     country: 'Colombia',
-    year: '2024',
-    summary: 'Huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá.',
+    year: '2024–2025',
+    summary:
+      'Medimos la huella de carbono 2023 de la Zona Franca de Bogotá y formamos a su equipo para gestionarla.',
     description:
-      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de la Co-propiedad Zona Franca de Bogotá, conforme al GHG Protocol y la norma ISO 14064-1, con recomendaciones de reducción.',
+      'Configuramos la Co-propiedad en CarbonBox, definimos sus límites y calculamos las emisiones de alcances 1, 2 y 3 bajo GHG Protocol e ISO 14064-1. Capacitamos a su equipo en huella de carbono, carbono neutralidad y mercados de carbono. Validamos la calidad de los datos de actividad y entregamos el inventario con oportunidades de reducción.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'dusk',
     image: '/assets/projects/zona-franca-bogota-huella-2023.jpg',
-    title_en: '2023 corporate carbon footprint measurement and management',
-    summary_en: "2023 corporate carbon footprint of the Bogotá Free Trade Zone Co-ownership.",
+    title_en: 'Bogotá Free Trade Zone: 2023 corporate carbon footprint',
+    summary_en:
+      "We measured the Bogotá Free Trade Zone's 2023 carbon footprint and trained its team to manage it.",
     description_en:
-      "We implemented the measurement of organizational GHG emissions and managed the 2023 corporate carbon footprint of the Bogotá Free Trade Zone Co-ownership, in line with the GHG Protocol and ISO 14064-1, with reduction recommendations.",
+      'We set up the Co-ownership in CarbonBox, defined its boundaries, and calculated scope 1, 2, and 3 emissions under the GHG Protocol and ISO 14064-1. We trained its team on carbon footprint, carbon neutrality, and carbon markets. We validated the quality of the activity data and delivered the inventory with reduction opportunities.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'calculadora-seaflower',
-    title: 'Herramienta de cálculo de huella ambiental para el Fondo Seaflower',
+    title: 'Calculadora de huella de carbono para viajeros del Fondo Seaflower',
     area: 'carbonbox',
-    client: 'Fondo Acción · Davivienda',
+    client: 'Fondo Acción · Davivienda (Daviplata)',
     country: 'Colombia',
     year: '2024',
-    summary: 'Calculadora de huella de carbono para viajeros a la Reserva de Biósfera Seaflower.',
+    summary:
+      'Validamos y corregimos la calculadora con la que los viajeros a San Andrés y Providencia compensan su huella desde Daviplata.',
     description:
-      'Elaboramos una herramienta de cálculo de huella de carbono para los viajeros a la Reserva de la Biósfera Seaflower (San Andrés, Providencia y Santa Catalina), como parte de una estrategia de movilización de recursos con Daviplata en la que los viajeros compensan su impacto mediante donaciones proporcionales a sus emisiones.',
+      'El Fondo Seaflower, lanzado en la COP16, invita a quienes visitan la Reserva de Biósfera a donar en proporción a sus emisiones. Revisamos la calculadora original y validamos sus factores de emisión frente a datos oficiales de Colombia como los de la UPME. Detectamos errores de conversión y falta de trazabilidad en alimentos y textiles. Incorporamos CH4 y N2O en la quema de combustibles y la calculadora de la OACI para vuelos. Entregamos el documento metodológico, la base de datos corregida y un compendio de factores de emisión.',
     tags: ['Herramienta de cálculo', 'Huella de carbono', 'Mitigación'],
     tint: 'cool',
     image: '/assets/projects/calculadora-seaflower.png',
-    title_en: 'Environmental footprint calculation tool for the Seaflower Fund',
-    summary_en: 'Carbon footprint calculator for travelers to the Seaflower Biosphere Reserve.',
+    title_en: 'Carbon footprint calculator for Seaflower Fund travelers',
+    summary_en:
+      'We validated and corrected the calculator that travelers to San Andrés and Providencia use to offset their footprint through Daviplata.',
     description_en:
-      "We developed a carbon footprint calculation tool for travelers to the Seaflower Biosphere Reserve (San Andrés, Providencia, and Santa Catalina), as part of a resource-mobilization strategy with Daviplata in which travelers offset their impact through donations proportional to their emissions.",
+      "The Seaflower Fund, launched at COP16, invites visitors to the Biosphere Reserve to donate in proportion to their emissions. We reviewed the original calculator and validated its emission factors against official Colombian data such as UPME's. We found conversion errors and a lack of traceability for food and textiles. We added CH4 and N2O for fuel combustion and the ICAO calculator for flights. We delivered the methodology document, the corrected database, and a compendium of emission factors.",
     tags_en: ['Calculation tool', 'Carbon footprint', 'Mitigation'],
   },
   {
     slug: 'biomax-ecopetrol-sebastopol',
-    title: 'Huella de carbono del servicio prestado a Ecopetrol desde Sebastopol',
+    title: 'Huella de carbono del servicio de transporte de nafta para Ecopetrol',
     area: 'carbonbox',
     client: 'Biomax Biocombustibles S.A.',
     country: 'Colombia',
     year: '2024',
-    summary: 'Estimación de la huella de carbono del servicio de Biomax a Ecopetrol desde su planta de Sebastopol.',
+    summary:
+      'Estimamos la huella de carbono del servicio de transporte de nafta que Biomax presta a Ecopetrol entre Sebastopol y Vasconia.',
     description:
-      'Estimamos la huella de carbono del servicio prestado desde Sebastopol por Biomax a Ecopetrol, mediante un análisis de ciclo de vida bajo estándares internacionales de reporte, usando la plataforma CarbonBox.',
+      'Sistematizamos la información del piloto de transporte de nafta de la planta Sebastopol a la planta Vasconia y estimamos su huella de carbono en CarbonBox bajo el GHG Protocol. El resultado le permite a Biomax reportarle a Ecopetrol, su cliente, las emisiones asociadas al servicio que presta.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Análisis de ciclo de vida'],
     tint: 'blush',
     image: '/assets/clients/biomax.png',
-    title_en: 'Carbon footprint of the service provided to Ecopetrol from Sebastopol',
-    summary_en: "Estimation of the carbon footprint of Biomax's service to Ecopetrol from its Sebastopol plant.",
+    title_en: 'Carbon footprint of the naphtha transport service for Ecopetrol',
+    summary_en:
+      'We estimated the carbon footprint of the naphtha transport service Biomax provides to Ecopetrol between Sebastopol and Vasconia.',
     description_en:
-      "We estimated the carbon footprint of the service provided from Sebastopol by Biomax to Ecopetrol, using a life cycle assessment under international reporting standards, via the CarbonBox platform.",
+      'We systematized the information from the naphtha transport pilot from the Sebastopol plant to the Vasconia plant and estimated its carbon footprint in CarbonBox under the GHG Protocol. The result allows Biomax to report to Ecopetrol, its client, the emissions associated with the service it provides.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Life cycle assessment'],
   },
   {
     slug: 'hacienda-cafe-misiones-huella-2023',
-    title: 'Medición y gestión de huella de carbono corporativa 2023',
+    title: 'Hacienda Café Misiones: huella de carbono de la finca y sus proveedores',
     area: 'carbonbox',
     client: 'Hacienda Café Misiones',
     country: 'Colombia',
-    year: '2024',
-    summary: 'Huella de carbono corporativa 2023 de Hacienda Café Misiones, con seguimiento hasta 2026.',
+    year: '2024–2026',
+    summary:
+      'Medimos la huella de carbono de una hacienda cafetera y de sus proveedores, con acompañamiento hasta 2026.',
     description:
-      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2023 de Hacienda Café Misiones, conforme al GHG Protocol y la norma ISO 14064-1, con acompañamiento continuo y recomendaciones de reducción.',
+      'Visitamos la hacienda y dictamos una MasterClass de huella de carbono corporativa al equipo. Acompañamos el levantamiento de información de las actividades de la finca y de sus proveedores, y entregamos el inventario de GEI bajo GHG Protocol. El acompañamiento se mantiene hasta 2026 para hacer seguimiento a su desempeño.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'warm',
     image: '/assets/projects/hacienda-cafe-misiones-huella-2023.jpg',
-    title_en: '2023 corporate carbon footprint measurement and management',
-    summary_en: "Hacienda Café Misiones's 2023 corporate carbon footprint, with follow-up through 2026.",
+    title_en: 'Hacienda Café Misiones: carbon footprint of the farm and its suppliers',
+    summary_en:
+      'We measured the carbon footprint of a coffee estate and its suppliers, with ongoing support through 2026.',
     description_en:
-      "We implemented the measurement of organizational GHG emissions and managed Hacienda Café Misiones's 2023 corporate carbon footprint, in line with the GHG Protocol and ISO 14064-1, with ongoing support and reduction recommendations.",
+      "We visited the estate and delivered a corporate carbon footprint MasterClass to the team. We supported the collection of information on the farm's activities and its suppliers, and delivered the GHG inventory under the GHG Protocol. Our support continues through 2026 to track its performance.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'colegio-anglo-colombiano-huella-2023',
-    title: 'Huella de carbono organizacional del Colegio Anglo Colombiano',
+    title: 'Colegio Anglo Colombiano: huella de carbono 2023 y 2025',
     area: 'carbonbox',
     client: 'Fundación Colegio Anglo Colombiano',
     country: 'Colombia',
-    year: '2024',
-    summary: 'Huella de carbono corporativa 2023 de todas las operaciones del Colegio Anglo Colombiano en Bogotá.',
+    year: '2024 y 2026',
+    summary:
+      'Medimos la huella de carbono de todas las operaciones del Colegio Anglo Colombiano: estudiantes, docentes, servicios y visitantes.',
     description:
-      'Implementamos la medición de la huella de carbono organizacional de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, conforme al GHG Protocol y la norma ISO 14064-1.',
+      'Un colegio es una pequeña ciudad: transporte escolar, alimentación, energía, residuos y visitantes. Sistematizamos la información de todas las áreas del colegio, su planta docente, sus servicios y sus visitantes, y calculamos la huella organizacional en CarbonBox bajo GHG Protocol. El colegio repitió la medición para el año 2025, lo que le permite comparar su desempeño.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'forest',
     image: '/assets/projects/colegio-anglo-colombiano-huella-2024.jpg',
-    title_en: 'Organizational carbon footprint of Colegio Anglo Colombiano',
-    summary_en: "2023 corporate carbon footprint of all Colegio Anglo Colombiano's operations in Bogotá.",
+    publicationUrl: 'https://www.youtube.com/watch?v=PIgFjxux6TI',
+    title_en: 'Colegio Anglo Colombiano: 2023 and 2025 carbon footprint',
+    summary_en:
+      "We measured the carbon footprint of all of Colegio Anglo Colombiano's operations: students, teachers, services, and visitors.",
     description_en:
-      "We implemented the measurement of the organizational carbon footprint of all operations at the Bogotá campus of Colegio Anglo Colombiano, in line with the GHG Protocol and ISO 14064-1.",
-    tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
-  },
-  {
-    slug: 'colegio-anglo-colombiano-huella-2025',
-    title: 'Huella de carbono organizacional 2025 del Colegio Anglo Colombiano',
-    area: 'carbonbox',
-    client: 'Fundación Colegio Anglo Colombiano',
-    country: 'Colombia',
-    year: '2026',
-    summary: 'Huella de carbono corporativa 2025 de todas las operaciones del Colegio Anglo Colombiano en Bogotá, medida en 2026.',
-    description:
-      'Implementamos la medición de la huella de carbono organizacional 2025 de todas las operaciones de la sede Bogotá del Colegio Anglo Colombiano, ejecutada en 2026 conforme al GHG Protocol y la norma ISO 14064-1.',
-    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
-    tint: 'forest',
-    image: '/assets/projects/colegio-anglo-colombiano-huella-2026.jpg',
-    title_en: "2025 organizational carbon footprint of Colegio Anglo Colombiano",
-    summary_en: "2025 corporate carbon footprint of all Colegio Anglo Colombiano's operations in Bogotá, measured in 2026.",
-    description_en:
-      "We implemented the measurement of the 2025 organizational carbon footprint of all operations at the Bogotá campus of Colegio Anglo Colombiano, carried out in 2026 in line with the GHG Protocol and ISO 14064-1.",
+      'A school is a small city: school transport, food, energy, waste, and visitors. We systematized information from every area of the school, its teaching staff, its services, and its visitors, and calculated the organizational footprint in CarbonBox under the GHG Protocol. The school repeated the measurement for 2025, which lets it compare its performance.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'eeb-boyaca-huella-2023',
-    title: 'Huella de carbono organizacional del edificio administrativo y 7 zonas en Boyacá',
+    title: 'Empresa de Energía de Boyacá: edificio administrativo y 7 zonas operativas',
     area: 'carbonbox',
-    client: 'Empresa de Energía de Boyacá S.A. E.S.P.',
+    client: 'Empresa de Energía de Boyacá S.A. E.S.P. (EBSA)',
     country: 'Colombia',
-    year: '2023',
-    summary: 'Huella de carbono organizacional del edificio administrativo y 7 zonas operativas en Boyacá.',
+    year: '2023–2025',
+    summary:
+      'Medimos bajo ISO 14064-1 la huella de carbono de la sede administrativa y siete zonas operativas de la Empresa de Energía de Boyacá.',
     description:
-      'Implementamos la medición de la huella de carbono organizacional del edificio administrativo y de 7 zonas de la Empresa de Energía de Boyacá, conforme al GHG Protocol y la norma ISO 14064-1.',
+      'Sistematizamos la información de las áreas de trabajo del edificio administrativo y de siete zonas operativas en el departamento, y elaboramos en CarbonBox la huella organizacional bajo ISO 14064-1. El trabajo se desarrolló durante 17 meses, en dos órdenes de compra.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
     image: '/assets/projects/eeb-boyaca-huella-2023.jpg',
-    title_en: 'Organizational carbon footprint of the administrative building and 7 zones in Boyacá',
-    summary_en: 'Organizational carbon footprint of the administrative building and 7 operational zones in Boyacá.',
+    title_en: 'Boyacá Energy Company: administrative building and 7 operating zones',
+    summary_en:
+      "Under ISO 14064-1, we measured the carbon footprint of the Boyacá Energy Company's headquarters and seven operating zones.",
     description_en:
-      "We implemented the measurement of the organizational carbon footprint of the administrative building and 7 zones of the Boyacá Energy Company, in line with the GHG Protocol and ISO 14064-1.",
+      'We systematized information from the work areas of the administrative building and seven operating zones in the department, and prepared the organizational footprint in CarbonBox under ISO 14064-1. The work ran for 17 months, across two purchase orders.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'gtrap-sostenibilidad-acv',
-    title: 'Evaluación de sostenibilidad de la tecnología G-TRAP',
+    title: 'Evaluación de sostenibilidad de la tecnología G-TRAP en Bogotá y Cartagena',
     area: 'carbonbox',
     client: 'Zhana Solutions Green Engineering',
     country: 'Colombia',
     year: '2023',
-    summary: 'Análisis de ciclo de vida de la tecnología G-TRAP en Bogotá y Cartagena.',
+    summary:
+      'Medimos con análisis de ciclo de vida la huella de carbono e hídrica de la tecnología G-TRAP, desde su transporte desde China hasta su operación en Colombia.',
     description:
-      'Evaluamos la sostenibilidad ambiental de la tecnología G-TRAP mediante un Análisis de Ciclo de Vida (ACV): estimamos su huella de carbono e hídrica en las fases de instalación y operación, identificamos los impactos ambientales en Bogotá y Cartagena, y propusimos acciones de mejora para mitigar los efectos negativos.',
+      'Definimos como unidad funcional un metro cúbico de agua tratada y fijamos los límites del sistema desde el transporte de los equipos desde China hasta su operación en Bogotá y Cartagena. Levantamos datos de emisiones y parámetros fisicoquímicos como la DQO, y evaluamos transporte, instalación y uso bajo ISO 14044 e ISO 14067. Con CarbonBox estimamos las huellas y construimos una matriz de impacto con acciones de mejora. Este primer estudio abrió la puerta al proyecto ampliado con Fondo Acción.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Análisis de ciclo de vida'],
     tint: 'earth',
-    image: '/assets/clients/zhana-solutions.svg',
-    title_en: 'Sustainability assessment of G-TRAP technology',
-    summary_en: 'Life cycle assessment of G-TRAP technology in Bogotá and Cartagena.',
+    image: '/assets/projects/gtrap-sostenibilidad-acv.jpg',
+    title_en: 'Sustainability assessment of G-TRAP technology in Bogotá and Cartagena',
+    summary_en:
+      'Using life cycle assessment, we measured the carbon and water footprint of G-TRAP technology, from shipping from China to operation in Colombia.',
     description_en:
-      "We assessed the environmental sustainability of G-TRAP technology through a Life Cycle Assessment (LCA): we estimated its carbon and water footprint during the installation and operation phases, identified environmental impacts in Bogotá and Cartagena, and proposed improvement actions to mitigate negative effects.",
+      'We defined one cubic meter of treated water as the functional unit and set the system boundaries from shipping the units from China to their operation in Bogotá and Cartagena. We collected emissions data and physicochemical parameters such as COD, and assessed transport, installation, and use under ISO 14044 and ISO 14067. With CarbonBox we estimated the footprints and built an impact matrix with improvement actions. This first study opened the door to the expanded project with Fondo Acción.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Life cycle assessment'],
   },
   {
     slug: 'flp-equilibria-huella-2023',
-    title: 'Huella de carbono organizacional e hídrica de FLP y Equilibria',
+    title: 'FLP y Equilibria: huella de carbono e hídrica de cítricos en tres países',
     area: 'carbonbox',
     client: 'GEC EcoEnterprises Management',
     country: 'Multirregional',
     year: '2023',
-    summary: 'Inventarios de GEI (ISO 14064-1) y huella hídrica para FLP (Ecuador y Perú) y Equilibria (Colombia).',
+    summary:
+      'Elaboramos tres inventarios de GEI (ISO 14064-1) y tres huellas hídricas para empresas citrícolas en Ecuador, Perú y Colombia.',
     description:
-      'Elaboramos 3 inventarios de GEI bajo el estándar ISO 14064-1 y 3 huellas hídricas para las empresas FLP (Ecuador y Perú) y Equilibria (Colombia) dentro de su cadena de producción de cítricos.',
+      'Para el fondo de inversión GEC EcoEnterprises calculamos la huella de carbono y la huella hídrica de las operaciones de FLP en Ecuador y Perú y de Equilibria en Colombia, a lo largo de su cadena de producción de cítricos. Capacitamos a sus equipos y los acompañamos en la recolección de datos. Entregamos recomendaciones para mejorar la gestión de información y para reducir ambas huellas.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'river',
     image: '/assets/clients/gec-ecoenterprises.png',
-    title_en: 'Organizational and water footprint of FLP and Equilibria',
-    summary_en: 'GHG inventories (ISO 14064-1) and water footprint for FLP (Ecuador and Peru) and Equilibria (Colombia).',
+    title_en: 'FLP and Equilibria: carbon and water footprint of citrus in three countries',
+    summary_en:
+      'We prepared three GHG inventories (ISO 14064-1) and three water footprints for citrus companies in Ecuador, Peru, and Colombia.',
     description_en:
-      "We prepared 3 GHG inventories under the ISO 14064-1 standard and 3 water footprints for the companies FLP (Ecuador and Peru) and Equilibria (Colombia) within their citrus production chain.",
+      "For the investment fund GEC EcoEnterprises, we calculated the carbon and water footprint of FLP's operations in Ecuador and Peru and Equilibria's in Colombia, across their citrus production chain. We trained their teams and supported them in data collection. We delivered recommendations to improve information management and to reduce both footprints.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
@@ -1076,16 +1106,18 @@ export const PROJECTS: Project[] = [
     client: 'CleanTechHub',
     country: 'Multirregional',
     year: '2023',
-    summary: 'Módulo emprendedor de CarbonBox y capacitación para 22 emprendimientos en 5 países de LATAM.',
+    summary:
+      'Creamos el módulo emprendedor de CarbonBox y medimos el impacto en carbono de 22 startups climáticas en 5 países.',
     description:
-      'Desarrollamos el módulo emprendedor de la plataforma CarbonBox para 22 emprendimientos de Argentina, México, Colombia, Perú y Ecuador, y realizamos una capacitación sobre huella de carbono para sus mentores y aliados.',
+      'Los emprendimientos climáticos necesitan demostrar con números cuántas emisiones evitan. Desarrollamos un módulo de CarbonBox diseñado para startups y lo usamos para medir el impacto de 22 emprendimientos de la aceleradora en cinco países de América Latina. Capacitamos a mentores y aliados de CleanTechHub en huella de carbono para emprendimientos, para que el programa pueda seguir midiendo por su cuenta.',
     tags: ['Huella de carbono de producto', 'Medición de impacto en carbono', 'Análisis de ciclo de vida'],
     tint: 'dusk',
     image: '/assets/clients/cleantechhub.png',
     title_en: 'Carbon impact of 22 climate-innovation startups',
-    summary_en: "CarbonBox's entrepreneur module and training for 22 startups in 5 Latin American countries.",
+    summary_en:
+      "We built CarbonBox's startup module and measured the carbon impact of 22 climate startups in 5 countries.",
     description_en:
-      "We developed the entrepreneur module of the CarbonBox platform for 22 startups in Argentina, Mexico, Colombia, Peru, and Ecuador, and delivered a carbon footprint training for their mentors and partners.",
+      "Climate startups need to show in numbers how many emissions they avoid. We developed a CarbonBox module designed for startups and used it to measure the impact of 22 of the accelerator's startups in five Latin American countries. We trained CleanTechHub mentors and partners on carbon footprint for startups, so the program can keep measuring on its own.",
     tags_en: ['Product carbon footprint', 'Carbon impact measurement', 'Life cycle assessment'],
   },
   {
@@ -1094,36 +1126,40 @@ export const PROJECTS: Project[] = [
     area: 'carbonbox',
     client: 'Páramo Presenta',
     country: 'Colombia',
-    year: '2023',
-    summary: 'Huella de carbono de la producción de los principales festivales de Colombia, edición tras edición.',
+    year: '2023–2026',
+    summary:
+      'Medimos y llevamos a verificación la huella de carbono de los principales festivales de Colombia, edición tras edición, y diseñamos la política de carbono neutralidad de Páramo Presenta.',
     description:
-      'Desarrollamos las huellas de carbono de la producción de eventos como el Festival Estéreo Picnic (2023-2026), la Feria Vassar (2023-2024), Corona Sunset (2023-2024), BAUM (2024) y el Festival Cordillera (2024-2025), conforme al GHG Protocol y la norma ISO 14064-1.',
+      'Desde 2023 medimos en CarbonBox la huella de carbono de la producción de Festival Estéreo Picnic (2023–2026), Feria Vassar (dos ediciones por año), Corona Sunset, BAUM y Festival Cordillera, bajo GHG Protocol. Recolectamos información de proveedores y agentes en toda la cadena de valor de cada evento. Preparamos y acompañamos las auditorías de verificación de los inventarios, diseñamos el plan de gestión de GEI de los eventos y la política de carbono neutralidad de la empresa.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'blush',
     image: '/assets/projects/fep-2023.jpg',
     title_en: "Carbon footprint of festivals: Estéreo Picnic, Cordillera, Vassar, BAUM, and Corona Sunset",
-    summary_en: "Carbon footprint of the production of Colombia's leading festivals, edition after edition.",
+    summary_en:
+      "Edition after edition, we measured and took to verification the carbon footprint of Colombia's main festivals, and designed Páramo Presenta's carbon neutrality policy.",
     description_en:
-      "We developed the carbon footprints of the production of events such as Festival Estéreo Picnic (2023-2026), Feria Vassar (2023-2024), Corona Sunset (2023-2024), BAUM (2024), and Festival Cordillera (2024-2025), in line with the GHG Protocol and ISO 14064-1.",
+      "Since 2023 we have measured in CarbonBox the carbon footprint of the production of Festival Estéreo Picnic (2023–2026), Feria Vassar (two editions a year), Corona Sunset, BAUM, and Festival Cordillera, under the GHG Protocol. We collected information from suppliers and agents across each event's value chain. We prepared and supported the verification audits of the inventories, and designed the events' GHG management plan and the company's carbon neutrality policy.",
     tags_en: ['Event carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'calculadora-idartes',
     title: 'Estructuración de la calculadora de carbono de IDARTES',
     area: 'carbonbox',
-    client: 'Fondo Acción · IDARTES',
+    client: 'Fondo Acción · Instituto Distrital de las Artes (IDARTES)',
     country: 'Colombia',
     year: '2023',
-    summary: 'Calculadora de huella de carbono de eventos y escenarios de Bogotá para el sitio web de IDARTES.',
+    summary:
+      'Diseñamos la calculadora con la que eventos y escenarios culturales de Bogotá pueden medir su huella de carbono en la web de IDARTES.',
     description:
-      'Elaboramos la estructura base de la calculadora de carbono de eventos y escenarios de Bogotá, diseñada para instalarse en la página web del Instituto Distrital de las Artes (IDARTES).',
+      'Definimos qué datos de actividad deben reportar los eventos y escenarios de la ciudad, seleccionamos los factores de emisión según los métodos del IPCC y desarrollamos la estructura metodológica y operativa de la calculadora. El resultado es una herramienta pública para que el sector cultural de Bogotá mida y gestione el impacto climático de sus eventos.',
     tags: ['Herramienta de cálculo', 'Huella de carbono de eventos', 'Mitigación'],
     tint: 'cool',
     image: '/assets/projects/calculadora-idartes.png',
     title_en: "Building IDARTES's carbon calculator",
-    summary_en: "Carbon footprint calculator for Bogotá's events and venues, for IDARTES's website.",
+    summary_en:
+      "We designed the calculator that Bogotá's cultural events and venues can use to measure their carbon footprint on the IDARTES website.",
     description_en:
-      "We built the base structure for the carbon calculator for events and venues in Bogotá, designed to be installed on the website of the Bogotá District Institute of the Arts (IDARTES).",
+      "We defined which activity data the city's events and venues must report, selected emission factors following IPCC methods, and developed the calculator's methodological and operational structure. The result is a public tool for Bogotá's cultural sector to measure and manage the climate impact of its events.",
     tags_en: ['Calculation tool', 'Event carbon footprint', 'Mitigation'],
   },
   {
@@ -1133,16 +1169,18 @@ export const PROJECTS: Project[] = [
     client: 'Control Ambiental de Colombia S.A.S.',
     country: 'Colombia',
     year: '2023',
-    summary: 'Comparación del compostaje con aireación frente al manejo tradicional en rellenos sanitarios.',
+    summary:
+      'Comparamos con ACV el compostaje con aireación frente al relleno sanitario para cuantificar las emisiones que evita.',
     description:
-      'Implementamos el análisis de ciclo de vida de una tecnología de compostaje con aireación para la gestión de residuos orgánicos de Control Ambiental de Colombia, comparando este escenario solución frente al manejo tradicional en rellenos sanitarios, bajo las normas ISO 14044 e ISO 14067.',
+      'Bajo ISO 14044 e ISO 14067 comparamos dos escenarios para los residuos orgánicos: compostaje con aireación frente a disposición en relleno sanitario. Hicimos un taller para identificar fuentes de emisión, recolectamos datos y estimamos las emisiones de cada escenario. Entregamos el reporte de resultados con medidas de reducción y compensación, y un kit de comunicación para que la empresa divulgue su impacto.',
     tags: ['Huella de carbono de producto', 'GHG Protocol · ISO 14067/14044', 'Análisis de ciclo de vida'],
     tint: 'warm',
     image: '/assets/projects/control-ambiental-compost-acv.jpg',
     title_en: 'Life cycle assessment of aerated composting',
-    summary_en: 'Comparison of aerated composting against traditional landfill management.',
+    summary_en:
+      'Using LCA, we compared aerated composting with landfilling to quantify the emissions it avoids.',
     description_en:
-      "We implemented the life cycle assessment of an aerated composting technology for organic waste management for Control Ambiental de Colombia, comparing this solution scenario against traditional landfill management, under the ISO 14044 and ISO 14067 standards.",
+      'Under ISO 14044 and ISO 14067, we compared two scenarios for organic waste: aerated composting versus landfill disposal. We held a workshop to identify emission sources, collected data, and estimated the emissions of each scenario. We delivered the results report with reduction and offset measures, and a communication kit so the company can share its impact.',
     tags_en: ['Product carbon footprint', 'GHG Protocol · ISO 14067/14044', 'Life cycle assessment'],
   },
   {
@@ -1152,252 +1190,306 @@ export const PROJECTS: Project[] = [
     client: 'Cámara Verde de Comercio',
     country: 'Colombia',
     year: '2020',
-    summary: 'Organización y huella de carbono de la Semana Climática de Colombia, en formato virtual.',
+    summary:
+      'Organizamos la primera Semana Climática de Colombia, evento oficial de Climate Week NYC, en formato virtual.',
     description:
-      'Organizamos, gestionamos y desarrollamos la Semana Climática de Colombia (Climate Week Colombia 2020) en formato virtual, junto a la Cámara Verde de Comercio, incluyendo el cálculo de su huella de carbono.',
+      'En plena pandemia coordinamos la edición colombiana de Climate Week NYC. Identificamos y convocamos a oradores de emprendimientos, entidades públicas, instituciones financieras, organizaciones sociales y comunidades indígenas que contribuyen a la mitigación del cambio climático, y construimos una agenda para visibilizar sus acciones.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'forest',
     image: '/assets/clients/camara-verde.png',
     title_en: 'Climate Week Colombia 2020',
-    summary_en: "Organization and carbon footprint of Colombia's Climate Week, in virtual format.",
+    summary_en:
+      "We organized Colombia's first Climate Week, an official Climate Week NYC event, in a virtual format.",
     description_en:
-      "We organized, managed, and developed Colombia's Climate Week (Climate Week Colombia 2020) in virtual format, together with Cámara Verde de Comercio, including the calculation of its carbon footprint.",
+      'In the middle of the pandemic, we coordinated the Colombian edition of Climate Week NYC. We identified and invited speakers from startups, public entities, financial institutions, social organizations, and Indigenous communities that contribute to climate change mitigation, and built an agenda to showcase their actions.',
     tags_en: ['Event carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
+    slug: 'business-travel-consulting-huella-2025',
+    title: 'Business Travel Consulting: huella de carbono corporativa 2025',
+    area: 'carbonbox',
+    client: 'Business Travel Consulting, S.A.',
+    country: 'México',
+    year: '2026',
+    summary: 'Medimos bajo GHG Protocol e ISO 14064-1 la huella de carbono 2025 de Business Travel Consulting, nuestro primer cliente en México.',
+    description:
+      'Definimos el año base, los límites organizacionales y operativos y las fuentes de emisión de alcances 1, 2 y 3. Diseñamos los formularios de recolección y capacitamos al equipo de BTC en huella de carbono. Validamos la calidad y trazabilidad de los datos, calculamos el inventario en CarbonBox y realizamos una pre-auditoría interna antes de presentar los resultados a la dirección.',
+    tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064-1', 'México'],
+    tint: 'dusk',
+    title_en: 'Business Travel Consulting: 2025 corporate carbon footprint',
+    summary_en: 'Under the GHG Protocol and ISO 14064-1, we measured the 2025 carbon footprint of Business Travel Consulting, our first client in Mexico.',
+    description_en:
+      "We defined the base year, the organizational and operational boundaries, and the scope 1, 2, and 3 emission sources. We designed the data collection forms and trained the BTC team on carbon footprint. We validated data quality and traceability, calculated the inventory in CarbonBox, and carried out an internal pre-audit before presenting the results to management.",
+    tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064-1', 'Mexico'],
+  },
+  {
     slug: 'maderera-rio-acre-huella-2022',
-    title: 'Medición y gestión de huella de carbono corporativa 2022',
+    title: 'Maderera Río Acre: huella de carbono de la cadena forestal 2022',
     area: 'carbonbox',
     client: 'CANDES · Maderera Río Acre S.A.C.',
     country: 'Perú',
     year: '2023',
-    summary: 'Huella de carbono corporativa 2022 de Maderera Río Acre en Perú.',
+    summary:
+      'Medimos la huella de carbono de una maderera peruana desde la extracción en el bosque hasta la distribución final.',
     description:
-      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa 2022 de Maderera Río Acre, conforme al GHG Protocol y la norma ISO 14064-1, incluyendo control de calidad de datos y recomendaciones de reducción.',
+      'Estimamos las emisiones de todas las etapas de la cadena de suministro, identificamos las fuentes críticas y propusimos acciones de reducción mediante optimización de procesos y tecnologías más limpias. Diseñamos un sistema de monitoreo anual y un plan de mitigación para las emisiones que no pueden reducirse.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
     image: '/assets/clients/candes.jpg',
-    title_en: '2022 corporate carbon footprint measurement and management',
-    summary_en: "2022 corporate carbon footprint of Maderera Río Acre in Peru.",
+    title_en: 'Maderera Río Acre: 2022 carbon footprint of the timber chain',
+    summary_en:
+      'We measured the carbon footprint of a Peruvian timber company from harvesting in the forest to final distribution.',
     description_en:
-      "We implemented the measurement of organizational GHG emissions and managed Maderera Río Acre's 2022 corporate carbon footprint, in line with the GHG Protocol and ISO 14064-1, including data quality control and reduction recommendations.",
+      'We estimated emissions at every stage of the supply chain, identified the critical sources, and proposed reduction actions through process optimization and cleaner technologies. We designed an annual monitoring system and a mitigation plan for the emissions that cannot be reduced.',
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'eternit-diagnostico-gei',
-    title: 'Diagnóstico de Gases de Efecto Invernadero',
+    title: 'Diagnóstico de GEI y ruta de automatización de datos',
     area: 'carbonbox',
-    client: 'Eternit Colombia S.A',
+    client: 'Eternit Colombia S.A.',
     country: 'Colombia',
     year: '2023',
-    summary: 'Diagnóstico de emisiones de gases de efecto invernadero de Eternit Colombia.',
+    summary:
+      'Validamos la huella de carbono de Eternit y trazamos su ruta para automatizar los datos de emisiones.',
     description:
-      'Elaboramos un diagnóstico de Gases de Efecto Invernadero (GEI) para Eternit Colombia, como primer paso hacia la gestión de su huella de carbono corporativa.',
+      'Revisamos la medición de huella de carbono que Eternit había hecho para 2021 y la llevamos a la matriz de recolección de CarbonBox, señalando datos faltantes, sobrantes o por ajustar. Evaluamos, con una metodología de semáforo, qué tan viable es automatizar la captura de datos de cada fuente de emisión, en plazos corto, mediano y largo. Entregamos las medidas necesarias para automatizar por completo su inventario.',
     tags: ['Huella de carbono corporativa', 'Herramienta de cálculo'],
     tint: 'earth',
     image: '/assets/clients/eternit.webp',
-    title_en: 'Greenhouse Gas Diagnosis',
-    summary_en: "Greenhouse gas emissions diagnosis for Eternit Colombia.",
+    title_en: 'GHG assessment and data automation roadmap',
+    summary_en:
+      "We validated Eternit's carbon footprint and mapped out its path to automate emissions data.",
     description_en:
-      "We prepared a Greenhouse Gas (GHG) diagnosis for Eternit Colombia, as a first step toward managing its corporate carbon footprint.",
+      "We reviewed the carbon footprint measurement Eternit had done for 2021 and moved it into CarbonBox's data collection matrix, flagging missing, redundant, or inconsistent data. Using a traffic-light methodology, we assessed how feasible it is to automate data capture for each emission source in the short, medium, and long term. We delivered the measures needed to fully automate its inventory.",
     tags_en: ['Corporate carbon footprint', 'Calculation tool'],
   },
   {
     slug: 'comfama-deeper-learning',
-    title: 'Huella de carbono de los eventos Deeper Learning 2024 y 2025',
+    title: 'Comfama: huella de carbono del evento Deeper Learning 2024 y 2025',
     area: 'carbonbox',
     client: 'Comfama',
     country: 'Colombia',
-    summary: 'Estimación de la huella de carbono de las dos ediciones del evento Deeper Learning.',
+    year: '2024–2025',
+    summary:
+      'Medimos la huella de carbono de dos ediciones de Deeper Learning y diseñamos mensajes para reducirla con los asistentes.',
     description:
-      'Estimamos la huella de carbono de los eventos Deeper Learning 2024 y 2025 de Comfama en Medellín, mediante la plataforma CarbonBox.',
+      'Diseñamos las preguntas de movilidad de las encuestas a asistentes (origen de vuelos, transporte urbano y zona de procedencia) y calculamos la huella del evento en CarbonBox bajo GHG Protocol. También propusimos los mensajes de sensibilización: un correo previo con recomendaciones de transporte sostenible y menos plásticos de un solo uso, textos para pantallas y un carrusel para redes sobre las acciones de sostenibilidad del evento.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'river',
     image: '/assets/projects/comfama-deeper-learning.jpg',
-    title_en: 'Carbon footprint of the Deeper Learning 2024 and 2025 events',
-    summary_en: "Carbon footprint estimation of the two editions of the Deeper Learning event.",
+    title_en: 'Comfama: carbon footprint of the Deeper Learning event, 2024 and 2025',
+    summary_en:
+      'We measured the carbon footprint of two editions of Deeper Learning and designed messages to reduce it with attendees.',
     description_en:
-      "We estimated the carbon footprint of Comfama's Deeper Learning 2024 and 2025 events in Medellín, through the CarbonBox platform.",
+      "We designed the mobility questions in the attendee surveys (flight origin, urban transport, and area of origin) and calculated the event's footprint in CarbonBox under the GHG Protocol. We also proposed the awareness messages: a pre-event email with recommendations on sustainable transport and fewer single-use plastics, on-screen copy, and a social media carousel on the event's sustainability actions.",
     tags_en: ['Event carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'cataexport-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    title: 'CataExport: huella de carbono corporativa 2024',
     area: 'carbonbox',
     client: 'CataExport',
     country: 'Colombia',
-    summary: 'Huella de carbono corporativa 2025 de CataExport.',
+    year: '2024',
+    summary:
+      'Capacitamos al equipo de esta exportadora de café y medimos su huella de alcances 1, 2 y 3, con un año de acceso a CarbonBox y recomendaciones para escalar sus reducciones.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de CataExport conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'dusk',
     image: '/assets/clients/cataexport.webp',
-    title_en: '2025 corporate carbon footprint measurement and management',
-    summary_en: "CataExport's 2025 corporate carbon footprint.",
+    title_en: 'CataExport: 2024 corporate carbon footprint',
+    summary_en:
+      'We trained the team of this coffee exporter and measured its scope 1, 2, and 3 footprint, with one year of CarbonBox access and recommendations to scale up its reductions.',
     description_en:
       "We implemented the measurement and management of CataExport's 2025 corporate carbon footprint in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'crepes-wafles-indicadores-carbono',
-    title: 'Indicadores de carbono para la cadena de suministro de carne bovina',
+    title: 'Indicadores de carbono para la cadena de carne bovina de Crepes & Waffles',
     area: 'carbonbox',
-    client: 'WEIA · Crepes y Wafles',
+    client: 'WEIA · Crepes & Waffles',
     country: 'Colombia',
-    summary: 'Indicadores de carbono agropecuarios para los proveedores de carne bovina de Crepes y Wafles.',
+    year: '2023',
+    summary:
+      'Diseñamos indicadores de carbono para los proveedores de carne de Crepes & Waffles, con trazabilidad QR y blockchain.',
     description:
-      'Analizamos las condiciones y eslabones de la cadena de producción de carne bovina dentro de la cadena de suministro de Crepes y Wafles, y desarrollamos indicadores de carbono agropecuarios para sus proveedores.',
+      'Analizamos los eslabones de la cadena de producción de carne bovina de los proveedores de Crepes & Waffles y desarrollamos indicadores de carbono agropecuarios. Lo hicimos de la mano de WEIA, que financia a productores con el modelo "siembre ahora, pague después". Integramos CarbonBox a su trazabilidad productiva con QR y blockchain, definimos los parámetros para escalar la solución y llevamos la calculadora de impacto a las cadenas priorizadas.',
     tags: ['Herramienta de cálculo', 'Huella de carbono de producto'],
     tint: 'blush',
     image: '/assets/clients/weia.png',
-    title_en: 'Carbon indicators for the beef cattle supply chain',
-    summary_en: "Agricultural carbon indicators for Crepes y Wafles's beef cattle suppliers.",
+    title_en: "Carbon indicators for Crepes & Waffles' beef supply chain",
+    summary_en:
+      "We designed carbon indicators for Crepes & Waffles' beef suppliers, with QR and blockchain traceability.",
     description_en:
-      "We analyzed the conditions and links in the beef cattle production chain within Crepes y Wafles's supply chain, and developed agricultural carbon indicators for its suppliers.",
+      "We analyzed the links in the beef production chain of Crepes & Waffles' suppliers and developed agricultural carbon indicators. We did it together with WEIA, which finances producers with a \"plant now, pay later\" model. We integrated CarbonBox into their QR and blockchain production traceability, defined the parameters to scale the solution, and brought the impact calculator to the priority supply chains.",
     tags_en: ['Calculation tool', 'Product carbon footprint'],
   },
   {
     slug: 'colgas-biogas-la-paz',
-    title: 'Metodologías para reducciones de emisiones del proyecto de biogás La Paz',
+    title: 'Metodologías de créditos de carbono para el proyecto de biogás La Paz',
     area: 'carbonbox',
     client: 'Colgas',
     country: 'Colombia',
-    summary: 'Análisis preliminar de metodologías para créditos de carbono del proyecto de biogás La Paz.',
+    year: '2023',
+    summary:
+      'Analizamos las metodologías disponibles para certificar como créditos de carbono las reducciones del proyecto de biogás La Paz.',
     description:
       'Realizamos un análisis preliminar de las metodologías disponibles para calcular las reducciones de emisiones asociadas al proyecto de biogás La Paz de Colgas, como base para la formulación de créditos de carbono.',
     tags: ['Formulación de créditos de carbono', 'Mitigación'],
     tint: 'warm',
     image: '/assets/clients/colgas.webp',
-    title_en: 'Methodologies for emission reductions of the La Paz biogas project',
-    summary_en: 'Preliminary analysis of methodologies for carbon credits for the La Paz biogas project.',
+    title_en: 'Carbon credit methodologies for the La Paz biogas project',
+    summary_en:
+      'We analyzed the available methodologies to certify the La Paz biogas project’s emission reductions as carbon credits.',
     description_en:
       "We carried out a preliminary analysis of the methodologies available to calculate the emission reductions associated with Colgas's La Paz biogas project, as a basis for structuring carbon credits.",
     tags_en: ['Carbon credit structuring', 'Mitigation'],
   },
   {
     slug: 'spec-lng-huella-2024',
-    title: 'Huella de carbono corporativa 2024',
+    title: 'SPEC LNG: huella de carbono corporativa 2024',
     area: 'carbonbox',
     client: 'SPEC LNG',
     country: 'Colombia',
-    summary: 'Estimación de la huella de carbono corporativa 2024 de SPEC LNG.',
+    year: '2024–2025',
+    summary:
+      'Estimamos la huella de carbono corporativa 2024 de la terminal de regasificación de gas natural licuado en Cartagena.',
     description:
       'Estimamos la huella de carbono corporativa 2024 de SPEC LNG, conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'cool',
     image: '/assets/clients/spec-lng.jpg',
-    title_en: '2024 corporate carbon footprint',
-    summary_en: "Estimation of SPEC LNG's 2024 corporate carbon footprint.",
+    title_en: 'SPEC LNG: 2024 corporate carbon footprint',
+    summary_en:
+      'We estimated the 2024 corporate carbon footprint of the liquefied natural gas regasification terminal in Cartagena.',
     description_en:
       "We estimated SPEC LNG's 2024 corporate carbon footprint, in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'asobancaria-congreso-2024',
-    title: 'Huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación',
+    title: 'Asobancaria: huella de carbono del 8° Congreso de Finanzas Sostenibles',
     area: 'carbonbox',
     client: 'Asobancaria',
     country: 'Colombia',
-    summary: 'Estimación de la huella de carbono del 8° Congreso de Finanzas de Asobancaria.',
+    year: '2024',
+    summary:
+      'Estimamos la huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación de Asobancaria.',
     description:
       'Estimamos la huella de carbono del 8° Congreso de Finanzas para la Equidad, Sostenibilidad y Transformación 2024 de Asobancaria, mediante la plataforma CarbonBox.',
     tags: ['Huella de carbono de eventos', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'forest',
-    image: '/assets/clients/asobancaria.png',
-    title_en: 'Carbon footprint of the 8th Finance for Equity, Sustainability, and Transformation Congress',
-    summary_en: "Estimation of the carbon footprint of Asobancaria's 8th Finance Congress.",
+    image: '/assets/projects/asobancaria-congreso-2024.jpg',
+    title_en: 'Asobancaria: carbon footprint of the 8th Sustainable Finance Congress',
+    summary_en:
+      "We estimated the carbon footprint of Asobancaria's 8th Congress on Finance for Equity, Sustainability, and Transformation.",
     description_en:
       "We estimated the carbon footprint of Asobancaria's 8th Finance for Equity, Sustainability, and Transformation Congress 2024, through the CarbonBox platform.",
     tags_en: ['Event carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'santa-fe-bogota-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    title: 'Fundación Santa Fe de Bogotá: huella de carbono del Instituto de Cáncer',
     area: 'carbonbox',
     client: 'Fundación Santa Fé de Bogotá',
     country: 'Colombia',
-    summary: 'Huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá.',
+    year: '2025–2026',
+    summary:
+      'Medimos la huella de carbono 2025 del Edificio Ambulatorio del Instituto de Cáncer Carlos Ardila Lülle (ICCAL).',
     description:
-      'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de la Fundación Santa Fé de Bogotá conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
+      'Un edificio hospitalario combina operación continua, alto consumo energético y una cadena de suministro compleja. Definimos los límites de la sede, identificamos sus fuentes de emisión de alcances 1, 2 y 3 y acompañamos la recolección de datos con la matriz de CarbonBox. Validamos la información, consolidamos el inventario bajo GHG Protocol e ISO 14064-1 y entregamos recomendaciones de reducción, recibidas a satisfacción por la Fundación.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'sunset',
-    image: '/assets/projects/santa-fe-bogota-huella-2025.png',
-    title_en: '2025 corporate carbon footprint measurement and management',
-    summary_en: "2025 corporate carbon footprint of Fundación Santa Fé de Bogotá.",
+    image: '/assets/projects/santa-fe-bogota-huella-2025.jpg',
+    title_en: 'Fundación Santa Fe de Bogotá: carbon footprint of the Cancer Institute',
+    summary_en:
+      'We measured the 2025 carbon footprint of the Outpatient Building of the Carlos Ardila Lülle Cancer Institute (ICCAL).',
     description_en:
-      "We implemented the measurement and management of Fundación Santa Fé de Bogotá's 2025 corporate carbon footprint in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform as software as a service.",
+      "A hospital building combines continuous operation, high energy use, and a complex supply chain. We defined the site's boundaries, identified its scope 1, 2, and 3 emission sources, and supported data collection with the CarbonBox matrix. We validated the information, consolidated the inventory under the GHG Protocol and ISO 14064-1, and delivered reduction recommendations, which the Foundation accepted as satisfactory.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'parker-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    title: 'Parker: huella de carbono corporativa en Argentina',
     area: 'carbonbox',
     client: 'Parker',
     country: 'Argentina',
-    summary: 'Huella de carbono corporativa 2025 de Parker en Argentina.',
+    year: '2025–2027',
+    summary:
+      'Medimos de forma remota y por dos periodos consecutivos la huella de carbono corporativa de Parker en Argentina.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de Parker en Argentina conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox como software as a service.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'earth',
-    image: '/assets/clients/parker.webp',
-    title_en: '2025 corporate carbon footprint measurement and management',
-    summary_en: "2025 corporate carbon footprint of Parker in Argentina.",
+    image: '/assets/projects/parker-huella-2025.jpg',
+    title_en: 'Parker: corporate carbon footprint in Argentina',
+    summary_en:
+      "We remotely measured Parker's corporate carbon footprint in Argentina for two consecutive periods.",
     description_en:
       "We implemented the measurement and management of Parker's 2025 corporate carbon footprint in Argentina, in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform as software as a service.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'ambielegsa-huella-2025',
-    title: 'Medición y gestión de huella de carbono corporativa 2025',
+    title: 'AMBIELEGSA: huella de carbono corporativa 2024 de Enap Sipetrol',
     area: 'carbonbox',
     client: 'AMBIELEGSA SA',
     country: 'Ecuador',
-    summary: 'Huella de carbono corporativa 2025 de AMBIELEGSA en Quito, Ecuador.',
+    year: '2024',
+    summary:
+      'Junto con AMBIELEGSA estimamos la huella de carbono corporativa 2024 de Enap Sipetrol en Ecuador.',
     description:
       'Implementamos la medición y gestión de la huella de carbono corporativa 2025 de AMBIELEGSA conforme al GHG Protocol y la norma ISO 14064-1, mediante la plataforma CarbonBox.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'river',
     image: '/assets/clients/ambielegsa.png',
-    title_en: '2025 corporate carbon footprint measurement and management',
-    summary_en: "AMBIELEGSA's 2025 corporate carbon footprint in Quito, Ecuador.",
+    title_en: "AMBIELEGSA: Enap Sipetrol's 2024 corporate carbon footprint",
+    summary_en:
+      "Together with AMBIELEGSA, we estimated Enap Sipetrol's 2024 corporate carbon footprint in Ecuador.",
     description_en:
       "We implemented the measurement and management of AMBIELEGSA's 2025 corporate carbon footprint in line with the GHG Protocol and ISO 14064-1, through the CarbonBox platform.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'almacenes-ara-huella-corporativa',
-    title: 'Medición y gestión de huella de carbono corporativa',
+    title: 'Almacenes Ara: huella de carbono corporativa',
     area: 'carbonbox',
     client: 'Jerónimo Martins · Almacenes Ara',
     country: 'Colombia',
-    summary: 'Huella de carbono corporativa de Almacenes Ara mediante CarbonBox.',
+    summary: 'Medimos con CarbonBox la huella de carbono corporativa de Almacenes Ara.',
     description:
       'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa de Almacenes Ara conforme al GHG Protocol y la norma ISO 14064-1.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'dusk',
     image: '/assets/clients/jeronimo-martins.webp',
-    title_en: 'Corporate carbon footprint measurement and management',
-    summary_en: "Almacenes Ara's corporate carbon footprint through CarbonBox.",
+    title_en: 'Almacenes Ara: corporate carbon footprint',
+    summary_en: "We measured Almacenes Ara's corporate carbon footprint with CarbonBox.",
     description_en:
       "We implemented the measurement of organizational GHG emissions and managed Almacenes Ara's corporate carbon footprint in line with the GHG Protocol and ISO 14064-1.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
     slug: 'linktic-huella-corporativa',
-    title: 'Medición y gestión de huella de carbono corporativa',
+    title: 'LinkTic: pre-auditoría del inventario de GEI',
     area: 'carbonbox',
     client: 'LinkTic S.A.S',
     country: 'Colombia',
-    summary: 'Huella de carbono corporativa de LinkTic mediante CarbonBox.',
+    year: '2026',
+    summary:
+      'Preparamos a LinkTic, empresa de tecnología con cerca de 1.000 colaboradores, para la verificación externa de su inventario de GEI.',
     description:
-      'Implementamos la medición de emisiones de GEI organizacionales y la gestión de la huella de carbono corporativa de LinkTic conforme al GHG Protocol y la norma ISO 14064-1.',
+      'Con el Plan Pro de CarbonBox validamos los datos de actividad y los soportes del inventario de GEI organizacional de LinkTic. Realizamos una pre-auditoría con su equipo y la acompañamos en la preparación para la verificación de terceros bajo ISO 14064.',
     tags: ['Huella de carbono corporativa', 'GHG Protocol · ISO 14064', 'Mitigación'],
     tint: 'blush',
     image: '/assets/clients/linktic.svg',
-    title_en: 'Corporate carbon footprint measurement and management',
-    summary_en: "LinkTic's corporate carbon footprint through CarbonBox.",
+    title_en: 'LinkTic: GHG inventory pre-audit',
+    summary_en:
+      'We prepared LinkTic, a technology company with about 1,000 employees, for the external verification of its GHG inventory.',
     description_en:
-      "We implemented the measurement of organizational GHG emissions and managed LinkTic's corporate carbon footprint in line with the GHG Protocol and ISO 14064-1.",
+      "With the CarbonBox Pro Plan, we validated the activity data and supporting evidence for LinkTic's organizational GHG inventory. We carried out a pre-audit with its team and supported it in preparing for third-party verification under ISO 14064.",
     tags_en: ['Corporate carbon footprint', 'GHG Protocol · ISO 14064', 'Mitigation'],
   },
   {
@@ -1420,21 +1512,23 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'ndc-progreso-costa-rica',
-    title: 'Evaluación del progreso de la Contribución Nacional Determinada de Costa Rica',
+    title: 'Evaluación del progreso de la NDC de Costa Rica (BTR2)',
     area: 'gestion',
-    client: 'Organización para Estudios Tropicales (OET) · Ministerio de Ambiente y Energía (MINAE) · Instituto Meteorológico Nacional (IMN)',
+    client: 'Organización para Estudios Tropicales (OET) · MINAE · Instituto Meteorológico Nacional (IMN)',
     country: 'Costa Rica',
     year: '2026',
-    summary: 'Evaluación del progreso de la NDC de Costa Rica en el marco del Segundo y Tercer Informe Bienal de Transparencia (BTR) y la Quinta Comunicación Nacional ante la CMNUCC.',
+    summary:
+      'Medimos el avance de las NDC 2020 y 2025 de Costa Rica y redactamos el capítulo de seguimiento de su Segundo Informe Bienal de Transparencia.',
     description:
-      'Prestamos servicios profesionales para evaluar el progreso de la Contribución Nacional Determinada de Costa Rica y sus lineamientos, en el marco del proyecto Segundo y Tercer Informe Bienal de Transparencia (BTR) y la Quinta Comunicación Nacional ante la CMNUCC. El trabajo incluyó la compilación y análisis de información de seguimiento, la validación de indicadores por contribución, el seguimiento cualitativo y cuantitativo a las NDC 2020 y 2025, el mapeo de políticas, medidas, acciones y planes de mitigación, el resumen de emisiones y absorción de GEI, la revisión de proyecciones de emisiones y absorción, y la redacción del capítulo de seguimiento a la NDC en el BTR2 de Costa Rica.',
+      'Costa Rica debe demostrar ante la CMNUCC cuánto ha avanzado en sus compromisos climáticos. Compilamos y analizamos la información disponible, validamos los indicadores de cada contribución y dimos seguimiento cualitativo y cuantitativo a la implementación de las NDC 2020 y 2025. Mapeamos las políticas, medidas, acciones y planes de mitigación del país, resumimos sus emisiones y absorciones de GEI y revisamos sus proyecciones. El resultado es el capítulo completo de seguimiento a la NDC del BTR2, en el marco del Segundo y Tercer BTR y la Quinta Comunicación Nacional.',
     tags: ['NDC', 'Acuerdo de París', 'BTR', 'Mitigación de cambio climático'],
     tint: 'forest',
     image: '/assets/projects/ndc-progreso-costa-rica.png',
-    title_en: "Assessment of the progress of Costa Rica's Nationally Determined Contribution",
-    summary_en: "Progress assessment of Costa Rica's NDC as part of the Second and Third Biennial Transparency Report (BTR) and the Fifth National Communication to the UNFCCC.",
+    title_en: "Progress assessment of Costa Rica's NDC (BTR2)",
+    summary_en:
+      "We measured the progress of Costa Rica's 2020 and 2025 NDCs and drafted the tracking chapter of its Second Biennial Transparency Report.",
     description_en:
-      "We provided professional services to assess the progress of Costa Rica's Nationally Determined Contribution and its guidelines, as part of the Second and Third Biennial Transparency Report (BTR) and Fifth National Communication project to the UNFCCC. The work included compiling and analyzing tracking information, validating indicators per contribution, qualitative and quantitative tracking of the 2020 and 2025 NDCs, mapping mitigation policies, measures, actions and plans, summarizing GHG emissions and removals, reviewing emissions and removal projections, and drafting the NDC tracking chapter in Costa Rica's BTR2.",
+      "Costa Rica has to show the UNFCCC how far it has progressed on its climate commitments. We compiled and analyzed the available information, validated the indicators for each contribution, and tracked the implementation of the 2020 and 2025 NDCs qualitatively and quantitatively. We mapped the country's mitigation policies, measures, actions, and plans, summarized its GHG emissions and removals, and reviewed its projections. The result is the complete NDC tracking chapter of the BTR2, under the Second and Third BTR and the Fifth National Communication.",
     tags_en: ['NDC', 'Paris Agreement', 'BTR', 'Climate change mitigation'],
   },
 ];
@@ -1448,6 +1542,7 @@ export const PROJECT_COUNTRIES: string[] = [
   'Costa Rica',
   'Perú',
   'Argentina',
+  'México',
 ];
 
 export const projectsByArea = (area: AreaKey) => PROJECTS.filter((p) => p.area === area);
@@ -1470,14 +1565,14 @@ function normalizeClientText(s: string): string {
     .trim();
 }
 export const projectsForClientLogo = (logo: ClientLogo): Project[] => {
-  const target = normalizeClientText(logo.alt);
-  if (!target) return [];
+  const targets = [logo.alt, ...(logo.aliases ?? [])].map(normalizeClientText).filter(Boolean);
+  if (!targets.length) return [];
   return PROJECTS.filter((p) =>
     p.client
       .split('·')
       .map((seg) => normalizeClientText(seg))
       .filter(Boolean)
-      .some((seg) => seg.includes(target) || target.includes(seg))
+      .some((seg) => targets.some((t) => seg.includes(t) || t.includes(seg)))
   );
 };
 
@@ -1687,6 +1782,52 @@ export const DOCUMENTS: KimsaDocument[] = [
     contribution_en:
       "KIMSA's own study prepared by Carolina Quiñones Hoyos, Viviana Bohórquez, and Juliana Romero, exploring how different population groups in Colombia perceive and emotionally experience the climate crisis.",
     tags_en: ['Environmental psychology', 'Emotional perception', 'Climate crisis', 'Colombia'],
+  },
+  {
+    slug: 'picc-la-guajira-documento',
+    title: 'Plan Integral de Cambio Climático (PICC) de La Guajira',
+    area: 'gestion',
+    client: 'Corpoguajira · Hidrocaribe Ltda',
+    year: '2017',
+    contribution:
+      'KIMSA desarrolló el componente de mitigación de este Plan Integral de Cambio Climático del departamento de La Guajira.',
+    tags: ['PICC', 'Territorio', 'Mitigación'],
+    url: 'https://wp.corpoguajira.gov.co/wp-content/uploads/2015/03/Plan-integral-de-cambio-climaticoPICC-La-Guajira.pdf',
+    tint: 'sunset',
+    title_en: 'La Guajira Comprehensive Climate Change Plan (PICC)',
+    contribution_en:
+      "KIMSA developed the mitigation component of this Comprehensive Climate Change Plan for the department of La Guajira.",
+    tags_en: ['PICC', 'Territory', 'Mitigation'],
+  },
+  {
+    slug: 'inclusion-chucheros-bahia-malaga-documento',
+    title: 'Inclusión social con el CCCN Chucheros en Bahía Málaga',
+    area: 'psicologia',
+    client: 'CCCN Chucheros',
+    contribution:
+      'KIMSA documentó el diagnóstico participativo con enfoque diferencial que realizó junto al Consejo Comunitario de Chucheros para fortalecer la inclusión social en el turismo comunitario de Bahía Málaga.',
+    tags: ['Inclusión social', 'Enfoque diferencial', 'Turismo comunitario'],
+    url: 'https://drive.google.com/file/d/1QFfyYNz27yjBWaP29Am9W0IFcRYAvjOO/view',
+    tint: 'earth',
+    title_en: 'Social inclusion with the CCCN Chucheros community in Bahía Málaga',
+    contribution_en:
+      "KIMSA documented the participatory diagnosis with a differentiated approach carried out with the Chucheros Community Council to strengthen social inclusion in community-based tourism in Bahía Málaga.",
+    tags_en: ['Social inclusion', 'Differentiated approach', 'Community-based tourism'],
+  },
+  {
+    slug: 'colegio-anglo-colombiano-webinar',
+    title: 'Huella de carbono organizacional del Colegio Anglo Colombiano — webinar',
+    area: 'carbonbox',
+    client: 'Fundación Colegio Anglo Colombiano',
+    contribution:
+      'Webinar sobre la medición con CarbonBox de la huella de carbono organizacional del Colegio Anglo Colombiano.',
+    tags: ['Huella de carbono', 'CarbonBox', 'Educación', 'Webinar'],
+    url: 'https://www.youtube.com/watch?v=PIgFjxux6TI',
+    tint: 'forest',
+    title_en: 'Organizational carbon footprint of Colegio Anglo Colombiano — webinar',
+    contribution_en:
+      "Webinar on measuring the organizational carbon footprint of Colegio Anglo Colombiano with CarbonBox.",
+    tags_en: ['Carbon footprint', 'CarbonBox', 'Education', 'Webinar'],
   },
 ];
 
